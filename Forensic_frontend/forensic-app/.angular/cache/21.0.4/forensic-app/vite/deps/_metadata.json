@@ -1,73 +1,73 @@
 {
-  "hash": "87f32328",
-  "configHash": "dd0d947e",
+  "hash": "0511a8b5",
+  "configHash": "eff7f6c7",
   "lockfileHash": "34b3e8e6",
-  "browserHash": "619e4b03",
+  "browserHash": "9a5c94d0",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "2fcb92b1",
+      "fileHash": "734063a2",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "389c5603",
+      "fileHash": "4cfdbaea",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "a1e671fe",
+      "fileHash": "09822951",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "52014acb",
+      "fileHash": "37bde23d",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "52b67791",
+      "fileHash": "bdfe2291",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "120cd503",
+      "fileHash": "8ad0836d",
       "needsInterop": false
     },
     "chart.js/auto": {
       "src": "../../../../../../node_modules/chart.js/auto/auto.js",
       "file": "chart__js_auto.js",
-      "fileHash": "89bdc28b",
+      "fileHash": "2d36d442",
       "needsInterop": false
     },
     "jspdf": {
       "src": "../../../../../../../../node_modules/jspdf/dist/jspdf.es.min.js",
       "file": "jspdf.js",
-      "fileHash": "0eb3c5b1",
+      "fileHash": "d1737fa4",
       "needsInterop": false
     },
     "rxjs": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "13084e85",
+      "fileHash": "92cef0a1",
       "needsInterop": false
     },
     "rxjs/operators": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/operators/index.js",
       "file": "rxjs_operators.js",
-      "fileHash": "b399d625",
+      "fileHash": "2cded286",
       "needsInterop": false
     },
     "swiper/element/bundle": {
       "src": "../../../../../../../../node_modules/swiper/swiper-element-bundle.mjs",
       "file": "swiper_element_bundle.js",
-      "fileHash": "d0751743",
+      "fileHash": "2f929173",
       "needsInterop": false
     }
   },
