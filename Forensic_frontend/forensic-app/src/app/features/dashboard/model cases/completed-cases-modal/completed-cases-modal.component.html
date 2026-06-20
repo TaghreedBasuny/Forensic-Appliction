@@ -1,0 +1,60 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onOverlayClick($event)">
+  <div class="modal-container">
+
+    <div class="modal-header">
+      <div class="header-content">
+        <img src="/assets/images/Frame 1000001591 (2).png" alt="cases">
+        <div class="header-text">
+          <h2>Completed Cases</h2>
+          <p>{{ cases.length }} cases closed successfully</p>
+        </div>
+      </div>
+      <button class="close-btn" (click)="closeModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-content">
+      <div class="case-list">
+<div class="case-card" *ngFor="let c of cases" 
+     (click)="goToCase(c.id)" 
+     style="cursor: pointer;">
+          <div class="case-top-row">
+            <div class="case-left">
+              <div class="checkmark-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" fill="#059669"/>
+                  <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="case-info">
+                <h3 class="case-title">{{ c.name }}</h3>
+                <p class="case-description">{{ c.description }}</p>
+                <span class="case-id">CS-{{ c.id }}</span>
+                <span class="case-date">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M16 2V6M8 2V6M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  Closed: {{ c.updated_at | date: 'yyyy-MM-dd' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="cases.length === 0" class="empty-state">
+          <p>No completed cases found.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="close-modal-btn" (click)="closeModal()">Close</button>
+    </div>
+
+  </div>
+</div>

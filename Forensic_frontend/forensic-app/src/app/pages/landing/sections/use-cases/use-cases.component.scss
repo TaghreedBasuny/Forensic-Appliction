@@ -1,0 +1,635 @@
+.use-cases {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.title {
+   font-size: 45px;
+  font-weight: bold;
+  color: #1e2a5e;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #676e6e;
+  font-weight: 500;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+.cases-container {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.case-card {
+  padding: 30px;
+  text-align: left;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.case-card:nth-child(3n) {
+  border-right: none;
+}
+
+.case-card:nth-last-child(-n+3) {
+  border-bottom: none;
+}
+
+.case-card h3 {
+  font-size: 24px;
+  margin: 19px 0 10px;
+  color: #1A1A1A;
+  padding-top: 20px;
+}
+
+.case-card p {
+  color: #727272;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+// ^  =======Start Card 1========
+/* ========== Visual Files Container ========== */
+.files-visual {
+  position: relative;
+  height: 160px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 20px;
+  left: 35px;
+}
+
+/* ========== File Wrapper ========== */
+.file-wrapper {
+  position: absolute;
+  width: 170px;
+  height: 140px;
+}
+
+/* ========== Colorful Files========== */
+.file-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ========== White Card ========== */
+.file-card {
+  position: absolute;
+  top: -20px;
+  left: 25px;
+  right: 25px; 
+  background: white;
+  height: 74px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.file-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  width: 100%;
+}
+
+.file-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.verified-inline {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.verified-block {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.green-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #16a34a;
+  flex-shrink: 0;
+}
+
+.verified-text {
+  font-size: 12px;
+  font-weight: 400;
+  color: #727272;
+}
+
+.case-number {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* ========== File 1: Back (Analysis) ========== */
+.file-wrapper-back {
+  left: 0;
+  bottom: 36px;
+  z-index: 1;
+}
+
+.file-wrapper-back .file-body {
+  background: #3C4F92;
+}
+
+/* ========== File 2: Middle (Evidence) ========== */
+.file-wrapper-middle {
+  left: 35px;
+  bottom: 18px;
+  z-index: 2;
+}
+
+.file-wrapper-middle .file-body {
+  background: #5167C7;
+}
+
+/* ========== File 3: Front (Case #2847) ========== */
+.file-wrapper-front {
+  left: 70px;
+  bottom: 0;
+  z-index: 3;
+}
+
+.file-wrapper-front .file-body {
+  background: #1E2A5E;
+}
+
+// ^  =======End Card 1========
+
+
+
+
+
+// ^  =======Start Card 2========
+
+/* ========== Header ========== */
+.custody-header {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1A1A1A;
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  line-height: 1;
+
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #16a34a;
+  flex-shrink: 0;
+  display: inline-block;
+   margin-left: 8px;
+}
+
+/* ========== Timeline Container ========== */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ========== Timeline Step ========== */
+.timeline-step {
+  display: flex;
+  align-items: stretch ;
+}
+
+/* ========== Step Box ========== */
+.step-box {
+  flex: 1;
+  background: #F8F9FA; 
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center; 
+  gap: 10px; 
+}
+
+.step-box::before {
+  content: "";
+  width: 4px;
+  height: 100%;
+  min-height: 40px;
+  background: #1E2A5E;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.step-box-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.step-box strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  display: block;
+}
+
+.step-box span {
+  font-size: 12px;
+  color: #727272; 
+}
+// ^  =======End Card 2========
+
+
+
+
+// ^  =======Start Card 3========
+
+/* ========== AI Visual Box ========== */
+.ai-visual-box {
+  background: linear-gradient(135deg, #1E2A5E 0%, #3D4D8F 100%);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  color: white;
+   box-shadow:
+    0 8px 20px rgba(30, 42, 94, 0.25),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  position: relative; 
+  overflow: hidden;
+}
+
+/* Shine Animation Effect */
+.ai-visual-box::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  animation: shine 3s infinite;
+  pointer-events: none; /* عشان م يؤثرش على الـ hover/click */
+}
+
+@keyframes shine {
+  100% {
+    left: 120%;
+  }
+}
+/* AI Header */
+.ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ai-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.ai-number {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  opacity: 1;
+}
+
+/* Status List */
+.ai-status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ai-status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Status Dots */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot.green {
+  background: #16a34a; 
+}
+
+.status-dot.yellow {
+  background: #f59e0b; 
+}
+// ^  =======End Card 3========
+
+
+
+
+// ^  =======Start Card 4========
+/* ========== Team Visual Box ========== */
+.team-visual-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 0px;
+  padding: 10px 0;
+}
+
+/* Avatars Stack */
+.avatars-stack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  margin-left: -10px; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.avatar:first-child {
+  margin-left: 0;
+}
+
+.avatar:hover {
+  transform: translateY(-5px);
+  z-index: 10;
+}
+
+/* Avatar Colors */
+.avatar-1 {
+  background: #1E2A5E;
+}
+
+.avatar-2 {
+  background: #3B82F6;
+}
+
+.avatar-3 {
+  background: #8B5CF6;
+}
+
+.avatar-4 {
+  background: #EC4899; 
+}
+
+.avatar-more {
+  background: #C5C5C5;
+  color: #000000;
+}
+
+/* Online Badge */
+.online-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #C9F8DA; 
+  color: #16A34A; 
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16A34A; 
+  animation: pulse 3s infinite;
+}
+
+/* Pulse Animation for Online Dot */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// ^  =======End Card 4========
+
+
+
+// ^  =======Start Card 5========
+/* ========== Learning Visual Box ========== */
+.learning-visual-box {
+  background: #F8F9FA;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+/* Lesson Header */
+.lesson-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.lesson-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1E2A5E;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.lesson-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+/* Lesson Features List */
+.lesson-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lesson-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #727272;
+}
+
+.feature-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1E2A5E; 
+  flex-shrink: 0;
+}
+
+/* Progress Bar */
+.progress-lines {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.line {
+  flex: 1;
+  height: 4px;
+  background: #D4D8DD; 
+  border-radius: 2px;
+  min-width: 40px;
+}
+
+.line-active {
+  background: #1E2A5E; 
+  min-width: 60px;
+}
+// ^  =======End Card 5========
+
+
+
+/* ========== Crime Visual Box ========== */
+.crime-visual-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+/* Crime Item */
+.crime-item {
+  background: #F7F8FD;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.crime-item:hover {
+  transform: translateX(6px);
+}
+
+/* Crime Item Active (Assault) */
+.crime-item-active {
+  background: #1E2A5E;
+  color: white;
+}
+
+/* Crime Icon */
+.crime-icon {
+  width: 44px;
+  height: 44px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1E2A5E;
+  flex-shrink: 0;
+}
+
+.crime-item-active .crime-icon {
+  color: white;
+}
+
+/* Crime Info */
+.crime-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.crime-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1E2A5E;
+}
+
+.crime-count {
+  font-size: 13px;
+  color: #727272;
+}
+
+.crime-item-active .crime-name,
+.crime-item-active .crime-count {
+  color: white;
+}
+
+/* Crime Arrow */
+.crime-arrow {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+
+

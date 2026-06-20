@@ -1,0 +1,92 @@
+/* ================= THEME ROOT ================= */
+
+:root {
+  --primary: #1E2A5E;
+  --primary-light: #2d4a7c;
+  --bg: #f8f9fc;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --text-main: #1f2937;
+  --text-sub: #6b7280;
+}
+
+.dark-theme {
+  --primary: #4f6cff;
+  --primary-light: #6b8cff;
+  --bg: #0f172a;
+  --card: #1e293b;
+  --border: #334155;
+  --text-main: #f1f5f9;
+  --text-sub: #94a3b8;
+}
+
+/* Smooth animation */
+* {
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* styles.scss أو داخل كل component scss */
+
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+
+  input {
+    width: 100%;
+    padding: 14px 42px;
+    border-radius: 10px;
+    border: 2px solid transparent; /* حدود شفافة افتراضياً */
+    background: #f7f7f7; /* لون رمادي فاتح كما تفضل */
+    font-size: 15px;
+    color: #1e2a5a;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      background: #fff;
+      border-color: #1e2a5a; /* لون الحدود عند الكتابة */
+      box-shadow: 0 0 0 4px rgba(30, 42, 90, 0.1);
+    }
+
+    /* حالة الخطأ */
+    &.ng-invalid.ng-touched {
+      border-color: #e74c3c;
+      background: #fff5f5;
+    }
+  }
+
+  .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9a9a9a;
+    
+    &.left { left: 14px; }
+    &.right { 
+      right: 14px; 
+      cursor: pointer; 
+      &:hover { color: #1e2a5a; }
+    }
+  }
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  
+  i { font-size: 14px; }
+}
+
+.success-message {
+  color: #27ae60;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+}

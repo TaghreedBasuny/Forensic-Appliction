@@ -1,0 +1,219 @@
+<div class="page-header">
+  <h1 class="page-title">Face Recognition</h1>
+  <p class="page-subtitle">Upload your media to analyze faces and determine and match them against forensic databases.</p>
+</div>
+
+<div class="upload-section" (click)="fileInput.click()" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+  <div class="upload-content">
+    <div class="upload-text-primary">Drag & Drop or Click to Upload</div>
+    <div class="upload-text-secondary">Upload your file to start detection</div>
+    <button class="upload-button">
+      <svg width="34" height="28" viewBox="0 0 34 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.18354 10.9702C3.63746 11.821 1 15.0372 1 18.875C1 23.3622 4.60585 26.9999 9.05389 26.9999C9.81692 26.9999 10.5551 26.8929 11.2546 26.6929" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M26.8162 10.9702C30.3623 11.821 32.9997 15.0372 32.9997 18.875C32.9997 23.3622 29.3939 26.9999 24.9458 26.9999C24.1828 26.9999 23.4446 26.8929 22.7451 26.6929" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M26.7727 10.7499C26.7727 5.36521 22.4457 1 17.108 1C11.7704 1 7.44336 5.36521 7.44336 10.7499" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.5225 17.1533L17.1074 11.5005L22.8514 17.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17.1074 25.375V14.3752" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Upload</span>
+    </button>
+  </div>
+  <input #fileInput type="file" hidden accept="image/*" (change)="onFileSelected($event)">
+</div>
+
+<div class="content-grid">
+  <!-- Left Column -->
+  <div class="preview-card">
+    <div class="card-header">
+      <svg class="header-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+      <span>Capture or Upload Face</span>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-body">
+      
+      <div class="preview-placeholder" *ngIf="!previewUrl && !showCamera">
+        <div class="placeholder-content">
+          <svg class="placeholder-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          <p class="placeholder-text">No file uploaded yet</p>
+          <button class="camera-btn" (click)="openCamera()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            <span>Open Camera</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="camera-container" *ngIf="showCamera">
+        <video #videoElement autoplay playsinline></video>
+        <canvas #canvasElement style="display: none;"></canvas>
+        <div class="camera-controls">
+          <button class="capture-btn" (click)="captureFromCamera()"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="10"/></svg></button>
+          <button class="cancel-btn" (click)="closeCamera()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        </div>
+      </div>
+
+      <div class="media-wrapper" *ngIf="previewUrl && !showCamera">
+        <button class="btn-remove" (click)="clearSelection()" title="Remove file">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <div class="media-preview">
+          <img [src]="previewUrl" alt="Uploaded Face" />
+        </div>
+      </div>
+
+      <div class="analysis-trigger" *ngIf="previewUrl && !showCamera && !analysisResult">
+        <button class="btn-analyze" (click)="startAnalysis()" [disabled]="isAnalyzing">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+          <span>{{ isAnalyzing ? 'Analyzing...' : 'Start Analysis' }}</span>
+        </button>
+        <p class="analyze-hint">Click to identify the person in this image</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column - Result -->
+  <div class="result-card">
+    <div class="card-header no-icon"><span>Identity Match</span></div>
+    <div class="card-divider"></div>
+    <div class="card-body">
+      
+      <!-- Loading -->
+      <div class="loading-state" *ngIf="isAnalyzing">
+        <div class="spinner"></div>
+        <p>Analyzing...</p>
+      </div>
+
+      <!-- Error Banner -->
+      <div class="error-banner" *ngIf="errorMessage">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span class="error-text">{{ errorMessage }}</span>
+        <button *ngIf="showRetryButton" class="error-retry" (click)="clearSelection()">Try Another Photo</button>
+        <button class="error-dismiss" (click)="errorMessage = null"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-result" *ngIf="!isAnalyzing && !analysisResult && !errorMessage">
+        <div class="double-circle empty-state-circle">
+          <div class="outer-circle"></div>
+          <div class="inner-circle"></div>
+        </div>
+      </div>
+
+      <!-- Success Result -->
+      <div class="result-state" *ngIf="!isAnalyzing && analysisResult && analysisResult.data.phenotypes.name !== 'Unknown Person'">
+        <div class="identity-match">
+          <div class="double-circle-container success">
+            <div class="outer-circle"></div>
+            <div class="inner-circle">
+              <img 
+                #resultImage
+                [src]="analysisResult.data.phenotypes.image"
+                [alt]="analysisResult.data.phenotypes.name"
+                (load)="onImageLoad($event)"
+                class="avatar-img"
+              />
+              <div class="face-detection-box" *ngIf="showFaceBox" [ngStyle]="faceBoxStyle"></div>
+            </div>
+          </div>
+
+          <h3 class="person-name">{{ analysisResult.data.phenotypes.name }}</h3> 
+          <p class="person-id">Model: {{ analysisResult.model_used }}</p>
+        </div>
+      </div>
+
+      <!-- Unknown Result -->
+      <div class="result-state" *ngIf="!isAnalyzing && analysisResult && analysisResult.data.phenotypes.name === 'Unknown Person'">
+         <div class="identity-match">
+           <div class="double-circle-container unknown">
+             <div class="outer-circle"></div>
+             <div class="inner-circle">
+               <span class="unknown-icon">?</span>
+             </div>
+           </div>
+           <h3 class="person-name unknown-person">Unknown Person</h3>
+           <div class="analysis-trigger">
+             <button class="btn-start-over" (click)="clearSelection()">Try Another Photo</button>
+           </div>
+         </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="btn-download" 
+                [disabled]="!analysisResult || analysisResult.data.phenotypes.name === 'Unknown Person'" 
+                (click)="downloadReport()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span>Download Report</span>
+        </button>
+        
+        <button class="btn-save" 
+                [disabled]="!analysisResult || analysisResult.data.phenotypes.name === 'Unknown Person'" 
+                (click)="saveToCaseFiles()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Save to Case Files</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal Popup -->
+<div class="modal-overlay" *ngIf="showSaveModal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="header-content">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <div>
+          <h2 class="modal-title">Upload Evidence</h2>
+          <p class="modal-subtitle">Save face recognition results to a case</p>
+        </div>
+      </div>
+      <button class="close-btn" (click)="closeSaveModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Evidence Name <span class="required">*</span></label>
+        <input 
+          type="text" 
+          class="form-input" 
+          [(ngModel)]="evidenceName" 
+          placeholder="Enter evidence name"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Case Select <span class="required">*</span></label>
+        <select class="form-select" [(ngModel)]="selectedCaseId">
+          <option value="" disabled selected>Select a case...</option>
+          <option *ngFor="let c of availableCases" [value]="c.id">
+            {{ c.name }} (#{{ c.id }})
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeSaveModal()">Cancel</button>
+      <button class="btn-add-case" (click)="confirmSaveToCase()" [disabled]="!evidenceName || !selectedCaseId">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+        Add to case
+      </button>
+    </div>
+  </div>
+</div>
+<div class="custom-toast" *ngIf="showToast" [class.success]="toastType === 'success'" [class.error]="toastType === 'error'">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </svg>
+  <span>{{ toastMessage }}</span>
+</div>

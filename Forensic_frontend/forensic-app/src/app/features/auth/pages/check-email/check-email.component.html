@@ -1,0 +1,30 @@
+<div class="login-container">
+  <a class="top-logo" routerLink="/home">
+    <img src="/assets/images/logo.png" alt="Forensic Logo" />
+  </a>
+
+  <div class="login-card">
+    <div class="icon-circle">
+      <i class="far fa-envelope"></i>
+    </div>
+    <h2>Check your email</h2>
+    <p class="subtitle">
+      We’ve sent a password reset link to<br />
+      <strong>{{ email }}</strong><br />
+      Please check your inbox to continue.
+    </p>
+
+    <div class="email-display">
+      <span class="icon"><i class="fas fa-envelope"></i></span>
+      <span>{{ email }}</span>
+    </div>
+
+    <button class="btn-login" (click)="simulateEmailClick()">
+      Open Email App
+    </button>
+
+    <div class="back-link">
+      <a routerLink="/auth/login">← Back to Login</a>
+    </div>
+  </div>
+</div>

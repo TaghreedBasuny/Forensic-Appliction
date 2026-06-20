@@ -1,0 +1,111 @@
+<div class="dashboard-layout">
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    
+
+    <!-- OVERVIEW -->
+    <section class="overview">
+
+      <!-- STATS CARDS -->
+      <div class="stats-grid">
+       <div class="stat-card blue" (click)="openActiveCases()" style="cursor: pointer;">
+  <div class="card-icon">
+    <img src="/assets/images/Frame 1000001591.png" alt="cases">
+  </div>
+  <p>Active Cases</p>
+  <h2>{{ activeCasesCount }}</h2>
+  <span>{{ activeCasesThisWeek }} this week</span>
+</div>
+
+<div class="stat-card purple" (click)="openEvidenceItems()" style="cursor: pointer;">
+  <div class="card-icon">
+    <img src="/assets/images/Frame 1000001591 (1).png" alt="cases">
+  </div>
+  <p>Evidence Items</p>
+  <h2>{{ evidenceCount }}</h2>
+  <span>{{ evidencePending }} pending review</span>
+</div>
+
+<div class="stat-card cyan" (click)="openCompletedCases()" style="cursor: pointer;">
+  <div class="card-icon">
+    <img src="/assets/images/Frame 1000001591 (2).png" alt="cases">
+  </div>
+  <p>Completed Cases</p>
+  <h2>{{ completedCasesCount }}</h2>
+  <span>{{ completedThisMonth }} this month</span>
+</div>
+      </div>
+
+      <!-- CHART + ACTIONS -->
+      <div class="lower-section">
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="text">
+                <h3>Case Status Overview</h3>
+            <p>Weekly case distributed</p>
+            </div>
+            <span class="growth">+12.5%</span>
+          </div>
+          <canvas id="caseChart"></canvas>
+        </div>
+
+      <div class="actions-card">
+  <h3>Quick Actions</h3>
+  
+  <div class="buttons">
+  <button class="primary" (click)="openAddNewCase()" style="cursor: pointer;">
+    <!-- plus -->
+    <svg width="26" height="26" viewBox="0 0 26 26">
+      <path d="M12.75 0.75V24.75M24.75 12.75H0.75" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    Add New Case
+  </button>
+
+  <button (click)="openUploadEvidence()" style="cursor: pointer;">
+    <!-- folder -->
+    <svg width="24" height="19" viewBox="0 0 24 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.78947 0H8.8421L12.6316 3.8H20.2105C21.2156 3.8 22.1794 4.20036 22.8901 4.91299C23.6008 5.62563 24 6.59218 24 7.6V15.2C24 16.2078 23.6008 17.1744 22.8901 17.887C22.1794 18.5996 21.2156 19 20.2105 19H3.78947C2.78444 19 1.82058 18.5996 1.10991 17.887C0.399247 17.1744 0 16.2078 0 15.2V3.8C0 2.79218 0.399247 1.82563 1.10991 1.11299C1.82058 0.400356 2.78444 0 3.78947 0ZM3.78947 1.26667C3.11945 1.26667 2.47687 1.53357 2.0031 2.00866C1.52932 2.48375 1.26316 3.12812 1.26316 3.8V15.2C1.26316 15.8719 1.52932 16.5162 2.0031 16.9913C2.47687 17.4664 3.11945 17.7333 3.78947 17.7333H20.2105C20.8805 17.7333 21.5231 17.4664 21.9969 16.9913C22.4707 16.5162 22.7368 15.8719 22.7368 15.2V7.6C22.7368 6.92812 22.4707 6.28376 21.9969 5.80866C21.5231 5.33357 20.8805 5.06667 20.2105 5.06667H12.1137L8.32421 1.26667H3.78947Z" fill="#1E2A5E"/>
+</svg>
+
+    Upload Evidence
+  </button>
+
+  <button (click)="openAnalysisModels()">
+    <!-- analysis -->
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M24.75 24.75H10.0833C5.68333 24.75 3.48333 24.75 2.11667 23.3833C0.75 22.0167 0.75 19.8167 0.75 15.4167V0.75M6.08333 2.08333H7.41667M6.08333 6.08333H11.4167" stroke="#1E2A5E" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M3.41699 23.4167C4.84366 20.8207 6.78099 14.1087 10.4917 14.1087C13.057 14.1087 13.721 17.3794 16.2357 17.3794C20.5597 17.3794 19.933 10.0834 24.7503 10.0834" stroke="#1E2A5E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+    Analysis Models
+  </button>
+</div>
+</div>
+
+      </div>
+
+    </section>
+
+  </main>
+<app-active-cases-modal #activeModal></app-active-cases-modal>
+<app-evidence-items-modal #evidenceModal></app-evidence-items-modal>
+<app-completed-cases-modal #completedModal></app-completed-cases-modal>
+<app-add-new-case-modal 
+  #addCaseModal 
+  (caseAdded)="onCaseAddedFromDashboard()">
+</app-add-new-case-modal>
+<app-upload-evidence-modal #uploadEvidenceModal></app-upload-evidence-modal>
+<app-analysis-models-modal #analysisModelsModal></app-analysis-models-modal>
+
+ <div class="custom-toast" *ngIf="showToast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span>{{ toastMessage }}</span>
+  </div>
+</div>
+
+

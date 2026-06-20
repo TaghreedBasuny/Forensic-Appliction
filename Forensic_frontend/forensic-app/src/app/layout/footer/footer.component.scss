@@ -1,0 +1,240 @@
+$primary-color: #4b4b4b;
+$text-color-dark: #2c3e50;
+$text-color-gray: #868686;
+$bg-footer: #fff;
+$border-color: #ddd;
+$navy-blue: #1e2a5e;
+$hover-color: rgb(59, 59, 218);
+
+.footer {
+  background-image: url("/assets/images/footer-background.PNG");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  padding: 40px 20px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .footer-column {
+      flex: 1;
+      min-width: 200px;
+
+      h4 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #26274e;
+        margin: 10px 0;
+        transition: color 0.3s ease;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          margin-bottom: 10px;
+
+          a {
+            color: $text-color-gray;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+
+            &:hover {
+              color: $primary-color;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .brand-logo {
+        img {
+          width: 120px;
+          height: auto;
+          margin-bottom: 10px;
+        }
+      }
+
+      .brand-name {
+        color: $text-color-dark;
+        font-size: 14px;
+        margin: 0 0 15px;
+      }
+
+      .contact-info {
+        p {
+          color: $text-color-gray;
+          font-size: 13px;
+          margin: 5px 0;
+        }
+
+        a {
+          color: $text-color-dark;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 500;
+
+          &:hover {
+            text-decoration: underline;
+            color: $primary-color;
+          }
+        }
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+
+        a {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background-color: $navy-blue;
+          color: #fff;
+          font-size: 16px;
+          transition: all 0.2s ease;
+          text-decoration: none;
+
+          &:hover {
+            background-color: $hover-color;
+            color: #fff;
+          }
+        }
+      }
+
+      .search-bar {
+        display: flex;
+        margin-top: 20px;
+        width: 85%;
+
+        input {
+          flex: 1;
+          padding: 10px 15px;
+          border: 1px solid #ddd;
+          border-right: none;
+          border-radius: 10px 0 0 10px;
+          font-size: 14px;
+          outline: none;
+          background-color: #fff;
+          color: #333;
+
+          &:focus {
+            border-color: $navy-blue;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+          }
+        }
+
+        button {
+          width: 50px;
+          background-color: $navy-blue;
+          color: #fff;
+          border: none;
+          border-radius: 0 10px 10px 0;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: $hover-color;
+          }
+
+          i {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    position: relative;
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    // border-top: 10px solid $border-color;
+    color: $text-color-gray;
+    font-size: 12px;
+
+    // Line above copyright
+    .copyright-line {
+      position: absolute;
+      top: -10px;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      background: linear-gradient(
+   90deg,
+        #4a5ca8,
+    #2bc4f4,
+     #4a5ca8,
+    
+      );
+    }
+
+    // Fingerprint background (semi-transparent)
+    .fingerprint-bg {
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 100px;
+      background: url("/assets/images/image\ 7.png") no-repeat center;
+      background-size: contain;
+      opacity: 1; 
+      z-index: 222;
+    }
+
+    p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding: 10px 0;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .footer {
+    .footer-container {
+      flex-direction: column;
+
+      .footer-column {
+        min-width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+
+    .search-bar {
+      input { border-radius: 20px; }
+      button { border-radius: 0 20px 20px 0; }
+    }
+
+    .footer-bottom {
+      .copyright-line {
+        top: -8px;
+      }
+
+      .fingerprint-bg {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  }
+}

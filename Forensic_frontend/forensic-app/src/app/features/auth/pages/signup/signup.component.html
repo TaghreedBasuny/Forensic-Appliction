@@ -1,0 +1,146 @@
+<div class="login-container">
+  <a class="top-logo" routerLink="/home">
+    <img src="/assets/images/logo.png" alt="Forensic Logo" />
+  </a>
+
+  <div class="login-card">
+    <h2>Sign up</h2>
+    <p class="subtitle">
+      Create a forensic account to access advanced investigation tools securely.
+    </p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <!-- Full Name -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <input type="text" formControlName="fullName" placeholder="Full Name"
+            [class.invalid]="form.get('fullName')?.touched && form.get('fullName')?.invalid" />
+        </div>
+
+        <div class="error"
+          *ngIf="form.get('fullName')?.touched && form.get('fullName')?.invalid">
+          Name must be at least 3 characters
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <span class="icon left"><i class="fas fa-envelope"></i></span>
+          <input type="email" formControlName="email" placeholder="Email"
+            [class.invalid]="form.get('email')?.touched && form.get('email')?.invalid" />
+        </div>
+
+        <div class="error"
+          *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+          Enter a valid email
+        </div>
+      </div>
+
+      <!-- National ID -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <span class="icon left"><i class="fas fa-id-card"></i></span>
+          <input type="text" formControlName="nationalId" placeholder="# National ID"
+            [class.invalid]="form.get('nationalId')?.touched && form.get('nationalId')?.invalid" />
+        </div>
+
+        <div class="error"
+          *ngIf="form.get('nationalId')?.touched && form.get('nationalId')?.invalid">
+          National ID must be 14 digits
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <span class="icon left"><i class="fas fa-phone"></i></span>
+          <input type="tel" formControlName="phoneNumber" placeholder="Phone Number"
+            [class.invalid]="form.get('phoneNumber')?.touched && form.get('phoneNumber')?.invalid" />
+        </div>
+
+        <div class="error"
+          *ngIf="form.get('phoneNumber')?.touched && form.get('phoneNumber')?.invalid">
+          Enter a valid Egyptian phone number
+        </div>
+      </div>
+
+      <!-- Date -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <input type="date" formControlName="dateOfBirth"
+            [max]="todayDate"
+            class="date-input"
+            #dateInputRef />
+
+          <span class="icon right" (click)="dateInputRef.showPicker()">
+            <i class="fas fa-calendar-alt"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <span class="icon left"><i class="fas fa-lock"></i></span>
+
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Password"
+            class="password-input"
+            [class.invalid]="form.get('password')?.touched && form.get('password')?.invalid" />
+
+          <span class="icon right" (click)="togglePasswordVisibility()">
+            <i class="fas"
+              [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </span>
+        </div>
+
+        <div class="password-hint">At least 8 characters</div>
+      </div>
+
+      <!-- Confirm -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <span class="icon left"><i class="fas fa-lock"></i></span>
+
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder="Confirm Password"
+            class="password-input"
+            [class.invalid]="form.errors?.['mismatch'] && form.get('confirmPassword')?.touched" />
+
+          <span class="icon right" (click)="toggleConfirmPasswordVisibility()">
+            <i class="fas"
+              [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </span>
+        </div>
+
+        <div class="error"
+          *ngIf="form.errors?.['mismatch'] && form.get('confirmPassword')?.touched">
+          Passwords do not match
+        </div>
+      </div>
+
+      <!-- Terms -->
+      <div class="terms-checkbox">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="terms" class="custom-checkbox" />
+          <span class="checkmark"></span>
+          <span class="terms-text">
+            I have read and agree with the <a href="#">Terms</a>
+          </span>
+        </label>
+      </div>
+
+      <button class="btn-login" type="submit"
+        [disabled]="form.invalid || isLoading">
+        {{ isLoading ? 'Creating...' : 'Create an account' }}
+      </button>
+
+    </form>
+  </div>
+</div>

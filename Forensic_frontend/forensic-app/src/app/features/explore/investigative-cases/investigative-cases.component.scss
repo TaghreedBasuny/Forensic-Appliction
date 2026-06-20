@@ -1,0 +1,336 @@
+.investigative-cases-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  min-height: 100vh;
+}
+
+.header-section { 
+  text-align: center;
+  margin-bottom: 32px; 
+}
+.main-title {  
+  font-size: 40px;
+  font-weight: 700;
+  color: #1E2A5E;
+  margin-bottom: .3rem;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #727272;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+  margin-bottom: 40px; 
+}
+
+.controls-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 32px; flex-wrap: wrap;
+  
+  .search-box { flex: 1; min-width: 300px; position: relative;
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94A3B8; pointer-events: none; }
+    .search-input { width: 100%; padding: 12px 16px 12px 48px; border: 1.5px solid #E2E8F0; border-radius: 10px; font-size: 14px; outline: none; background: white;
+      &:focus { border-color: #1E2A5E; }
+    }
+  }
+  
+  .actions-row { display: flex; gap: 12px; align-items: center; }
+  
+  .filter-dropdown { position: relative;
+    .filter-button { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: white; border: 1.5px solid #E2E8F0; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer;
+      &:hover { border-color: #1E2A5E; }
+    }
+    .dropdown-content { position: absolute; top: 110%; right: 0; background: white; border: 1px solid #E2E8F0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); min-width: 150px; z-index: 100;
+      .dropdown-item { padding: 10px 16px; font-size: 14px; cursor: pointer; &:hover { background: #F1F5F9; } }
+    }
+  }
+
+  .btn-create { display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, #1E2A5E, #3F76A6); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
+    &:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30, 42, 94, 0.3); }
+  }
+}
+
+// ================= CASE CARD STYLES =================
+.cases-list { display: flex; flex-direction: column; gap: 16px; }
+
+.case-card {
+  background: white;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #3F76A6;
+    box-shadow: 0 8px 24px rgba(30, 42, 94, 0.08);
+    
+    .card-right {
+      .btn-view-details { opacity: 1; visibility: visible; }
+    }
+  }
+
+  .card-content { flex: 1;
+    
+    .card-header { 
+      display: flex;
+      align-items: center; 
+      gap: 8px;         
+      margin-bottom: 12px; 
+
+      .checkmark-icon {
+        flex-shrink: 0;    
+        display: flex;    
+        align-items: center;
+        justify-content: center;
+  width: 20px; 
+  height: 20px;      }
+
+      .case-title { 
+        margin: 0; 
+        font-size: 17px; 
+        font-weight: 700; 
+        color: #1E293B; 
+        line-height: 1.2; 
+      }
+    }
+
+    .case-description { margin: 0 0 16px; font-size: 14px; color: #64748B; line-height: 1.6; }
+
+    .card-footer {
+      .meta-info { display: flex; flex-direction: column; gap: 6px; font-size: 13px;
+        .case-number { color: #64748B; font-weight: 500; }
+        .case-date { display: flex; align-items: center; gap: 6px; color: #94A3B8; }
+      }
+    }
+  }
+
+  .card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    margin-left: 16px;
+
+    .duration-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748B;
+    }
+
+    .action-icons {
+      display: flex;
+      gap: 8px;
+
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        border: 1px solid #E2E8F0;
+        background: white;
+        color: #64748B;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+
+        &:hover {
+          background: #1E2A5E;
+          color: white;
+          border-color: #1E2A5E;
+        }
+
+        &.delete:hover {
+          background: #EF4444;
+          border-color: #EF4444;
+        }
+      }
+    }
+
+    .btn-view-details {
+      color: #1E2A5E;
+      font-weight: 600;
+      font-size: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      white-space: nowrap;
+      margin-top: 4px;
+
+      &:hover { text-decoration: underline; }
+    }
+  }
+}
+
+.empty-state { text-align: center; padding: 40px; color: #94A3B8; }
+
+// ================= MODAL STYLES =================
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px; animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-container {
+  background: white; border-radius: 12px; width: 100%; max-width: 600px;
+  max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-container-small {
+  background: white; border-radius: 16px; width: 100%; max-width: 400px;
+  padding: 32px 24px; text-align: center; animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-header {
+  background: linear-gradient(135deg, #1E2A5E 0%, #3F76A6 100%);
+  color: white; padding: 24px; display: flex; justify-content: space-between; align-items: flex-start;
+  
+  .header-content { display: flex; align-items: flex-start; gap: 16px;
+    h2 { margin: 0; font-size: 22px; font-weight: 700; }
+    p { margin: 4px 0 0; font-size: 14px; opacity: 0.9; }
+  }
+  
+  .close-btn { background: rgba(255, 255, 255, 0.2); border: none; width: 32px; height: 32px; border-radius: 8px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; &:hover { background: rgba(255, 255, 255, 0.3); } }
+}
+
+.modal-body { padding: 24px;
+  .form-group { margin-bottom: 20px;
+    .form-label { display: block; font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 8px; .required { color: #EF4444; margin-left: 2px; } }
+    .form-input, .form-textarea { width: 100%; padding: 12px 16px; border: 1.5px solid #E2E8F0; border-radius: 8px; font-size: 14px; font-family: inherit; background: #F8FAFC; outline: none; transition: all 0.2s; &:focus { border-color: #1E2A5E; background: white; box-shadow: 0 0 0 3px rgba(30, 42, 94, 0.1); } }
+    .form-textarea { resize: vertical; min-height: 100px; }
+  }
+  .info-box { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: #E0E7FF; border-radius: 8px; color: #4338CA; font-size: 13px; line-height: 1.5; svg { flex-shrink: 0; margin-top: 2px; } }
+}
+
+.modal-footer { padding: 20px 24px; border-top: 1px solid #E2E8F0; display: flex; justify-content: flex-end; gap: 12px;
+  .btn-cancel { padding: 10px 20px; background: #F1F5F9; border: none; border-radius: 8px; font-weight: 600; color: #64748B; cursor: pointer; transition: all 0.2s; &:hover { background: #E2E8F0; } }
+  .btn-create-case, .btn-save { display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, #1E2A5E, #3F76A6); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; &:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30, 42, 94, 0.3); } }
+  .btn-save { background: #1E2A5E; }
+}
+
+// Delete Confirmation Styles
+.confirm-icon {
+  width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  
+  &.danger { background: #FEF2F2; color: #EF4444; }
+  &.success { background: #ECFDF5; color: #10B981; }
+}
+
+.confirm-title { font-size: 20px; font-weight: 700; color: #1E293B; margin: 0 0 8px; }
+.confirm-message { font-size: 14px; color: #64748B; margin: 0 0 24px; line-height: 1.6; }
+
+.confirm-actions { display: flex; gap: 12px; justify-content: center; }
+
+.btn-cancel-delete {
+  padding: 10px 24px; 
+  background: #F1F5F9; 
+  border: none; 
+  border-radius: 8px;
+  font-weight: 600; 
+  color: #64748B; 
+  cursor: pointer; 
+  transition: all 0.2s;
+  &:hover { 
+    background: #E2E8F0;
+   }
+}
+
+.btn-confirm-delete {
+  padding: 10px 24px; 
+  background: #EF4444;
+  border: none; 
+  border-radius: 8px;
+  font-weight: 600; 
+  color: white; 
+  cursor: pointer; 
+  transition: all 0.2s;
+  &:hover { 
+     background: #DC2626;
+     transform: translateY(-2px);
+     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); 
+   }
+}
+
+// ================= TOAST NOTIFICATION =================
+.custom-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: white;
+  color: #1E2A5E;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  z-index: 2000;
+  animation: toastSlideUp 0.4s ease, toastHide 0.4s ease 2.5s forwards;
+  border-left: 4px solid #10B981;
+  pointer-events: none; 
+
+  &.error {
+    border-left-color: #EF4444;
+    color: #991B1B;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    color: #10B981;
+    
+    .error & { color: #EF4444; }
+  }
+}
+
+@keyframes toastSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes toastHide {
+  to { opacity: 0; transform: translateY(-20px); pointer-events: none; }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .controls-row {
+     flex-direction: column; 
+     align-items: stretch; 
+  }
+  .case-card {
+     flex-direction: column;
+    .card-right {
+      flex-direction: row; 
+      justify-content: flex-end; 
+      width: 100%; 
+      margin-left: 0; 
+      margin-top: 16px;
+     }
+  }
+  .custom-toast { 
+    left: 20px; 
+    right: 20px; 
+    bottom: 20px; 
+    text-align: center; 
+    justify-content: center;
+   }
+}

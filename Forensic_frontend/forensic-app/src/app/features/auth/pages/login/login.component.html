@@ -1,0 +1,70 @@
+<div class="login-container">
+  <a class="top-logo" routerLink="/home">
+    <img src="/assets/images/logo.png" alt="Forensic Logo" />
+  </a>
+
+  <div class="login-card">
+    <h2>Login</h2>
+    <p class="subtitle">Secure access to forensic tools and case management</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      
+      <div *ngIf="message" [ngClass]="isError ? 'error-msg' : 'success-msg'" class="auto-hide-message">
+        <i *ngIf="isError" class="fas fa-exclamation-circle"></i>
+        <i *ngIf="!isError" class="fas fa-check-circle"></i>
+        <span>{{ message }}</span>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="form-group">
+        <span class="icon left"><i class="fas fa-envelope"></i></span>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email" 
+        />
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="form-group">
+        <span class="icon left"><i class="fas fa-lock"></i></span>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="Password" 
+        />
+        <span class="icon right" (click)="togglePasswordVisibility()">
+          <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </span>
+      </div>
+
+      <!-- OPTIONS -->
+      <div class="form-options">
+        <label>
+          <input type="checkbox" /> Remember me
+        </label>
+        <a routerLink="/auth/forgot-password" class="forgot-password">Forgot password?</a>
+      </div>
+
+      <!-- LOGIN BUTTON -->
+      <button
+        class="btn-login"
+        type="submit"
+        [disabled]="isLoading || loginForm.invalid"
+      >
+        <div *ngIf="isLoading" class="spinner"></div>
+        <span>{{ isLoading ? 'Signing in...' : 'Login' }}</span>
+      </button>
+
+      <div class="divider">or with</div>
+      <div class="social-login">
+        <button type="button" class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
+        <button type="button" class="social-btn google"><i class="fab fa-google"></i></button>
+        <button type="button" class="social-btn apple"><i class="fab fa-apple"></i></button>
+      </div>
+      <div class="signup">
+        Don’t have an account? <a routerLink="/auth/signup">Sign up</a>
+      </div>
+    </form>
+  </div>
+</div>

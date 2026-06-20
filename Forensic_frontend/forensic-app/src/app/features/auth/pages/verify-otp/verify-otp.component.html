@@ -1,0 +1,52 @@
+<div class="login-container">
+  
+  <!-- هذا هو التوست البسيط -->
+  <div class="simple-toast" *ngIf="showResendToast">
+    <i class="fas fa-check-circle"></i>
+    <span>Verification code sent to your email!</span>
+  </div>
+
+  <a class="top-logo" routerLink="/home">
+    <img src="/assets/images/logo.png" alt="Forensic Logo" />
+  </a>
+
+  <div class="login-card">
+    <div class="icon-circle">
+      <i class="far fa-envelope-open"></i>
+    </div>
+    
+    <h2>Enter Verification Code</h2>
+    <p class="subtitle">
+      A 6-digit code was sent to<br/>
+      <strong>{{ email }}</strong>
+    </p>
+
+    <div class="otp-inputs">
+      <input *ngFor="let i of [0,1,2,3,4,5]; let idx = index"
+             #otpInput
+             type="text"
+             maxlength="1"
+             [(ngModel)]="otpValues[idx]"
+             (input)="handleInput($event, idx)"
+             (keydown.backspace)="handleBackspace($event, idx)"
+             class="otp-field"
+      />
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <button
+      class="btn-login"
+      (click)="onContinue()"
+      [disabled]="isOtpIncomplete() || isLoading"
+    >
+      {{ isLoading ? 'Checking...' : 'Continue' }}
+    </button>
+
+    <div class="resend-link">
+      Didn't Receive Code? <a href="#" (click)="resendCode($event)">Resend</a>
+    </div>
+  </div>
+</div>

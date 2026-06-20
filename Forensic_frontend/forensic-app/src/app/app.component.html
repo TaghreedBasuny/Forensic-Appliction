@@ -1,0 +1,20 @@
+<div class="app-container">
+  <!-- Sidebar -->
+  <app-sidebar *ngIf="showSidebar"></app-sidebar>
+  
+  <!-- Main Content Area -->
+  <div class="main-area" *ngIf="showSidebar">
+    <app-top-navbar></app-top-navbar>
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
+  <!-- Public Content (Landing, Login, etc.) -->
+  <div class="public-content" *ngIf="!showSidebar">
+    <router-outlet></router-outlet>
+  </div>
+
+  <app-chatbot *ngIf="showChatbot"></app-chatbot>
+  
+</div>

@@ -1,0 +1,226 @@
+// sidebar.component.scss
+
+// Colors
+$bg-primary: #1e2a5e;
+$active-glow: #4fc3f7;
+$text-muted: #a5b1d9;
+$sidebar-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
+
+// Sidebar Container
+.sidebar {
+  width: 210px;
+  background-color: $bg-primary;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 15px;
+  position: relative;
+  transition: $sidebar-transition;
+  z-index: 100;
+  height: 100vh; 
+  flex-shrink: 0;
+
+  &.collapsed {
+    width: 85px;
+    padding: 30px 10px;
+
+    .logo-section { justify-content: center; padding: 0; }
+    .nav-item { 
+      justify-content: center; 
+      padding: 15px 0;
+      .nav-icon { margin-right: 0; }
+    }
+    .sidebar-footer { align-items: center; }
+  }
+}
+
+// Logo Styling
+.logo-section {
+  margin-bottom: 50px;
+  padding-left: 10px;
+  overflow: hidden;
+
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .logo-icon-box {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      color: #fff;
+      font-size: 24px;
+      font-family: 'Dancing Script', cursive; 
+      font-weight: 700;
+    }
+  }
+}
+
+// Menu Items
+.nav-menu { flex: 1; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 22px;
+  color: $text-muted;
+  text-decoration: none;
+  border-radius: 50px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+
+  .nav-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    margin-right: 15px;
+  }
+
+  .nav-text { font-size: 16px; font-weight: 500; }
+
+  &.active {
+    background: linear-gradient(90deg, #253371 0%, #324496 100%);
+    color: #fff;
+    border: 1.5px solid $active-glow;
+    box-shadow: 0 4px 15px rgba(79, 195, 247, 0.2);
+
+    .nav-icon { color: $active-glow; }
+  }
+
+  &:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+  }
+}
+
+// Footer
+.sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .logout {
+    color: #ff7675;
+    &:hover { background: rgba(255, 118, 117, 0.1); }
+  }
+}
+
+// Toggle Arrow Button
+.toggle-arrow {
+  position: absolute;
+  right: -14px;
+  top: 135px;
+  width: 28px;
+  height: 28px;
+  background: $bg-primary;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  
+  svg { width: 16px; transition: 0.4s; }
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #ff7675;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: 0.25s;
+
+  i {
+    font-size: 14px;
+  }
+
+  &:hover {
+    background: rgba(255, 118, 117, 0.15);
+    transform: translateX(3px);
+  }
+}
+
+.logout-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 14px;
+  width: 320px;
+  text-align: center;
+  animation: fadeIn 0.25s ease;
+
+  h3 {
+    margin-bottom: 10px;
+    color: #1e2a5e;
+  }
+
+  p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .cancel {
+    background: #eee;
+  }
+
+  .confirm {
+    background: #ff7675;
+    color: white;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.logout-modal {
+  backdrop-filter: blur(6px);
+}

@@ -1,0 +1,325 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #f2f3f7 0%, #2e374e 100%);
+  position: relative;
+}
+
+/* FIXED LOGO */
+.top-logo {
+  position: fixed;
+  top: 24px;
+  left: 32px;
+  z-index: 1000;
+  cursor: pointer;
+
+  img {
+    height: 50px;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    transition: 0.2s ease;
+  }
+}
+
+/* CARD */
+.login-card {
+  width: 460px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px; /* زيادة الحشوة قليلاً */
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+  color: #1E2A5E;
+  margin-bottom: 10px;
+  font-size: 40px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #727272;
+  margin-bottom: 30px;
+}
+
+/* رسائل الخطأ والنجاح العامة */
+.error-msg, .success-msg {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: fadeIn 0.3s ease;
+}
+
+.error-msg {
+  background: #fdeaea;
+  color: #c0392b;
+  border: 1px solid #f5c6cb;
+}
+
+.success-msg {
+  background: #e6f9f0;
+  color: #1e7e34;
+  border: 1px solid #c3e6cb;
+}
+
+/* INPUTS */
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+  text-align: left;
+
+  input {
+    width: 100%;
+    padding: 14px 42px;
+    border-radius: 10px;
+    border: none;
+    background: #f7f7f7;
+    font-size: 15px;
+    color: #1E2A5E;
+    transition: all 0.3s;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(30, 42, 90, 0.2);
+      background: #fff;
+    }
+
+    &.input-error {
+      background: #fff5f5;
+      box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
+    }
+  }
+
+  .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9a9a9a;
+    font-size: 16px;
+
+    &.left {
+      left: 14px;
+    }
+
+    &.right {
+      right: 14px;
+      cursor: pointer;
+      
+      &:hover {
+        color: #1E2A5E;
+      }
+    }
+  }
+}
+
+/* أخطاء الحقول الصغيرة */
+.field-error {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 5px;
+  display: block;
+}
+
+/* OPTIONS */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  margin: 12px 0 22px;
+
+  a {
+    color: #1e2a5a;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;   
+      color: #1877f2;
+    }
+  }
+}
+
+/* BUTTON */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: #1e2a5a;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.3s;
+
+  &:hover:not(:disabled) {
+    background: #162045;
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+/* SPINNER */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* DIVIDER */
+.divider {
+  margin: 24px 0;
+  font-size: 18px;
+  color: #727272;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1.2px;
+    background: #ddd;
+  }
+
+  &::before {
+    left: 30px;
+  }
+
+  &::after {
+    right: 30px;
+  }
+}
+
+/* SOCIAL */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 22px;
+
+  .social-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 20px;
+    }
+
+    &:hover {
+      background: #f9f9f9;
+      border-color: #ccc;
+    }
+  }
+
+  .facebook { color: #1877f2; }
+  .apple { color: #000; }
+  
+  .google {
+    border: 1px solid #ddd;
+    background: #fff;
+
+    i {
+      background: conic-gradient(
+        #4285F4 0deg 90deg,  
+        #34A853 90deg 180deg, 
+        #FBBC05 180deg 270deg,
+        #EA4335 270deg 360deg 
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 20px;
+    }
+  }
+}
+
+/* SIGNUP */
+.signup {
+  font-size: 18px;
+
+  a {
+    color: #1e2a5a;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #4420e6;  
+    }
+  }
+}
+
+/* ... باقي التنسيقات كما هي ... */
+
+.auto-hide-message {
+  animation: fadeInOut 3s forwards; /* يظهر ثم يختفي خلال 3 ثوانٍ */
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); display: none; }
+}
+
+/* تنسيقات الرسائل */
+.error-msg, .success-msg {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.error-msg {
+  background: #fdeaea;
+  color: #c0392b;
+  border: 1px solid #f5c6cb;
+}
+
+.success-msg {
+  background: #e6f9f0;
+  color: #1e7e34;
+  border: 1px solid #c3e6cb;
+}
