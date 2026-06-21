@@ -1,0 +1,95 @@
+<div class="doctors-hub">
+  
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title">Doctor Hub</h1>
+    <p class="page-subtitle">A management table where you can view all registered doctors and control their account access.</p>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+    
+    <!-- Table Top Bar -->
+    <div class="table-top-bar">
+      <div class="table-title-section">
+        <svg class="pulse-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        <span class="table-title-text">Doctors</span>
+      </div>
+      <button class="btn-export-pdf" (click)="exportPDF()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Export PDF
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+      <table class="doctors-table">
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>NATIONAL ID</th>
+            <th>REGISTER DATE</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+    *ngFor="let doctor of doctors; let i = index" 
+    [routerLink]="['/admin/doctors-hub/profile', doctor.id]"
+    class="clickable-row">
+    
+    <td class="name-cell">{{ doctor.name }}</td>
+    
+    <td class="id-cell">#{{ doctor.nationalId }}</td>
+    <td class="date-cell">{{ doctor.registerDate }}</td>
+    <td class="status-cell">
+      <span class="status-badge" [class.active]="doctor.status === 'Active'" [class.blocked]="doctor.status === 'Blocked'">
+        {{ doctor.status }}
+      </span>
+    </td>
+    <td class="action-cell">
+      <button 
+        class="btn-action" 
+        [class.btn-block]="doctor.status === 'Active'" 
+        [class.btn-unblock]="doctor.status === 'Blocked'"
+        (click)="toggleStatus(doctor); $event.stopPropagation()">
+        
+        <svg *ngIf="doctor.status === 'Active'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+        <svg *ngIf="doctor.status === 'Blocked'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        {{ doctor.status === 'Active' ? 'Block' : 'Unblock' }}
+      </button>
+    </td>
+  </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-bar">
+      <span class="showing-text">Showing {{ startIndex }}-{{ endIndex }} of {{ totalDoctors }} Registered Doctors</span>
+      <div class="pagination-controls">
+        <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button 
+          class="page-btn page-number" 
+          *ngFor="let page of totalPagesArray" 
+          [class.active]="page === currentPage"
+          (click)="changePage(page)">
+          {{ page }}
+        </button>
+        <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

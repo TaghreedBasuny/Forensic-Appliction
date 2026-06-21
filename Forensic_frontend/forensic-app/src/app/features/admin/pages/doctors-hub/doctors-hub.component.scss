@@ -1,0 +1,289 @@
+.doctors-hub {
+  padding: 30px 40px;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+// ===== Page Header =====
+.page-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.page-title {
+    font-size: 40px;
+  color: #1E2A5E;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.page-subtitle {
+  font-size: 20px;
+  color: #727272;
+}
+
+// ===== Table Card =====
+.table-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+// ===== Table Top Bar =====
+.table-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #1E2A5E 0%, #2D3F7A 100%);
+}
+
+.table-title-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pulse-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.table-title-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+
+.btn-export-pdf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: white;
+  color: #1E2A5E;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ===== Table Wrapper =====
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f0f4ff !important; 
+  }
+}
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.doctors-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead th {
+    background-color: #F5F6FA;
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 2px solid #E8EAF0;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #F0F1F5;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #FAFBFF;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  td {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+  }
+}
+
+.name-cell {
+  font-weight: 600;
+  color: #1E2A5E;
+}
+
+.id-cell {
+  color: #666;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.date-cell {
+  color: #666;
+}
+
+// ===== Status Badge =====
+.status-cell {
+  .status-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+
+    &.active {
+      background-color: #E6F9EE;
+      color: #16A34A;
+    }
+
+    &.blocked {
+      background-color: #FDE8E8;
+      color: #DC2626;
+    }
+  }
+}
+
+// ===== Action Buttons =====
+.action-cell {
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border: 1.5px solid;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+
+    &.btn-block {
+      border-color: #DC2626;
+      color: #DC2626;
+
+      &:hover {
+        background: #FDE8E8;
+      }
+    }
+
+    &.btn-unblock {
+      border-color: #16A34A;
+      color: #16A34A;
+
+      &:hover {
+        background: #E6F9EE;
+      }
+    }
+  }
+}
+
+// ===== Pagination =====
+.pagination-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-top: 1px solid #E8EAF0;
+  background: #FAFBFC;
+}
+
+.showing-text {
+  font-size: 13px;
+  color: #888;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.page-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid #E0E3EA;
+  border-radius: 8px;
+  background: white;
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled):not(.active) {
+    background: #F0F2F7;
+    border-color: #C5CAD5;
+  }
+
+  &.active {
+    background: #1E2A5E;
+    color: white;
+    border-color: #1E2A5E;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &.page-number {
+    min-width: 34px;
+  }
+}
+
+// ===== Responsive =====
+@media (max-width: 1024px) {
+  .doctors-hub {
+    padding: 20px;
+  }
+
+  .pagination-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 28px;
+  }
+
+  .table-top-bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .doctors-table {
+    font-size: 12px;
+
+    thead th, td {
+      padding: 12px 14px;
+    }
+  }
+}

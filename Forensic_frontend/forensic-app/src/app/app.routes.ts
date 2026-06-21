@@ -19,7 +19,14 @@ import { ReconstructImageComponent } from './features/explore/analysis-models/re
 import { CommunityFeedComponent } from './features/community/community-feed/community-feed.component';
 import { InvestigativeCasesComponent } from './features/explore/investigative-cases/investigative-cases.component';
 import { CaseDetailsComponent } from './features/explore/investigative-cases/case-details/case-details.component';
-import {VerifyOtpComponent} from './features/auth/pages/verify-otp/verify-otp.component'
+import {VerifyOtpComponent} from './features/auth/pages/verify-otp/verify-otp.component';
+import { adminGuard } from './core/guards/admin.guard';
+import { AdminDashboardComponent } from './features/admin/pages/admin-dashboard/admin-dashboard.component';
+import { DoctorsHubComponent } from './features/admin/pages/doctors-hub/doctors-hub.component';
+import { DoctorProfileComponent } from './features/admin/pages/doctor-profile/doctor-profile.component';
+import { CaseAuditComponent } from './features/admin/pages/case-audit/case-audit.component'; 
+import { SystemLogsComponent } from './features/admin/pages/system-logs/system-logs.component';
+
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
 
@@ -104,6 +111,37 @@ export const routes: Routes = [
   component: CommunityFeedComponent,
   canActivate: [authGuard], 
   data: { pageTitle: 'Community' }
+},
+
+{ 
+  path: 'admin/dashboard',
+  component: AdminDashboardComponent,
+  canActivate: [authGuard, adminGuard],
+  data: { pageTitle: 'Admin Dashboard' }
+},
+  { 
+    path: 'admin/doctors-hub',
+    component: DoctorsHubComponent,
+    canActivate: [authGuard, adminGuard],
+    data: { pageTitle: 'Doctors Hub' }
+  },
+  { 
+  path: 'admin/doctors-hub/profile/:id',
+  component: DoctorProfileComponent,
+  canActivate: [authGuard, adminGuard], 
+  data: { pageTitle: 'Doctor Profile' }
+},
+ { 
+    path: 'admin/case-audit',
+    component: CaseAuditComponent,
+    canActivate: [authGuard, adminGuard], 
+    data: { pageTitle: 'Case Audit Monitoring' }
+  },
+  { 
+  path: 'admin/system-logs',
+  component: SystemLogsComponent,
+  canActivate: [authGuard, adminGuard],
+  data: { pageTitle: 'System Logs' }
 },
 
   { path: '**', redirectTo: '/landing' }
