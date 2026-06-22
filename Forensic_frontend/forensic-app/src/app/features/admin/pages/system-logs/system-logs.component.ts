@@ -24,7 +24,6 @@ export class SystemLogsComponent {
     { id: 3, description: 'Modified System Settings', adminName: 'Admin_Anas', timestamp: '2026-04-22 09:30', type: 'Modify' },
     { id: 4, description: 'Blocked User #445', adminName: 'Admin_Abdulrahman', timestamp: '2026-04-21 13:20', type: 'Suspend' },
     { id: 5, description: 'Suspended Doctor #201', adminName: 'Admin_Yaseen', timestamp: '2026-04-23 14:20', type: 'Suspend' },
-    // بيانات إضافية للتجربة
     { id: 6, description: 'Updated Security Policy', adminName: 'Admin_Sakr', timestamp: '2026-04-20 11:00', type: 'Modify' },
     { id: 7, description: 'Exported Audit Report', adminName: 'Admin_Taghreed', timestamp: '2026-04-19 15:30', type: 'Export' },
     { id: 8, description: 'Deleted Old Logs', adminName: 'Admin_Nada', timestamp: '2026-04-18 09:15', type: 'Delete' },

@@ -26,6 +26,8 @@ import { DoctorsHubComponent } from './features/admin/pages/doctors-hub/doctors-
 import { DoctorProfileComponent } from './features/admin/pages/doctor-profile/doctor-profile.component';
 import { CaseAuditComponent } from './features/admin/pages/case-audit/case-audit.component'; 
 import { SystemLogsComponent } from './features/admin/pages/system-logs/system-logs.component';
+import { CommunityModerationComponent } from './features/admin/pages/community-moderation/community-moderation.component';
+import { ChatbotManagementComponent } from './features/admin/pages/chatbot-management/chatbot-management.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
@@ -142,6 +144,18 @@ export const routes: Routes = [
   component: SystemLogsComponent,
   canActivate: [authGuard, adminGuard],
   data: { pageTitle: 'System Logs' }
+},
+{ 
+  path: 'admin/community-moderation',
+  component: CommunityModerationComponent,
+  canActivate: [authGuard, adminGuard],
+  data: { pageTitle: 'Community Moderation' }
+},
+{ 
+  path: 'admin/chatbot-management',
+  component: ChatbotManagementComponent,
+  canActivate: [authGuard, adminGuard],
+  data: { pageTitle: 'Chatbot Management' }
 },
 
   { path: '**', redirectTo: '/landing' }

@@ -4,6 +4,8 @@ import { DoctorsHubComponent } from './pages/doctors-hub/doctors-hub.component';
 import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.component';
 import { CaseAuditComponent } from './pages/case-audit/case-audit.component'; 
 import { SystemLogsComponent } from './pages/system-logs/system-logs.component';
+import { CommunityModerationComponent } from './pages/community-moderation/community-moderation.component';
+import { ChatbotManagementComponent } from './pages/chatbot-management/chatbot-management.component';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -29,6 +31,18 @@ export const ADMIN_ROUTES: Routes = [
     path: 'system-logs',
     component: SystemLogsComponent, 
     data: { pageTitle: 'System Logs' }
+  },
+  {
+     path: 'community-moderation',
+     component: CommunityModerationComponent, 
+     data: { pageTitle: 'Community Moderation' }
+  },
+  { 
+    path: 'chatbot-management', 
+    component: ChatbotManagementComponent, 
+    data: { pageTitle: 'Chatbot Management' }
   }
+
+
 
 ];

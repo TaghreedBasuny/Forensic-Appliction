@@ -73,7 +73,7 @@ export class CaseAuditComponent {
       c.caseId.toLowerCase().includes(term) || 
       c.leadDoctor.toLowerCase().includes(term)
     );
-    this.currentPage = 1; // رجع للصفحة الأولى عند البحث
+    this.currentPage = 1; 
   }
 
   changePage(page: number): void {

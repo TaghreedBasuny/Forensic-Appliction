@@ -52,15 +52,20 @@ export class InvestigativeCasesComponent implements OnInit {
     private ngZone: NgZone 
   ) {}
 
+ 
   ngOnInit() {
-    this.casesService.loadCasesFromApi();
+  this.casesService.loadCasesFromApi();
 
-    this.casesService.cases$.subscribe(cases => {
-      this.applyFilters();
-      this.isLoading = false; 
-      this.cdr.detectChanges();
+  this.casesService.cases$.subscribe(cases => {
+    this.ngZone.run(() => {
+      setTimeout(() => {
+        this.applyFilters();
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      });
     });
-  }
+  });
+}
   
   // ================= FILTER & SEARCH =================
   applyFilters() {
