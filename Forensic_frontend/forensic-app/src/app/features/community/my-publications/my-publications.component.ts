@@ -210,7 +210,6 @@ export class MyPublicationsComponent implements OnInit {
 
  toggleComments(id: number) {
   this.showCommentSection[id] = !this.showCommentSection[id];
-  
   if (this.showCommentSection[id] && this.comments[id].length === 0) {
     this.communityService.getComments(id).subscribe({
       next: (res) => {
@@ -218,9 +217,7 @@ export class MyPublicationsComponent implements OnInit {
         this.comments[id] = commentsList.map((c: any) => ({
           id: c.id,
           authorName: c.user?.name,
-          text: c.comment || c.text,
-          timestamp: c.created_at,
-          user_id: c.user?.id
+text: (c as any).content || (c as any).comment || c.text || '',          user_id: c.user?.id
         }));
       },
       error: (err) => console.log('error:', err)

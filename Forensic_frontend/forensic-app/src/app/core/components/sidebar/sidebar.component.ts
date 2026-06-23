@@ -32,18 +32,21 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
-    this.router.navigate(['/auth/login']);
-  }
-
+  this.authService.logout().subscribe({
+    next: () => this.router.navigate(['/auth/login']),
+    error: () => this.router.navigate(['/auth/login']) // برضه نخرجها حتى لو فشل السيرفر
+  });
+}
   openLogoutModal() {
     this.showLogoutModal = true;
   }
 
-  confirmLogout() {
-    this.authService.logout();
-    this.router.navigate(['/landing']);
-  }
+ confirmLogout() {
+  this.authService.logout().subscribe({
+    next: () => this.router.navigate(['/landing']),
+    error: () => this.router.navigate(['/landing'])
+  });
+}
 
   cancelLogout() {
     this.showLogoutModal = false;

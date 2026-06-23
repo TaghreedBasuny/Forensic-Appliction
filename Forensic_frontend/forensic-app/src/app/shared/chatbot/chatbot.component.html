@@ -23,12 +23,10 @@
     </div>
 
     <div class="min-body">
-        <!-- ✅ رسالة الترحيب (Bold + White Background) -->
         <div *ngIf="messages.length === 0" class="message-bubble bot-msg welcome-msg">
             <p>Hello! I'm your forensic assistant. How can I help you today?</p>
         </div>
 
-        <!-- باقي الرسايل -->
         <div *ngFor="let msg of messages.slice(-4)" 
              class="message-bubble"
              [class.user-msg]="msg.sender === 'user'"
@@ -37,7 +35,6 @@
             <span class="time">{{msg.timestamp | date:'hh:mm a'}}</span>
         </div>
         
-        <!-- نقاط التحميل -->
         <div *ngIf="isProcessing" class="typing-dots-container">
             <span class="dot"></span>
             <span class="dot"></span>
@@ -57,11 +54,9 @@
 <div class="chatbot-full-overlay" *ngIf="mode === 'expanded'" (click)="closeChat()">
     <div class="chatbot-full-container" (click)="$event.stopPropagation()">
         
-        <!-- ✅ Header: اللوجو بس من غير نص -->
         <div class="full-header">
             <div class="full-logo">
                 <img src="/assets/images/logo.png" alt="Logo" class="header-logo-img">
-                <!-- تم حذف span النص هنا -->
             </div>
             <button class="close-full-btn" (click)="closeChat()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -97,10 +92,8 @@
             <!-- Main Chat Area -->
             <div class="main-chat-area">
                 
-                <!-- Welcome Screen (أحجام أصغر ومتوازنة) -->
                 <div class="welcome-screen" *ngIf="messages.length === 0 && !isProcessing">
                     
-                    <!-- مكان الـ SVG -->
                     <div class="brain-graphic-container">
 <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <rect width="320" height="320" fill="url(#pattern0_2391_15686)"/>
@@ -125,7 +118,6 @@
                         </div>
                     </div>
                     
-                    <!-- نقاط التحميل -->
                     <div *ngIf="isProcessing" class="message-row bot-row typing-dots-container">
                         <span class="dot"></span>
                         <span class="dot"></span>

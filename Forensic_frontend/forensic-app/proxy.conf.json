@@ -1,9 +1,7 @@
 {
   "/api": {
-    "target": "http://127.0.0.1:8000",
+    "target": "https://fronsicso-production.up.railway.app",
     "secure": false,
     "changeOrigin": true
   }
 }
-
-

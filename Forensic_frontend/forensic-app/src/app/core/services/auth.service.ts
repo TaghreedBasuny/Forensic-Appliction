@@ -34,25 +34,31 @@ export class AuthService {
     );
   }
 
-  login(data: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data).pipe(
-      tap((res: any) => {
-        localStorage.setItem('authToken', res.token);
-        localStorage.setItem('currentUser', JSON.stringify(res.user));
-        this.userSubject.next(res.user);
-      })
-    );
-  }
+ login(data: LoginRequest): Observable<LoginResponse> {
+  return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data).pipe(
+    tap((res: any) => {
+      localStorage.removeItem('profilePicture'); // ✅ مسح أي بقايا قديمة
+      localStorage.setItem('authToken', res.token);
+      localStorage.setItem('currentUser', JSON.stringify(res.user));
+      this.userSubject.next(res.user);
+    })
+  );
+}
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('authToken');
   }
 
-  logout(): void {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('currentUser');
-    this.userSubject.next(null);
-  }
+ logout(): Observable<any> {
+  return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
+    tap(() => {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('profilePicture');
+      this.userSubject.next(null);
+    })
+  );
+}
 
 
   forgotPassword(email: string): Observable<PasswordResetResponse> {
@@ -91,5 +97,13 @@ export class AuthService {
   getRole(): string | null {
   const user = this.currentUserValue;
   return user ? user.role : null;
+}
+
+updateCurrentUser(partial: Partial<any>): void {
+  const updated = { ...this.currentUserValue, ...partial };
+  localStorage.setItem('currentUser', JSON.stringify(updated));
+  setTimeout(() => {
+    this.userSubject.next(updated);
+  });
 }
 }

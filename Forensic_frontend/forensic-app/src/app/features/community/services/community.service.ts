@@ -77,7 +77,6 @@ toggleLike(postId: number) {
 
 
 addComment(postId: number, text: string) {
-  // This endpoint works for both feeds and articles based on your API structure
   return this.http.post<any>(`${this.baseUrl}/add-comments-article/${postId}`, { 
     comment: text
   });
@@ -93,17 +92,38 @@ deleteComment(id: number) {
 }
 
 incrementView(id: number) {
-  return this.http.get<any>(`${this.baseUrl}/view-feed/${id}`, {});
+  return this.http.get<any>(`${this.baseUrl}/view-feeds/${id}`, {});
 }
-getPost(postId: number) {
-  return this.http.get<any>(`${this.baseUrl}/view-feed/${postId}`, {});
-}
+  getPost(postId: number) {
+    return this.http.get<any>(`${this.baseUrl}/view-feeds/${postId}`).pipe(
+      map(res => {
+        const data = res.data || {};
+        const comments = Array.isArray(data.comments) ? data.comments : [];
+        
+        return {
+          ...data,
+          comments: comments
+        };
+      })
+    );
+  }
+
+  addFeedComment(postId: number, text: string) {
+    return this.http.post<any>(`${this.baseUrl}/add-comments-feed/${postId}`, { 
+      comment: text
+    });
+  }
+  
 shareFeed(id: number) {
   return this.http.get<any>(`${this.baseUrl}/share-feed/${id}`);
 }
 
 addArticle(data: FormData) {
   return this.http.post(`${this.baseUrl}/add/new-article`, data);
+}
+getArticleDetails(articleId: number) {
+  // ⚠️ جربي الرابط ده، لو مش شغال ابعتيلي قائمة الـ Endpoints الخاصة بالمقالات
+  return this.http.get<any>(`${this.baseUrl}/view-article/${articleId}`);
 }
 
 getPublications() {

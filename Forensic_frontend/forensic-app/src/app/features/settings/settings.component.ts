@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SettingsService } from './settings.service'; 
 import { UserProfileService } from '../../core/services/user-profile.service';
+import { AuthService } from '../../core/services/auth.service';
+
 
 export interface UserProfileData {
   firstName: string;
@@ -37,12 +39,13 @@ export class SettingsComponent implements OnInit {
   cameraStream: MediaStream | null = null;
   selectedTheme: 'light' | 'dark' | 'auto' = 'auto';
   selectedFontSize: 'small' | 'medium' | 'large' = 'medium';
-  
+  selectedImageFile: File | null = null;
+
   hasUnsavedChanges = false;
   isLoading = false;
   isSavingPassword = false;
   isSavingProfile = false;
-
+  
   personalForm!: FormGroup;
   passwordForm!: FormGroup;
 
@@ -66,24 +69,18 @@ export class SettingsComponent implements OnInit {
   showConfirmPass = false;
 
   toast: ToastMessage | null = null;
-
-  constructor(
-    private fb: FormBuilder,
-    private settingsService: SettingsService,
-    private userProfileService: UserProfileService,
-    private cd: ChangeDetectorRef 
-  ) {}
+constructor(
+  private fb: FormBuilder,
+  private settingsService: SettingsService,
+  private userProfileService: UserProfileService,
+  private authService: AuthService,
+  private cd: ChangeDetectorRef 
+) {}
 
   ngOnInit(): void {
-    const savedPicture = localStorage.getItem('profilePicture');
-    if (savedPicture) {
-      this.profilePictureUrl = savedPicture;
-    }
-
-    this.initForms();
-    this.loadUserProfile();
-  }
-
+  this.initForms();
+  this.loadUserProfile();
+}
   showToast(message: string, type: 'success' | 'error' = 'success') {
     this.toast = { text: message, type };
     this.cd.detectChanges(); 
@@ -142,11 +139,7 @@ export class SettingsComponent implements OnInit {
           const firstName = nameParts[0];
           const lastName = nameParts.slice(1).join(' ');
 
-const savedPicture = localStorage.getItem('profilePicture');
-const imageUrl = savedPicture ? savedPicture : (data.image ? data.image : null);
-if (data.image && !savedPicture) {
-  localStorage.setItem('profilePicture', data.image);
-}
+const imageUrl = data.image ? data.image : null;
           this.personalForm.patchValue({
             firstName: firstName,
             lastName: lastName,
@@ -181,57 +174,66 @@ if (data.image && !savedPicture) {
     });
   }
 
-  saveChanges(): void {
-    if (!this.personalForm.valid) {
-      this.personalForm.markAllAsTouched();
-      return;
-    }
-
-    this.isSavingProfile = true;
-    this.cd.detectChanges(); 
-
-    const fullName = `${this.personalForm.value.firstName} ${this.personalForm.value.lastName}`.trim();
-
-    const payload = {
-      name: fullName,
-      email: this.personalForm.value.email,
-      phone_number: this.personalForm.value.phone,
-      date_of_birth: this.personalForm.value.dob,
-      national_id: this.personalForm.value.nationalId,
-    };
-
-    this.settingsService.updateProfile(payload).subscribe({
-      next: (response) => {
-        this.isSavingProfile = false;
-        this.cd.detectChanges(); 
-        
-        this.personalForm.markAsPristine();
-        
-        this.userProfile.firstName = this.personalForm.value.firstName;
-        this.userProfile.lastName = this.personalForm.value.lastName;
-        this.userProfile.email = this.personalForm.value.email;
-        this.userProfile.role = response.user?.role || this.userProfile.role;
-        this.originalProfilePictureUrl = this.profilePictureUrl;
-        this.hasUnsavedChanges = false;
-
-        this.userProfileService.updateProfile({
-          name: fullName,
-          email: payload.email,
-          profilePicture: this.profilePictureUrl,
-          role: this.userProfile.role
-        });
-
-        this.showToast('Profile updated successfully!', 'success');
-      },
-      error: (err) => {
-        this.isSavingProfile = false;
-        this.cd.detectChanges();
-        this.hasUnsavedChanges = true;
-        this.showToast(err.error?.msg || 'Failed to update profile.', 'error');
-      }
-    });
+ saveChanges(): void {
+  if (!this.personalForm.valid) {
+    this.personalForm.markAllAsTouched();
+    return;
   }
 
+  this.isSavingProfile = true;
+  this.cd.detectChanges(); 
+
+  const fullName = `${this.personalForm.value.firstName} ${this.personalForm.value.lastName}`.trim();
+
+  const payload = {
+    first_name: this.personalForm.value.firstName,
+    last_name: this.personalForm.value.lastName,
+    email: this.personalForm.value.email,
+    phone_number: this.personalForm.value.phone,
+    date_of_birth: this.personalForm.value.dob,
+    national_id: this.personalForm.value.nationalId,
+  };
+
+  this.settingsService.updateProfile(payload, this.selectedImageFile).subscribe({
+    next: (response) => {
+      this.isSavingProfile = false;
+      this.cd.detectChanges(); 
+      
+      this.personalForm.markAsPristine();
+      
+      this.userProfile.firstName = this.personalForm.value.firstName;
+      this.userProfile.lastName = this.personalForm.value.lastName;
+      this.userProfile.email = this.personalForm.value.email;
+      this.userProfile.role = response.user?.role || this.userProfile.role;
+      this.originalProfilePictureUrl = this.profilePictureUrl;
+      this.selectedImageFile = null;
+      this.hasUnsavedChanges = false;
+
+     
+
+      this.userProfileService.updateProfile({
+        name: fullName,
+        email: payload.email,
+        profilePicture: this.profilePictureUrl,
+        role: this.userProfile.role
+      });
+
+      this.authService.updateCurrentUser({
+        name: fullName,
+        email: payload.email,
+        avatar: this.profilePictureUrl
+      });
+
+      this.showToast('Profile updated successfully!', 'success');
+    },
+    error: (err) => {
+      this.isSavingProfile = false;
+      this.cd.detectChanges();
+      this.hasUnsavedChanges = true;
+      this.showToast(err.error?.message || err.error?.msg || 'Failed to update profile.', 'error');
+    }
+  });
+}
   savePasswordChanges(): void {
     if (this.passwordForm.invalid) {
       this.passwordForm.markAllAsTouched();
@@ -263,33 +265,24 @@ if (data.image && !savedPicture) {
     });
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.[0]) {
-      const file = input.files[0];
-      
-      this.settingsService.uploadProfilePicture(file).subscribe({
-        next: (response) => {
-          if (response.image) {
-            this.profilePictureUrl = response.image;
-            localStorage.setItem('profilePicture', response.image);
-            this.checkUnsavedChanges();
-            this.showToast('Photo uploaded successfully!', 'success');
-          }
-        },
-        error: (err) => {
-          this.showToast('Failed to upload photo.', 'error');
-        }
-      });
-      
-      this.closePhotoMenu();
-    }
-  }
+ onFileSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files?.[0]) {
+    const file = input.files[0];
+    this.selectedImageFile = file;
 
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.profilePictureUrl = reader.result as string;
+      this.checkUnsavedChanges();
+    };
+    reader.readAsDataURL(file);
+  }
+  this.closePhotoMenu();
+}
   removePhoto(): void {
     this.profilePictureUrl = null;
     this.userProfile.profilePicture = null;
-    localStorage.removeItem('profilePicture');
     this.checkUnsavedChanges();
     this.closePhotoMenu();
   }

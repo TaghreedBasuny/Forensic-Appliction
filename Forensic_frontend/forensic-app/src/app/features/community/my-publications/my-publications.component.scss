@@ -91,6 +91,7 @@
   .stats { display: flex; gap: 16px; align-items: center; }
   
   .stat-btn {
+      pointer-events: auto !important;
     display: flex;
     align-items: center;
     gap: 6px;

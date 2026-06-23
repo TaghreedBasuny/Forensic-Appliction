@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
@@ -25,23 +25,23 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router, 
     private titleService: Title,
-    private authService: AuthService // حقن AuthService
+    private authService: AuthService,
+    private cd: ChangeDetectorRef
   ) {}  
 
  ngOnInit() {
   this.authSub = this.authService.user$.subscribe(user => {
-    this.currentUser = user;
-    
-    const savedPicture = localStorage.getItem('profilePicture');
-    if (savedPicture) {
-      this.currentUser = { ...this.currentUser, avatar: savedPicture };
-    }
+    setTimeout(() => {
+      this.currentUser = user;
 
-    if (user && user.name) {
-      this.userInitials = user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase();
-    } else {
-      this.userInitials = 'U';
-    }
+      if (user && user.name) {
+        this.userInitials = user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase();
+      } else {
+        this.userInitials = 'U';
+      }
+
+      this.cd.detectChanges();
+    });
   });
 
   this.routerSub = this.router.events
@@ -56,7 +56,6 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
     
   this.pageTitle = this.getPageTitleFromRoute();
 }
-
   ngOnDestroy(): void {
     if (this.authSub) this.authSub.unsubscribe();
     if (this.routerSub) this.routerSub.unsubscribe();

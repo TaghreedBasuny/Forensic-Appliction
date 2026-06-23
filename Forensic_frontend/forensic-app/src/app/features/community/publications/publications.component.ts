@@ -164,20 +164,29 @@ export class PublicationsComponent implements OnInit {
   // --- Comment Logic ---
 
   toggleComments(articleId: number) {
-    this.showCommentSection[articleId] = !this.showCommentSection[articleId];
-    if (this.showCommentSection[articleId]) {
-      this.CommunityService.getPost(articleId).subscribe(res => {
-        this.comments[articleId] = res.comments.map((c: any) => ({
-          id: c.id,
-          user_id: c.user.id,
-          userName: c.user?.name,
-          text: c.comment,
-          created_at: c.created_at
-        }));
-        this.cdr.detectChanges();
-      });
-    }
-  }
+  this.showCommentSection[articleId] = !this.showCommentSection[articleId];
+  
+  if (!this.showCommentSection[articleId]) return;
+  if (!this.comments[articleId]) this.comments[articleId] = [];
+  if (this.comments[articleId].length > 0) return;
+
+  this.CommunityService.getArticleDetails(articleId).subscribe({
+    next: (res: any) => {
+      const commentsList = res?.data?.comments || res?.comments || [];
+      
+      this.comments[articleId] = Array.isArray(commentsList) ? commentsList.map((c: any) => ({
+        id: c.id,
+        user_id: c.user?.id || c.user_id,
+        userName: c.user?.name || 'Unknown',
+        text: c.content || c.comment || c.text || '', 
+        created_at: c.created_at
+      })) : [];
+      
+      this.cdr.detectChanges();
+    },
+    error: (err) => console.error('Error loading article comments:', err)
+  });
+}
 
   addComment(articleId: number) {
     const text = this.newCommentText[articleId]?.trim();
@@ -192,7 +201,12 @@ export class PublicationsComponent implements OnInit {
       created_at: new Date().toISOString()
     };
 
-    const currentComments = this.comments[articleId] || [];
+    // تهيئة المصفوفة لو كانت undefined
+    if (!this.comments[articleId]) {
+      this.comments[articleId] = [];
+    }
+
+    const currentComments = this.comments[articleId];
     this.comments[articleId] = [newComment, ...currentComments];
     
     const article = this.articles.find(a => a.id === articleId);
@@ -202,16 +216,21 @@ export class PublicationsComponent implements OnInit {
 
     this.CommunityService.addComment(articleId, text).subscribe({
       next: (res: any) => {
-        newComment.id = res.data.id;
-        newComment.created_at = res.data.created_at;
+        if (res.data?.id) {
+          newComment.id = res.data.id;
+          newComment.created_at = res.data.created_at;
+        }
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error adding comment', err);
+        // تراجع عن الإضافة الوهمية لو فشل الطلب
+        this.comments[articleId] = this.comments[articleId].filter(c => c.id !== newComment.id);
+        if (article) article.comments--;
+        this.cdr.detectChanges();
       }
     });
   }
-
   // Edit Comment
   openEditComment(comment: any, articleId: number) {
     this.editingComment = comment;

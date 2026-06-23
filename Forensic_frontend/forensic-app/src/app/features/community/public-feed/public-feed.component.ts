@@ -204,7 +204,7 @@ saveEditPost() {
           id: c.id,
           user_id: c.user.id,
           userName: c.user?.name,
-          text: c.comment,
+          text: c.content,
           created_at: c.created_at
         }));
         this.cdr.detectChanges();
@@ -212,29 +212,54 @@ saveEditPost() {
     }
   }
 
-  addComment(postId: number) {
+   addComment(postId: number) {
     const text = this.newCommentText[postId]?.trim();
     if (!text) return;
+    
     const user = this.authService.currentUserValue;
     const newComment: Comment = {
-      id: Date.now(),
+      id: Date.now(), 
       user_id: user?.id || 0,
       userName: user?.name || 'User',
       text: text,
       created_at: new Date().toISOString()
     };
-    const currentComments = this.comments[postId] || [];
-    this.comments[postId] = [newComment, ...currentComments];
+
+    if (!this.comments[postId]) {
+      this.comments[postId] = [];
+    }
+
+    
+    this.comments[postId] = [newComment, ...this.comments[postId]];
+    
+    
     const post = this.posts.find(p => p.id === postId);
     if (post) post.comments++;
+    
     this.newCommentText[postId] = '';
-    this.CommunityService.addComment(postId, text).subscribe({
+
+    
+    this.cdr.detectChanges(); 
+
+    
+    this.CommunityService.addFeedComment(postId, text).subscribe({
       next: (res: any) => {
-        newComment.id = res.data.id;
+      
+        if (res.data && res.data.id) {
+          const addedComment = this.comments[postId].find(c => c.id === newComment.id);
+          if (addedComment) {
+            addedComment.id = res.data.id;
+          }
+        }
+      },
+      error: (err) => {
+        console.error('Failed to add comment', err);
+        this.comments[postId] = this.comments[postId].filter(c => c.id !== newComment.id);
+        if (post) post.comments--;
+        this.cdr.detectChanges();
       }
     });
   }
-
   openEditComment(comment: any, postId: number) {
     this.editingComment = comment;
     this.editText = comment.text;

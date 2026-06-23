@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment'; 
 
 @Injectable({ providedIn: 'root' })
 export class SettingsService {
-private baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -13,17 +13,28 @@ private baseUrl = environment.apiUrl;
     return this.http.get(`${this.baseUrl}/setting`);
   }
 
-  updateProfile(payload: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/save-change`, payload);
+  updateProfile(payload: any, imageFile?: File | null): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    if (user?.id && !payload.id) {
+      payload.id = user.id;
+    }
+
+    const formData = new FormData();
+    Object.keys(payload).forEach(key => {
+      if (payload[key] !== null && payload[key] !== undefined) {
+        formData.append(key, payload[key]);
+      }
+    });
+
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+
+    formData.append('_method', 'PUT');
+    return this.http.post(`${this.baseUrl}/save-change`, formData);
   }
 
   changePassword(payload: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/change-password`, payload);
-  }
-
-  uploadProfilePicture(file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('image', file); 
-    return this.http.post(`${this.baseUrl}/upload/image-user`, formData);
   }
 }

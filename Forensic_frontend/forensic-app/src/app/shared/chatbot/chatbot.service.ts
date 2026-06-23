@@ -19,7 +19,7 @@ export interface ChatSession {
 
 @Injectable({ providedIn: 'root' })
 export class ChatbotService {
-  private base = 'https://forensic-ai-system-api-production.up.railway.app/api';
+  private base = 'https://fronsicso-production.up.railway.app/api';
 
   constructor(private http: HttpClient) {}
 

@@ -27,7 +27,7 @@ interface Comment {
   authorName: string;
   text: string;
   timestamp: string;
-  user_id?: number; // مهم للتحقق من الملكية
+  user_id?: number; 
 }
 
 @Component({
@@ -46,15 +46,14 @@ export class CommunityFeedComponent implements OnInit {
   showPostModal: boolean = false;
   newPostContent: string = '';
   editPostTitle: string = ''; 
-
+editingCommentText: string = '';
   // Delete Confirmation Modal (Post/Article)
   showDeleteConfirmModal: boolean = false;
   itemToDelete: MyContentItem | null = null;
 
-  // ✅ Comment Edit/Delete Modals Variables
+  //  Comment Edit/Delete Modals Variables
   showEditCommentModal: boolean = false;
   editingCommentId: number | null = null;
-  editingCommentText: string = '';
   editingCommentParentId: number | null = null; // ID of the post/article
 
   showDeleteCommentModal: boolean = false;
@@ -65,7 +64,7 @@ export class CommunityFeedComponent implements OnInit {
   allPublications: Article[] = [];
   myContentList: MyContentItem[] = []; 
   currentUserId: number | null = null;
-  currentUserName: string | null = null; // لتسمية صاحب التعليق
+  currentUserName: string | null = null; 
 
   // Interaction Variables
   showMyComments: { [id: number]: boolean } = {};
@@ -151,6 +150,9 @@ export class CommunityFeedComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+
+
+  
   // --- Actions for My Publications ---
 
   toggleMyLike(item: MyContentItem) {
@@ -169,23 +171,43 @@ export class CommunityFeedComponent implements OnInit {
     }
   }
 
+    // ✅ دالة جلب التعليقات المعدلة والآمنة
   toggleMyComments(item: MyContentItem) {
     this.showMyComments[item.id] = !this.showMyComments[item.id];
     
-    if (this.showMyComments[item.id] && !this.myCommentsData[item.id]) {
-      this.CommunityService.getPost(item.id).subscribe(res => {
-        this.myCommentsData[item.id] = res.comments.map((c: any) => ({
-          id: c.id,
-          authorName: c.user?.name || 'User',
-          user_id: c.user?.id,
-          text: c.comment,
-          timestamp: c.created_at
-        }));
-        this.cdr.detectChanges();
-      });
-    }
-  }
+    if (!this.showMyComments[item.id]) return;
 
+    // تهيئة المصفوفة لو كانت undefined
+    if (!this.myCommentsData[item.id]) {
+      this.myCommentsData[item.id] = [];
+    }
+
+    // لو فيه تعليقات محفوظة، مفيش داعي نجيبها تاني من السيرفر
+    if (this.myCommentsData[item.id].length > 0) return;
+
+    // ✅ اختيار الـ Endpoint الصح حسب النوع
+    const request$ = item.type === 'post' 
+      ? this.CommunityService.getPost(item.id)      // للـ Posts -> /view-feeds
+      : this.CommunityService.getArticleDetails(item.id); // للـ Articles -> /view-article
+
+    request$.subscribe({
+      next: (res: any) => {
+        // البحث عن التعليقات في المسارات الصحيحة للسيرفر
+        const commentsList = res?.data?.comments || res?.comments || [];
+        
+        this.myCommentsData[item.id] = Array.isArray(commentsList) ? commentsList.map((c: any) => ({
+          id: c.id,
+          authorName: c.user?.name || 'Unknown',
+          user_id: c.user?.id,
+          text: c.content || c.comment || c.text || '', // ✅ قراءة c.content أولاً
+          timestamp: c.created_at
+        })) : [];
+        
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error loading comments:', err)
+    });
+  }
   addMyComment(id: number, type: 'post' | 'article') {
     const text = this.newCommentText[id]?.trim();
     if (!text) return;
@@ -208,9 +230,8 @@ export class CommunityFeedComponent implements OnInit {
     this.CommunityService.addComment(id, text).subscribe();
   }
 
-  // ✅ Comment Actions (Edit/Delete)
+  // Comment Actions (Edit/Delete)
   
-  // فتح مودال تعديل التعليق
   openEditComment(comment: Comment, parentId: number) {
     this.editingCommentId = comment.id;
     this.editingCommentParentId = parentId;
@@ -218,7 +239,6 @@ export class CommunityFeedComponent implements OnInit {
     this.showEditCommentModal = true;
   }
 
-  // حفظ تعديل التعليق
   saveEditComment() {
     if (!this.editingCommentId || !this.editingCommentText.trim()) return;
 
@@ -226,7 +246,6 @@ export class CommunityFeedComponent implements OnInit {
     const commentId = this.editingCommentId;
     const newText = this.editingCommentText;
 
-    // تحديث محلي
     const comments = this.myCommentsData[parentId!];
     const commentIndex = comments.findIndex(c => c.id === commentId);
     if (commentIndex !== -1) {
@@ -235,7 +254,6 @@ export class CommunityFeedComponent implements OnInit {
     this.cdr.detectChanges();
     this.closeEditCommentModal();
 
-    // إرسال للسيرفر
     this.CommunityService.updateComment(commentId, newText).subscribe({
       next: () => console.log('Comment Updated'),
       error: (err) => console.error(err)
@@ -249,25 +267,24 @@ export class CommunityFeedComponent implements OnInit {
     this.editingCommentText = '';
   }
 
-  // فتح مودال حذف التعليق
+  
   openDeleteComment(comment: Comment, parentId: number) {
     this.commentToDeleteId = comment.id;
     this.commentToDeleteParentId = parentId;
     this.showDeleteCommentModal = true;
   }
 
-  // تأكيد حذف التعليق
   confirmDeleteComment() {
     if (!this.commentToDeleteId) return;
     
     const parentId = this.commentToDeleteParentId;
     const commentId = this.commentToDeleteId;
 
-    // تحديث محلي
+    
     if (parentId) {
       this.myCommentsData[parentId] = this.myCommentsData[parentId].filter(c => c.id !== commentId);
       
-      // تقليل عداد التعليقات في البطاقة الرئيسية
+      
       const item = this.myContentList.find(i => i.id === parentId);
       if (item && item.comments > 0) item.comments--;
       
@@ -276,7 +293,7 @@ export class CommunityFeedComponent implements OnInit {
 
     this.closeDeleteCommentModal();
 
-    // إرسال للسيرفر
+    
     this.CommunityService.deleteComment(commentId).subscribe({
       next: () => console.log('Comment Deleted'),
       error: (err) => console.error(err)

@@ -9,7 +9,6 @@ import {
 } from './deep-fake-api.interface';
 import { environment } from '../../../../../environments/environment';
 
-// ✅ Interfaces جديدة للـ API بتاع الحفظ والقضايا
 export interface SaveEvidencePayload {
   name: string;
   model_used: string;
@@ -38,7 +37,6 @@ export class DeepFakeApiService {
 
   private readonly BASE_URL = environment.apiUrl;
   
-  // ✅ عدلت الـ Endpoints عشان تطابق الـ API الجديد
   private readonly ENDPOINTS = {
     analyze: '/deep-fake',
     report: (id: string) => `/deep-fake/report/${id}`,
@@ -215,14 +213,11 @@ export class DeepFakeApiService {
   }
 
 
-    // ✅ ضيفي الدالة دي جوه الـ Service
   saveAsEvidenceWithImage(payload: any, imageFile?: File): Observable<any> {
     const formData = new FormData();
     
-    // تحويل البيانات لنص JSON عشان تتبعت
     formData.append('data', JSON.stringify(payload));
     
-    // لو فيه صورة، ضيفيها
     if (imageFile) {
       formData.append('image', imageFile);
     }
