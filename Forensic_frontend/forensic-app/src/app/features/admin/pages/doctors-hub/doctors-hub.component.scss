@@ -11,7 +11,7 @@
 }
 
 .page-title {
-    font-size: 40px;
+  font-size: 40px;
   color: #1E2A5E;
   margin-bottom: 8px;
   font-weight: bold;
@@ -30,37 +30,60 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
-// ===== Table Top Bar =====
-.table-top-bar {
+// ===== Tabs Container =====
+.tabs-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  padding: 0;
   background: linear-gradient(135deg, #1E2A5E 0%, #2D3F7A 100%);
 }
 
-.table-title-section {
+.tabs-nav {
+  display: flex;
+  gap: 0;
+}
+
+.tab-btn {
   display: flex;
   align-items: center;
   gap: 10px;
-}
+  padding: 20px 32px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  border-bottom: 3px solid transparent;
 
-.pulse-icon {
-  width: 28px;
-  height: 28px;
-}
+  &:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
 
-.table-title-text {
-  font-size: 20px;
-  font-weight: 700;
-  color: white;
+  &.active {
+    color: white;
+    border-bottom-color: white;
+  }
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover svg {
+    transform: translateY(-2px);
+  }
 }
 
 .btn-export-pdf {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 12px 24px;
+  margin-right: 24px;
   border: none;
   border-radius: 8px;
   background: white;
@@ -85,6 +108,7 @@
     background-color: #f0f4ff !important; 
   }
 }
+
 .table-wrapper {
   overflow-x: auto;
 }
@@ -132,7 +156,7 @@
   color: #1E2A5E;
 }
 
-.id-cell {
+.id-cell, .email-cell {
   color: #666;
   font-family: 'Courier New', monospace;
   font-size: 13px;
@@ -273,10 +297,27 @@
     font-size: 28px;
   }
 
-  .table-top-bar {
+  .tabs-container {
     flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .tabs-nav {
+    width: 100%;
+  }
+
+  .tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 16px 20px;
+    font-size: 14px;
+  }
+
+  .btn-export-pdf {
+    margin-right: 0;
+    width: 100%;
+    justify-content: center;
   }
 
   .doctors-table {

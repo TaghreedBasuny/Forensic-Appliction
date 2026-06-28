@@ -122,7 +122,6 @@ addArticle(data: FormData) {
   return this.http.post(`${this.baseUrl}/add/new-article`, data);
 }
 getArticleDetails(articleId: number) {
-  // ⚠️ جربي الرابط ده، لو مش شغال ابعتيلي قائمة الـ Endpoints الخاصة بالمقالات
   return this.http.get<any>(`${this.baseUrl}/view-article/${articleId}`);
 }
 

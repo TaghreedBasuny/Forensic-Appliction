@@ -10,7 +10,7 @@
   .author-info h4 { margin: 0; font-size: 15px; font-weight: 700; color: #1E293B; }
   .role { font-size: 13px; color: #64748B; }
 
-  // ✅ Flex container for thumbnail and title
+  // Flex container for thumbnail and title
   .article-main-content {
     display: flex;
     align-items: flex-start;
@@ -57,13 +57,13 @@
   display: flex; align-items: center; justify-content: center; z-index: 1000;
 }
 
-// ✅ LARGE Modal for Articles (700px)
+// LARGE Modal for Articles (700px)
 .modal-container {
   background: white; border-radius: 16px; width: 100%; max-width: 700px;
   animation: slideUp 0.3s ease; overflow: hidden;
 }
 
-// ✅ SMALL Modal for Comments/Deletes (400px)
+//  SMALL Modal for Comments/Deletes (400px)
 .modal-container-small {
   background: white;
   border-radius: 16px;
@@ -537,7 +537,7 @@
   }
 }
 /* =========================================
-   ✅ Search Bar Styles (Matching Feed)
+    Search Bar Styles (Matching Feed)
    ========================================= */
 
 .search-bar {

@@ -1,24 +1,73 @@
 <div class="doctors-hub">
-  
+
   <!-- Header -->
   <div class="page-header">
-    <h1 class="page-title">Doctor Hub</h1>
-    <p class="page-subtitle">A management table where you can view all registered doctors and control their account access.</p>
+    <h1 class="page-title">User List</h1>
+    <p class="page-subtitle">A management table where you can view all
+      registered doctors and control their account access.</p>
   </div>
 
   <!-- Table Card -->
   <div class="table-card">
-    
-    <!-- Table Top Bar -->
-    <div class="table-top-bar">
-      <div class="table-title-section">
-        <svg class="pulse-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-        </svg>
-        <span class="table-title-text">Doctors</span>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-container">
+      <div class="tabs-nav">
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'doctors'"
+          (click)="switchTab('doctors')">
+          <svg width="24" height="30" viewBox="0 0 24 30" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M23.15 28.7499V24.5499C23.15 20.5907 23.15 18.6097 21.9194 17.3805C20.6902 16.1499 18.7092 16.1499 14.75 16.1499L11.95 18.9499L9.15 16.1499C5.1908 16.1499 3.2098 16.1499 1.9806 17.3805C0.75 18.6097 0.75 20.5907 0.75 24.5499V28.7499M17.55 16.1499V23.8499"
+              stroke="white" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M7.05 16.15V21.75M7.05 21.75C7.79261 21.75 8.5048 22.045 9.0299 22.5701C9.555 23.0952 9.85 23.8074 9.85 24.55V25.95M7.05 21.75C6.30739 21.75 5.5952 22.045 5.0701 22.5701C4.545 23.0952 4.25 23.8074 4.25 24.55V25.95M16.85 7.05V5.65C16.85 5.00652 16.7233 4.36935 16.477 3.77485C16.2308 3.18036 15.8698 2.64018 15.4148 2.18518C14.9598 1.73017 14.4196 1.36924 13.8251 1.12299C13.2307 0.876742 12.5935 0.75 11.95 0.75C11.3065 0.75 10.6693 0.876742 10.0749 1.12299C9.48036 1.36924 8.94018 1.73017 8.48518 2.18518C8.03017 2.64018 7.66924 3.18036 7.42299 3.77485C7.17674 4.36935 7.05 5.00652 7.05 5.65V7.05C7.05 7.69348 7.17674 8.33065 7.42299 8.92515C7.66924 9.51965 8.03017 10.0598 8.48518 10.5148C8.94018 10.9698 9.48036 11.3308 10.0749 11.577C10.6693 11.8233 11.3065 11.95 11.95 11.95C12.5935 11.95 13.2307 11.8233 13.8251 11.577C14.4196 11.3308 14.9598 10.9698 15.4148 10.5148C15.8698 10.0598 16.2308 9.51965 16.477 8.92515C16.7233 8.33065 16.85 7.69348 16.85 7.05Z"
+              stroke="white" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M18.6 24.9001C18.6 25.1786 18.4894 25.4456 18.2925 25.6426C18.0955 25.8395 17.8285 25.9501 17.55 25.9501C17.2715 25.9501 17.0045 25.8395 16.8075 25.6426C16.6106 25.4456 16.5 25.1786 16.5 24.9001C16.5 24.6216 16.6106 24.3545 16.8075 24.1576C17.0045 23.9607 17.2715 23.8501 17.55 23.8501C17.8285 23.8501 18.0955 23.9607 18.2925 24.1576C18.4894 24.3545 18.6 24.6216 18.6 24.9001Z"
+              stroke="white" stroke-width="1.5" />
+          </svg>
+
+          <span>Doctors</span>
+        </button>
+
+        <button
+          class="tab-btn"
+          [class.active]="activeTab === 'admin'"
+          (click)="switchTab('admin')">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_4346_28809)">
+              <path
+                d="M11.4179 11.519C10.3777 11.519 9.36086 11.2104 8.49606 10.6323C7.63125 10.0543 6.95736 9.23265 6.55964 8.27146C6.16192 7.31028 6.05825 6.25271 6.26176 5.23259C6.46526 4.21247 6.96679 3.27564 7.70288 2.54064C8.43897 1.80563 9.37654 1.30549 10.397 1.1035C11.4174 0.901507 12.4748 1.00674 13.4354 1.40588C14.396 1.80502 15.2166 2.48014 15.7934 3.34579C16.3702 4.21145 16.6772 5.22876 16.6757 6.26898C16.6716 7.66145 16.1161 8.99559 15.1307 9.97949C14.1454 10.9634 12.8104 11.5169 11.4179 11.519ZM11.4179 2.56675C10.6857 2.56675 9.96991 2.78389 9.36109 3.19069C8.75226 3.5975 8.27774 4.1757 7.99752 4.8522C7.71731 5.52869 7.64399 6.27308 7.78685 6.99124C7.9297 7.7094 8.2823 8.36908 8.80006 8.88684C9.31783 9.40461 9.9775 9.75721 10.6957 9.90006C11.4138 10.0429 12.1582 9.9696 12.8347 9.68938C13.5112 9.40917 14.0894 8.93465 14.4962 8.32582C14.903 7.71699 15.1202 7.00121 15.1202 6.26898C15.1202 5.28709 14.7301 4.34541 14.0358 3.65111C13.3415 2.95681 12.3998 2.56675 11.4179 2.56675Z"
+                fill="white" />
+              <path
+                d="M12.7712 24.64C12.6012 24.4699 12.4701 24.2651 12.3869 24.0395C12.3036 23.814 12.2702 23.573 12.289 23.3333H3.11122V18.8378C4.21373 17.6606 5.5513 16.7283 7.03723 16.1013C8.52315 15.4742 10.1243 15.1664 11.7368 15.1978H12.2968C12.2611 14.937 12.286 14.6715 12.3696 14.4219C12.4533 14.1724 12.5934 13.9455 12.779 13.7589L12.8723 13.6733C12.5068 13.6733 12.0946 13.6267 11.7368 13.6267C9.83931 13.5816 7.95555 13.9588 6.22169 14.7309C4.48783 15.503 2.94721 16.6507 1.71122 18.0911C1.61025 18.2257 1.55566 18.3895 1.55566 18.5578V23.3333C1.55566 23.7459 1.71955 24.1415 2.01128 24.4333C2.303 24.725 2.69866 24.8889 3.11122 24.8889H12.989L12.7712 24.64Z"
+                fill="white" />
+              <path
+                d="M26.1955 18.1378L24.64 17.6634C24.5289 17.2829 24.3776 16.9153 24.1889 16.5667L24.9667 15.12C24.992 15.0622 24.9981 14.9977 24.9841 14.9361C24.9701 14.8745 24.9367 14.8191 24.8889 14.7778L23.7611 13.65C23.7184 13.6039 23.6615 13.5734 23.5994 13.5635C23.5373 13.5536 23.4737 13.5649 23.4189 13.5956L21.9878 14.3734C21.6358 14.1744 21.2627 14.0153 20.8755 13.8989L20.4011 12.3434C20.381 12.2861 20.3428 12.2369 20.2923 12.2033C20.2418 12.1696 20.1817 12.1533 20.1211 12.1567H18.5267C18.4654 12.156 18.4056 12.1754 18.3564 12.2119C18.3073 12.2484 18.2714 12.3001 18.2544 12.3589L17.78 13.9145C17.3904 14.0278 17.0148 14.1843 16.66 14.3811L15.2444 13.6034C15.1907 13.5733 15.1284 13.5623 15.0677 13.5722C15.007 13.5821 14.9514 13.6123 14.91 13.6578L13.7589 14.7778C13.7162 14.8228 13.6887 14.88 13.6803 14.9414C13.672 15.0028 13.6831 15.0653 13.7122 15.12L14.49 16.5356C14.2845 16.8863 14.12 17.2595 14 17.6478L12.4444 18.1145C12.3856 18.1315 12.3339 18.1673 12.2974 18.2165C12.2609 18.2657 12.2415 18.3255 12.2422 18.3867V19.9811C12.2468 20.0373 12.2687 20.0907 12.3049 20.1339C12.3412 20.1771 12.3899 20.2079 12.4444 20.2223L14 20.6967C14.1149 21.0782 14.2714 21.446 14.4667 21.7934L13.6889 23.2789C13.6592 23.3322 13.6477 23.3936 13.6561 23.454C13.6645 23.5143 13.6924 23.5703 13.7355 23.6134L14.8633 24.7411C14.9074 24.7851 14.9642 24.814 15.0256 24.8238C15.0871 24.8336 15.15 24.8237 15.2055 24.7956L16.66 24.0178C17.0059 24.2045 17.371 24.3531 17.7489 24.4611L18.2155 26.0167C18.2347 26.0743 18.2711 26.1246 18.3198 26.1607C18.3685 26.1969 18.4271 26.2172 18.4878 26.2189H20.0822C20.1431 26.2184 20.2023 26.1985 20.2513 26.1622C20.3002 26.1258 20.3363 26.0749 20.3544 26.0167L20.8289 24.4223C21.2014 24.3132 21.5613 24.1645 21.9022 23.9789L23.3722 24.7567C23.4262 24.7854 23.4882 24.7956 23.5486 24.7858C23.609 24.776 23.6645 24.7466 23.7067 24.7023L24.8889 23.6445C24.9207 23.5988 24.9377 23.5445 24.9377 23.4889C24.9377 23.4333 24.9207 23.379 24.8889 23.3334L24.1111 21.8711C24.2999 21.528 24.4512 21.1656 24.5622 20.79L26.1178 20.3156C26.1766 20.2986 26.2282 20.2627 26.2648 20.2136C26.3013 20.1644 26.3207 20.1046 26.32 20.0434V18.41C26.3271 18.3575 26.3192 18.3041 26.2972 18.2559C26.2752 18.2077 26.2399 18.1668 26.1955 18.1378ZM19.3278 21.7778C18.8133 21.7793 18.31 21.6281 17.8816 21.3432C17.4532 21.0584 17.119 20.6528 16.9215 20.1778C16.7239 19.7028 16.6718 19.1798 16.7718 18.6751C16.8717 18.1705 17.1193 17.7069 17.4831 17.3431C17.8469 16.9794 18.3105 16.7318 18.8151 16.6318C19.3197 16.5318 19.8427 16.5839 20.3177 16.7815C20.7927 16.9791 21.1983 17.3133 21.4832 17.7416C21.7681 18.17 21.9193 18.6734 21.9178 19.1878C21.9157 19.8741 21.6422 20.5317 21.1569 21.0169C20.6716 21.5022 20.014 21.7758 19.3278 21.7778Z"
+                fill="white" />
+            </g>
+            <defs>
+              <clippath id="clip0_4346_28809">
+                <rect width="28" height="28" fill="white" />
+              </clippath>
+            </defs>
+          </svg>
+
+          <span>Admin</span>
+        </button>
       </div>
+
+      <!-- Export Button -->
       <button class="btn-export-pdf" (click)="exportPDF()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
           <polyline points="7 10 12 15 17 10"></polyline>
           <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -33,60 +82,83 @@
         <thead>
           <tr>
             <th>NAME</th>
-            <th>NATIONAL ID</th>
+            <th *ngIf="activeTab === 'doctors'">NATIONAL ID</th>
+            <th *ngIf="activeTab === 'admin'">EMAIL</th>
             <th>REGISTER DATE</th>
             <th>STATUS</th>
             <th>ACTION</th>
           </tr>
         </thead>
         <tbody>
-          <tr 
-    *ngFor="let doctor of doctors; let i = index" 
-    [routerLink]="['/admin/doctors-hub/profile', doctor.id]"
+          <tr *ngFor="let user of currentUsers; let i = index"
+    [routerLink]="activeTab === 'doctors'
+      ? ['/admin/doctors-hub/profile', user.id]
+      : ['/admin/doctors-hub/admin-profile', user.id]"
     class="clickable-row">
-    
-    <td class="name-cell">{{ doctor.name }}</td>
-    
-    <td class="id-cell">#{{ doctor.nationalId }}</td>
-    <td class="date-cell">{{ doctor.registerDate }}</td>
-    <td class="status-cell">
-      <span class="status-badge" [class.active]="doctor.status === 'Active'" [class.blocked]="doctor.status === 'Blocked'">
-        {{ doctor.status }}
-      </span>
-    </td>
-    <td class="action-cell">
-      <button 
-        class="btn-action" 
-        [class.btn-block]="doctor.status === 'Active'" 
-        [class.btn-unblock]="doctor.status === 'Blocked'"
-        (click)="toggleStatus(doctor); $event.stopPropagation()">
-        
-        <svg *ngIf="doctor.status === 'Active'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
-        <svg *ngIf="doctor.status === 'Blocked'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        {{ doctor.status === 'Active' ? 'Block' : 'Unblock' }}
-      </button>
-    </td>
-  </tr>
+
+            <td class="name-cell">{{ user.name }}</td>
+
+            <td class="id-cell" *ngIf="activeTab === 'doctors'">#{{
+              $any(user).nationalId }}</td>
+            <td class="email-cell" *ngIf="activeTab === 'admin'">{{
+              $any(user).email }}</td>
+
+            <td class="date-cell">{{ user.registerDate }}</td>
+            <td class="status-cell">
+              <span class="status-badge"
+                [class.active]="user.status === 'Active'"
+                [class.blocked]="user.status === 'Blocked'">
+                {{ user.status }}
+              </span>
+            </td>
+            <td class="action-cell">
+              <button
+                class="btn-action"
+                [class.btn-block]="user.status === 'Active'"
+                [class.btn-unblock]="user.status === 'Blocked'"
+                (click)="toggleStatus(user); $event.stopPropagation()">
+
+                <svg *ngIf="user.status === 'Active'" width="16" height="16"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line
+                    x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                <svg *ngIf="user.status === 'Blocked'" width="16" height="16"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2"><path
+                    d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline
+                    points="22 4 12 14.01 9 11.01"></polyline></svg>
+                {{ user.status === 'Active' ? 'Block' : 'Unblock' }}
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Pagination -->
     <div class="pagination-bar">
-      <span class="showing-text">Showing {{ startIndex }}-{{ endIndex }} of {{ totalDoctors }} Registered Doctors</span>
+      <span class="showing-text">Showing {{ startIndex }}-{{ endIndex }} of {{
+        totalUsers }} {{ activeTab === 'doctors' ? 'Registered Doctors' :
+        'Admin List' }}</span>
       <div class="pagination-controls">
-        <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <button class="page-btn" [disabled]="currentPage === 1"
+          (click)="changePage(currentPage - 1)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2"><polyline
+              points="15 18 9 12 15 6"></polyline></svg>
         </button>
-        <button 
-          class="page-btn page-number" 
-          *ngFor="let page of totalPagesArray" 
+        <button
+          class="page-btn page-number"
+          *ngFor="let page of totalPagesArray"
           [class.active]="page === currentPage"
           (click)="changePage(page)">
           {{ page }}
         </button>
-        <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <button class="page-btn" [disabled]="currentPage === totalPages"
+          (click)="changePage(currentPage + 1)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2"><polyline
+              points="9 18 15 12 9 6"></polyline></svg>
         </button>
       </div>
     </div>

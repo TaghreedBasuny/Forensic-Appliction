@@ -756,3 +756,216 @@ $text-light: #9ca3af;
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+.result-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  background: #f8f9fa;
+
+  .analyzed-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .detection-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .analysis-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 12px;
+    background: white;
+    border-top: 1px solid #eee;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #10b981;
+      }
+    }
+  }
+}
+.loading-state {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  min-height: 250px; 
+  gap: 12px;
+  
+  .spinner { 
+    width: 36px; 
+    height: 36px; 
+    border: 3px solid $border-gray; 
+    border-top-color: $primary-blue; 
+    border-radius: 50%; 
+    animation: spin 1s linear infinite;
+  }
+  
+  p { color: $text-secondary; font-weight: 500; font-size: 13px; }
+}
+
+@keyframes spin { 
+  to { transform: rotate(360deg); } 
+}
+
+.result-content-wrapper {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  background: #f8f9fa;
+
+  .analyzed-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  .detection-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .analysis-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 12px;
+    background: white;
+    border-top: 1px solid #eee;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #10b981;
+      }
+    }
+  }
+}
+.success-view, .unknown-view, .empty-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.empty-view {
+  padding: 20px 0;
+  min-height: 150px;
+}
+
+.action-buttons {
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+  margin-top: 20px;
+  width: 100%;
+
+  button {
+    width: 100%; 
+    padding: 11px 16px; 
+    border: none; 
+    border-radius: 6px; 
+    font-size: 13px; 
+    font-weight: 600;
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+    transition: all 0.3s ease;
+    
+    &:disabled { 
+      opacity: 0.6; 
+      background-color: #e2e8f0; 
+      color: #94a3b8;
+      border: 1px solid #cbd5e1;
+      cursor: not-allowed; 
+      box-shadow: none;
+      transform: none !important;
+    }
+    
+    &:not(:disabled):hover { transform: translateY(-1px); }
+  }
+  
+  .btn-download { 
+    background: $primary-blue; 
+    color: white; 
+    
+    &:disabled {
+      background-color: #8e99b4; 
+      color: rgba(255,255,255,0.7);
+      border: none;
+    }
+    
+    &:not(:disabled):hover { background: $primary-blue-light; } 
+  }
+  
+  .btn-save { 
+    background: #f3f4f6; 
+    color: $text-primary; 
+    border: 1px solid $border-gray;
+    
+    &:disabled {
+      background-color: #f8fafc; 
+      color: #9ca3af;            
+      border-color: #e2e8f0;
+    }
+
+    &:not(:disabled):hover { background: #e5e7eb; } 
+  }
+}

@@ -1,0 +1,107 @@
+<!-- src/app/pages/contact-page/contact-page.component.html -->
+<app-navbar></app-navbar>
+
+<main class="contact-page">
+  <div class="contact-container">
+    <div class="contact-header">
+      <h1>Contact Us</h1>
+      <p>Any Question or Remark? Just write us a message!</p>
+    </div>
+
+    <!-- Success Message -->
+    <div class="alert alert-success" *ngIf="isSuccess">
+      <div class="alert-icon">✓</div>
+      <div class="alert-content">
+        <h3>Message Sent Successfully!</h3>
+        <p>Thank you for contacting us. We'll get back to you soon.</p>
+      </div>
+      <button class="alert-close" (click)="isSuccess = false">×</button>
+    </div>
+
+    <!-- Error Message -->
+    <div class="alert alert-error" *ngIf="isError">
+      <div class="alert-icon">!</div>
+      <div class="alert-content">
+        <h3>Error!</h3>
+        <p>{{ errorMessage }}</p>
+      </div>
+      <button class="alert-close" (click)="isError = false">×</button>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form-wrapper">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fullName">Full Name *</label>
+            <input 
+              type="text" 
+              id="fullName" 
+              formControlName="fullName" 
+              placeholder="Enter your full name"
+              [class.is-invalid]="f['fullName'].invalid && f['fullName'].touched"
+            >
+            <div class="invalid-feedback" *ngIf="f['fullName'].invalid && f['fullName'].touched">
+              <span *ngIf="f['fullName'].errors?.['required']">Full name is required</span>
+              <span *ngIf="f['fullName'].errors?.['minlength']">Minimum 3 characters required</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input 
+              type="email" 
+              id="email" 
+              formControlName="email" 
+              placeholder="Enter your email"
+              [class.is-invalid]="f['email'].invalid && f['email'].touched"
+            >
+            <div class="invalid-feedback" *ngIf="f['email'].invalid && f['email'].touched">
+              <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+              <span *ngIf="f['email'].errors?.['email']">Please enter a valid email</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              formControlName="phone" 
+              placeholder="Enter your phone number"
+              [class.is-invalid]="f['phone'].invalid && f['phone'].touched"
+            >
+            <div class="invalid-feedback" *ngIf="f['phone'].invalid && f['phone'].touched">
+              <span *ngIf="f['phone'].errors?.['required']">Phone number is required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message *</label>
+          <textarea 
+            id="message" 
+            formControlName="message" 
+            placeholder="Enter Message....."
+            rows="5"
+            [class.is-invalid]="f['message'].invalid && f['message'].touched"
+          ></textarea>
+          <div class="invalid-feedback" *ngIf="f['message'].invalid && f['message'].touched">
+            <span *ngIf="f['message'].errors?.['required']">Message is required</span>
+            <span *ngIf="f['message'].errors?.['minlength']">Minimum 10 characters required</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="isLoading || contactForm.invalid">
+          <span *ngIf="!isLoading">Send Message</span>
+          <span *ngIf="isLoading" class="loading-spinner">
+            <span class="spinner"></span>
+            Sending...
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>

@@ -72,22 +72,39 @@ export class DeepFakeApiService {
   }
 
   private convertResponse(backend: any, file: File): IAnalysisResponse {
-    if (!backend || typeof backend !== 'object') {
-      throw new Error('Invalid response from backend');
-    }
-
-    const phenotypes = backend.data?.phenotypes;
-
-    return {
-      id: `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      isReal: phenotypes?.status?.toLowerCase() === 'real',
-      confidence: 85, 
-      mediaType: this.detectMediaType(file.type, phenotypes?.image),
-      details: `${phenotypes?.model_used} - ${phenotypes?.message?.trim()}`,
-      timestamp: new Date(),
-      fileName: phenotypes?.image || file.name
-    };
+  if (!backend || typeof backend !== 'object') {
+    throw new Error('Invalid response from backend');
   }
+
+  const data = backend.data;
+  const phenotypes = data?.phenotypes;
+  const deepFakeData = phenotypes?.['Deep fake analysis'];
+
+  const faces = deepFakeData?.faces || [];
+
+  const firstFace = faces[0];
+  const isReal = firstFace
+    ? firstFace.is_real
+    : (phenotypes?.status?.toLowerCase() === 'real');
+
+  const confidence = firstFace
+    ? Math.round((1 - firstFace.score) * 100)
+    : 85;
+
+  const modelUsed = data?.model_used || phenotypes?.model_used || 'Deep Fake';
+  const message = (phenotypes?.message || '').trim();
+
+  return {
+    id: `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    isReal: isReal,
+    confidence: confidence,
+    mediaType: this.detectMediaType(file.type, phenotypes?.image),
+    details: `${modelUsed} - ${message}`,
+    timestamp: new Date(),
+    fileName: phenotypes?.image || file.name,
+    faces: faces
+  };
+}
 
   private detectMediaType(mimeType: string, fileName?: string): 'image' | 'video' | 'audio' {
     if (mimeType?.startsWith('image/')) return 'image';

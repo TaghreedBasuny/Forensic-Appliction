@@ -1,18 +1,26 @@
-// src/app/features/explore/analysis-models/deep-fake-detection/deep-fake-api.interface.ts
-
 export interface IAnalysisRequest {
   media: File;
 }
-
+export interface IFaceDetection {
+  is_real: boolean;
+  score: number;
+  facial_area: {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
+}
 export interface IAnalysisResponse {
   id: string;
   isReal: boolean;
-  confidence: number; // 0-100
+  confidence: number;
   mediaType: 'image' | 'video' | 'audio';
   details: string;
   timestamp: Date;
   fileName?: string;
-  imageUrl?: string; // ✅ جديد
+  imageUrl?: string; 
+  faces?: IFaceDetection[]; 
 
 }
 

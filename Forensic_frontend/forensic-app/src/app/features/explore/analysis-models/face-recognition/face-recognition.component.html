@@ -30,7 +30,7 @@
     </div>
     <div class="card-divider"></div>
     <div class="card-body">
-      
+
       <div class="preview-placeholder" *ngIf="!previewUrl && !showCamera">
         <div class="placeholder-content">
           <svg class="placeholder-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
@@ -75,84 +75,79 @@
     <div class="card-header no-icon"><span>Identity Match</span></div>
     <div class="card-divider"></div>
     <div class="card-body">
-      
-      <!-- Loading -->
-      <div class="loading-state" *ngIf="isAnalyzing">
+
+      <!-- Loading State -->
+      <div class="loading-state" [hidden]="!isAnalyzing">
         <div class="spinner"></div>
         <p>Analyzing...</p>
       </div>
 
       <!-- Error Banner -->
-      <div class="error-banner" *ngIf="errorMessage">
+      <div class="error-banner" [hidden]="!errorMessage">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
         <span class="error-text">{{ errorMessage }}</span>
         <button *ngIf="showRetryButton" class="error-retry" (click)="clearSelection()">Try Another Photo</button>
         <button class="error-dismiss" (click)="errorMessage = null"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
       </div>
 
-      <!-- Empty State -->
-      <div class="empty-result" *ngIf="!isAnalyzing && !analysisResult && !errorMessage">
-        <div class="double-circle empty-state-circle">
-          <div class="outer-circle"></div>
-          <div class="inner-circle"></div>
-        </div>
-      </div>
+      <div class="result-content-wrapper" [hidden]="isAnalyzing">
 
-      <!-- Success Result -->
-      <div class="result-state" *ngIf="!isAnalyzing && analysisResult && analysisResult.data.phenotypes.name !== 'Unknown Person'">
-        <div class="identity-match">
-          <div class="double-circle-container success">
-            <div class="outer-circle"></div>
-            <div class="inner-circle">
-              <img 
-                #resultImage
-                [src]="analysisResult.data.phenotypes.image"
-                [alt]="analysisResult.data.phenotypes.name"
-                (load)="onImageLoad($event)"
-                class="avatar-img"
-              />
-              <div class="face-detection-box" *ngIf="showFaceBox" [ngStyle]="faceBoxStyle"></div>
-            </div>
+        <!-- Success State: Image + Canvas + Name -->
+        <div class="success-view" [hidden]="!analysisResult || !analysisResult.data.phenotypes['fake recognation analysis']?.matches?.length">
+          <div class="result-image-wrapper">
+            <img
+              #resultImage
+              [src]="analysisResult?.data?.phenotypes?.image"
+              alt="Analyzed Face"
+              (load)="onImageLoad($event)"
+              class="analyzed-img"
+            />
+            <canvas #detectionCanvas class="detection-overlay"></canvas>
           </div>
 
-          <h3 class="person-name">{{ analysisResult.data.phenotypes.name }}</h3> 
-          <p class="person-id">Model: {{ analysisResult.model_used }}</p>
+          <h3 class="person-name">{{ matchedPersonName }}</h3>
         </div>
-      </div>
 
-      <!-- Unknown Result -->
-      <div class="result-state" *ngIf="!isAnalyzing && analysisResult && analysisResult.data.phenotypes.name === 'Unknown Person'">
-         <div class="identity-match">
-           <div class="double-circle-container unknown">
-             <div class="outer-circle"></div>
-             <div class="inner-circle">
-               <span class="unknown-icon">?</span>
+        <!-- Unknown State: Question Mark Circle -->
+        <div class="unknown-view" [hidden]="!analysisResult || analysisResult.data.phenotypes['fake recognation analysis']?.matches?.length">
+           <div class="identity-match">
+             <div class="double-circle-container unknown">
+               <div class="outer-circle"></div>
+               <div class="inner-circle">
+                 <span class="unknown-icon">?</span>
+               </div>
+             </div>
+             <h3 class="person-name unknown-person">Unknown Person</h3>
+             <div class="analysis-trigger">
+               <button class="btn-start-over" (click)="clearSelection()">Try Another Photo</button>
              </div>
            </div>
-           <h3 class="person-name unknown-person">Unknown Person</h3>
-           <div class="analysis-trigger">
-             <button class="btn-start-over" (click)="clearSelection()">Try Another Photo</button>
-           </div>
-         </div>
-      </div>
+        </div>
 
-      <!-- Action Buttons -->
-      <div class="action-buttons">
-        <button class="btn-download" 
-                [disabled]="!analysisResult || analysisResult.data.phenotypes.name === 'Unknown Person'" 
-                (click)="downloadReport()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          <span>Download Report</span>
-        </button>
-        
-        <button class="btn-save" 
-                [disabled]="!analysisResult || analysisResult.data.phenotypes.name === 'Unknown Person'" 
-                (click)="saveToCaseFiles()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          <span>Save to Case Files</span>
-        </button>
-      </div>
+        <div class="empty-view" [hidden]="analysisResult || isAnalyzing">
+          <div class="double-circle empty-state-circle">
+            <div class="outer-circle"></div>
+            <div class="inner-circle"></div>
+          </div>
+        </div>
 
+        <div class="action-buttons">
+          <button class="btn-download"
+                  [disabled]="!analysisResult || !analysisResult.data.phenotypes['fake recognation analysis']?.matches?.length"
+                  (click)="downloadReport()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Download Report</span>
+          </button>
+
+          <button class="btn-save"
+                  [disabled]="!analysisResult || !analysisResult.data.phenotypes['fake recognation analysis']?.matches?.length"
+                  (click)="saveToCaseFiles()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            <span>Save to Case Files</span>
+          </button>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
@@ -181,10 +176,10 @@
     <div class="modal-body">
       <div class="form-group">
         <label class="form-label">Evidence Name <span class="required">*</span></label>
-        <input 
-          type="text" 
-          class="form-input" 
-          [(ngModel)]="evidenceName" 
+        <input
+          type="text"
+          class="form-input"
+          [(ngModel)]="evidenceName"
           placeholder="Enter evidence name"
         >
       </div>

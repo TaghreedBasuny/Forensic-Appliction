@@ -5,7 +5,6 @@ import { FeaturesComponent } from "./sections/features/features.component";
 import { UseCasesComponent } from './sections/use-cases/use-cases.component';
 import { CommonModule } from '@angular/common';
 import { TrustComponent } from "./sections/trust/trust.component";
-import { TestimonialsComponent } from './sections/testimonials/testimonials.component';
 import { FooterComponent } from '../../layout/footer/footer.component';
 @Component({
   selector: 'app-landing',
@@ -17,7 +16,6 @@ import { FooterComponent } from '../../layout/footer/footer.component';
     UseCasesComponent,
     CommonModule,
     TrustComponent,
-    TestimonialsComponent,
     FooterComponent
     
 ],

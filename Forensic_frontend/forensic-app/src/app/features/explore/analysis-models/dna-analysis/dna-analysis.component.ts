@@ -51,7 +51,7 @@ export class DNAAnalysisComponent implements OnInit {
   }
 
   loadCases(): void {
-    this.http.get<any>('https://forensic-ai-system-api-production.up.railway.app/api/all-cases').subscribe({
+    this.http.get<any>('https://fronsicso-production.up.railway.app/api/all-cases').subscribe({
       next: (res) => {
         this.availableCases = res.cases.map((c: any) => ({
           id: c.id,

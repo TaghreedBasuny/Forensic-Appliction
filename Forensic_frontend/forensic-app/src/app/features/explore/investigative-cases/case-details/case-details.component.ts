@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CasesService } from '../../../../core/services/cases.service';
 import { ChangeDetectorRef } from '@angular/core';
 import jsPDF from 'jspdf';
+import { FormsModule } from '@angular/forms';
 
 export interface EvidenceItem {
   id: number;
@@ -18,7 +19,7 @@ export interface EvidenceItem {
 @Component({
   selector: 'app-case-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './case-details.component.html',
   styleUrls: ['./case-details.component.scss']
 })
@@ -32,8 +33,14 @@ export class CaseDetailsComponent implements OnInit {
   isCompleting = false;
   isCompleted = false;
 
+  // Delete Modal
   showDeleteModal = false;
   evidenceToDelete: EvidenceItem | null = null;
+
+  // Edit Evidence Modal
+  showEditEvidenceModal = false;
+  evidenceToEdit: EvidenceItem | null = null;
+  editEvidenceName = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -74,16 +81,46 @@ export class CaseDetailsComponent implements OnInit {
         };
 
         const evidences = res.evidence || [];
-        this.evidenceList = evidences.map((ev: any) => ({
-          id: ev.id,
-          name: ev.name || 'Untitled Evidence',
-          model_used: ev.model_used || 'Unknown',
-          status: ev.data?.phenotypes?.status,
-          confidence: ev.data?.phenotypes?.confidence,
-          data: ev.data,
-          created_at: ev.created_at
-        }));
+        this.evidenceList = evidences.map((ev: any) => {
+          const data = ev.data || {};
+          let model_used = data.model_used || ev.model_used;
 
+         if (!model_used) {
+  if (
+    data.phenotypes?.['face reconstruction analysis'] || 
+    data.phenotypes?.image_url ||
+    (data.model_used && data.model_used.toLowerCase().includes('reconstruct'))
+  ) {
+    model_used = 'face reconstruct';
+  } else if (
+    data.phenotypes?.['Deep fake analysis'] ||
+    ev.status === 'real' || ev.status === 'fake' ||
+    ev.confidence !== undefined
+  ) {
+    model_used = 'deep fake';
+  } else if (data.phenotypes?.status === 'matched' || data.phenotypes?.name) {
+    model_used = 'face recognition';
+  } else if (data.phenotypes?.eye_color || data.phenotypes?.hair_color) {
+    model_used = 'dna';
+  } else if (data.phenotypes?.image) {
+    model_used = 'deep fake';
+  } else {
+    model_used = 'Unknown';
+  }
+}
+          return {
+            id: ev.id,
+            name: ev.name || 'Untitled Evidence',
+            model_used,
+            status: data.phenotypes?.status || ev.status,
+            confidence: data.phenotypes?.confidence || ev.confidence,
+            data,
+            created_at: ev.created_at
+          };
+        });
+
+        console.log('EVIDENCE LIST AFTER MAPPING:', JSON.stringify(this.evidenceList, null, 2));
+        
         const status = res.data.status?.toLowerCase();
         this.isCompleted = status === 'complete' || status === 'completed' || status === 'inactive';
 
@@ -126,6 +163,7 @@ export class CaseDetailsComponent implements OnInit {
     });
   }
 
+  // ========== Delete Evidence Methods ==========
   openDeleteModal(ev: EvidenceItem): void {
     this.evidenceToDelete = ev;
     this.showDeleteModal = true;
@@ -153,6 +191,69 @@ export class CaseDetailsComponent implements OnInit {
     });
   }
 
+  // ========== Edit Evidence Methods ==========
+  openEditEvidenceModal(ev: EvidenceItem): void {
+    this.evidenceToEdit = ev;
+    this.editEvidenceName = ev.name;
+    this.showEditEvidenceModal = true;
+    this.cdr.detectChanges();
+  }
+
+  closeEditEvidenceModal(): void {
+    this.showEditEvidenceModal = false;
+    this.evidenceToEdit = null;
+    this.editEvidenceName = '';
+  }
+
+  saveEditEvidence(): void {
+    if (!this.evidenceToEdit || !this.caseId || !this.editEvidenceName.trim()) {
+      return;
+    }
+
+    this.casesService.updateEvidenceName(
+      this.evidenceToEdit.id,
+      +this.caseId,
+      this.editEvidenceName.trim()
+    ).subscribe({
+      next: (res) => {
+        const index = this.evidenceList.findIndex(e => e.id === this.evidenceToEdit!.id);
+        if (index !== -1) {
+          this.evidenceList[index].name = this.editEvidenceName.trim();
+        }
+        this.closeEditEvidenceModal();
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to update evidence:', err);
+        alert('Failed to update evidence name. Please try again.');
+      }
+    });
+  }
+
+  // ========== Helper Methods ==========
+  getAgePercentage(age: number): number {
+    if (!age) return 0;
+    return Math.min((age / 100) * 100, 100);
+  }
+
+  private urlToBase64(url: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx!.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/jpeg'));
+      };
+      img.onerror = () => reject(new Error('Failed to load image'));
+      img.src = url;
+    });
+  }
+
+  // ========== Download Report ==========
   async downloadReport(): Promise<void> {
     if (!this.caseData) return;
 
@@ -168,6 +269,7 @@ export class CaseDetailsComponent implements OnInit {
       }
     };
 
+    // Header
     doc.setFillColor(primaryR, primaryG, primaryB);
     doc.rect(0, 0, 210, 35, 'F');
 
@@ -182,6 +284,7 @@ export class CaseDetailsComponent implements OnInit {
 
     y = 50;
 
+    // Case Information
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(primaryR, primaryG, primaryB);
@@ -233,6 +336,7 @@ export class CaseDetailsComponent implements OnInit {
     y += 8;
     addPageIfNeeded(20);
 
+    // Evidence Collection
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(primaryR, primaryG, primaryB);
@@ -268,6 +372,7 @@ export class CaseDetailsComponent implements OnInit {
 
       const model = ev.model_used.toLowerCase();
 
+      // Deep Fake
       if (model.includes('deep fake')) {
         const status = ev.data?.phenotypes?.status || 'N/A';
         const isReal = status === 'real';
@@ -300,7 +405,8 @@ export class CaseDetailsComponent implements OnInit {
         }
       }
 
-      if (model.includes('face')) {
+      // Face Recognition
+      if (model.includes('face') && !model.includes('reconstruct')) {
         const name = ev.data?.phenotypes?.name || 'Unknown Person';
 
         doc.setFont('helvetica', 'bold');
@@ -326,6 +432,60 @@ export class CaseDetailsComponent implements OnInit {
         }
       }
 
+      // Face Reconstruction
+      if (model.includes('reconstruct')) {
+        const analysis = ev.data?.phenotypes?.['face reconstruction analysis'];
+        if (analysis) {
+          addPageIfNeeded(60);
+
+          // Gender
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(primaryR, primaryG, primaryB);
+          doc.text('Gender:', 20, y);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(50, 50, 50);
+          doc.text(analysis.gender_info?.gender || 'N/A', 60, y);
+          y += 10;
+
+          // Age Range
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(primaryR, primaryG, primaryB);
+          doc.text('Age Range:', 20, y);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(50, 50, 50);
+          doc.text(analysis.age_info?.age_range || 'N/A', 70, y);
+          y += 10;
+
+          // Enhanced Average Age
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(primaryR, primaryG, primaryB);
+          doc.text('Average Age (Enhanced):', 20, y);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(50, 50, 50);
+          doc.text(`${analysis.age_info?.enhanced_avg || 'N/A'} years`, 100, y);
+          y += 12;
+
+          // Reconstructed Image
+          if (ev.data?.phenotypes?.image_url) {
+            try {
+              const base64 = await this.urlToBase64(ev.data.phenotypes.image_url);
+              addPageIfNeeded(70);
+              doc.setFont('helvetica', 'bold');
+              doc.setTextColor(primaryR, primaryG, primaryB);
+              doc.text('Reconstructed Image:', 20, y);
+              y += 5;
+              doc.addImage(base64, 'JPEG', 20, y, 60, 60);
+              y += 67;
+            } catch {
+              doc.setTextColor(grayR, grayG, grayB);
+              doc.text('Reconstructed image could not be loaded.', 20, y);
+              y += 8;
+            }
+          }
+        }
+      }
+
+      // DNA Analysis
       if (model.includes('dna')) {
         const phenotypes = ev.data?.phenotypes;
         if (phenotypes) {
@@ -369,6 +529,7 @@ export class CaseDetailsComponent implements OnInit {
       y += 8;
     }
 
+    // Footer
     const pageCount = doc.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
@@ -382,23 +543,6 @@ export class CaseDetailsComponent implements OnInit {
     }
 
     doc.save(`case-report-${this.caseData.caseNumber}-${Date.now()}.pdf`);
-  }
-
-  private urlToBase64(url: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx!.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL('image/jpeg'));
-      };
-      img.onerror = () => reject(new Error('Failed to load image'));
-      img.src = url;
-    });
   }
 
   openAddEvidenceModal() {

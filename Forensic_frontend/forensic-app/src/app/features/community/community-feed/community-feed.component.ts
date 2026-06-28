@@ -171,35 +171,30 @@ editingCommentText: string = '';
     }
   }
 
-    // ✅ دالة جلب التعليقات المعدلة والآمنة
   toggleMyComments(item: MyContentItem) {
     this.showMyComments[item.id] = !this.showMyComments[item.id];
     
     if (!this.showMyComments[item.id]) return;
 
-    // تهيئة المصفوفة لو كانت undefined
     if (!this.myCommentsData[item.id]) {
       this.myCommentsData[item.id] = [];
     }
 
-    // لو فيه تعليقات محفوظة، مفيش داعي نجيبها تاني من السيرفر
     if (this.myCommentsData[item.id].length > 0) return;
 
-    // ✅ اختيار الـ Endpoint الصح حسب النوع
     const request$ = item.type === 'post' 
-      ? this.CommunityService.getPost(item.id)      // للـ Posts -> /view-feeds
-      : this.CommunityService.getArticleDetails(item.id); // للـ Articles -> /view-article
+      ? this.CommunityService.getPost(item.id)      
+      : this.CommunityService.getArticleDetails(item.id);
 
     request$.subscribe({
       next: (res: any) => {
-        // البحث عن التعليقات في المسارات الصحيحة للسيرفر
         const commentsList = res?.data?.comments || res?.comments || [];
         
         this.myCommentsData[item.id] = Array.isArray(commentsList) ? commentsList.map((c: any) => ({
           id: c.id,
           authorName: c.user?.name || 'Unknown',
           user_id: c.user?.id,
-          text: c.content || c.comment || c.text || '', // ✅ قراءة c.content أولاً
+          text: c.content || c.comment || c.text || '',
           timestamp: c.created_at
         })) : [];
         

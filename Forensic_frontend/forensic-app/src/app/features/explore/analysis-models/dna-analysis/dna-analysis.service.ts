@@ -10,8 +10,8 @@ import { HttpClient } from '@angular/common/http';
 export class DNAAnalysisService {
   
   private useMock = true; 
-  private apiUrl = 'https://forensic-ai-system-api-production.up.railway.app/api/dna-analysis';
-  private baseUrl = 'https://forensic-ai-system-api-production.up.railway.app/api';
+ private apiUrl = 'https://fronsicso-production.up.railway.app/api/dna-analysis';
+private baseUrl = 'https://fronsicso-production.up.railway.app/api';
 
   constructor(private http: HttpClient) {}
 

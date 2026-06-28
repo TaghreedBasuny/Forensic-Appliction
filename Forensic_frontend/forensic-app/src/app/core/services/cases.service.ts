@@ -147,4 +147,16 @@ export class CasesService {
       })
     );
   }
+
+  updateEvidenceName(evidenceId: number, caseId: number, name: string): Observable<any> {
+  return this.http.put(
+    `${this.apiUrl}/update-evidence/${evidenceId}/use-case/${caseId}`,
+    { name: name }
+  ).pipe(
+    catchError((error) => {
+      console.error('Error updating evidence:', error);
+      return throwError(() => error);
+    })
+  );
+}
 }

@@ -38,48 +38,51 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onLogin(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
-
-    this.isLoading = true;
-    this.message = ''; 
-    this.isError = false;
-
-    const data: LoginRequest = {
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password
-    };
-
-    this.authService.login(data).subscribe({
-      next: (res) => {
-        this.isLoading = false;
-        this.isError = false;
-        
-        localStorage.setItem('currentUser', JSON.stringify(res.user));
-        localStorage.setItem('authToken', res.token);
-
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.isError = true;
-        
-        this.message = err.error?.msg || 'Invalid email or password. Please try again.';
-        
-        this.cdRef.detectChanges();
-
-        setTimeout(() => {
-          this.message = '';
-          this.isError = false;
-          this.cdRef.detectChanges(); 
-        }, 3000);
-      }
-    });
+ onLogin(): void {
+  if (this.loginForm.invalid) {
+    this.loginForm.markAllAsTouched();
+    return;
   }
 
+  this.isLoading = true;
+  this.message = ''; 
+  this.isError = false;
+
+  const data: LoginRequest = {
+    email: this.loginForm.value.email,
+    password: this.loginForm.value.password
+  };
+
+  this.authService.login(data).subscribe({
+    next: (res) => {
+      this.isLoading = false;
+      this.isError = false;
+      
+      localStorage.setItem('currentUser', JSON.stringify(res.user));
+      localStorage.setItem('authToken', res.token);
+
+      if (res.user.role === 'admin') {
+        this.router.navigate(['/admin/dashboard']);
+      } else {
+        this.router.navigate(['/dashboard']);
+      }
+    },
+    error: (err) => {
+      this.isLoading = false;
+      this.isError = true;
+      
+      this.message = err.error?.msg || 'Invalid email or password. Please try again.';
+      
+      this.cdRef.detectChanges();
+
+      setTimeout(() => {
+        this.message = '';
+        this.isError = false;
+        this.cdRef.detectChanges(); 
+      }, 3000);
+    }
+  });
+}
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }

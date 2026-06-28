@@ -15,7 +15,7 @@ export const ADMIN_ROUTES: Routes = [
    {
     path: 'doctors-hub',
     component: DoctorsHubComponent,
-    data: { pageTitle: 'Doctors Hub' }
+    data: { pageTitle: 'User List' }
   },
    {
     path: 'doctors-hub/profile/:id', 

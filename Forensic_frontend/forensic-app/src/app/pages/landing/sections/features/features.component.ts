@@ -1,4 +1,3 @@
-// src/app/pages/landing/sections/features/features.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 

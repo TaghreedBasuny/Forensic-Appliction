@@ -1,6 +1,7 @@
 // app.routes.ts
 import { Routes } from '@angular/router';
 import { LandingComponent } from './pages/landing/landing.component';
+import { ContactPageComponent } from './pages/contact-page/contact-page.component';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { ForgotPasswordComponent } from './features/auth/pages/forgot-password/forgot-password.component';
 import { CheckEmailComponent } from './features/auth/pages/check-email/check-email.component';
@@ -28,12 +29,13 @@ import { CaseAuditComponent } from './features/admin/pages/case-audit/case-audit
 import { SystemLogsComponent } from './features/admin/pages/system-logs/system-logs.component';
 import { CommunityModerationComponent } from './features/admin/pages/community-moderation/community-moderation.component';
 import { ChatbotManagementComponent } from './features/admin/pages/chatbot-management/chatbot-management.component';
+import { GenerateGlobalReportComponent } from './features/admin/pages/generate-global-report/generate-global-report.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
 
   { path: 'landing', component: LandingComponent },
-
+  { path: 'contact', component: ContactPageComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/forgot-password', component: ForgotPasswordComponent },
@@ -121,17 +123,22 @@ export const routes: Routes = [
   canActivate: [authGuard, adminGuard],
   data: { pageTitle: 'Admin Dashboard' }
 },
-  { 
+{ 
+  path: 'admin/generate-global-report',  
+  component: GenerateGlobalReportComponent,
+  canActivate: [authGuard, adminGuard],
+  data: { pageTitle: ['Admin Dashboard', 'System Exports'] }  
+},  { 
     path: 'admin/doctors-hub',
     component: DoctorsHubComponent,
     canActivate: [authGuard, adminGuard],
-    data: { pageTitle: 'Doctors Hub' }
+    data: { pageTitle: 'User List' }
   },
   { 
   path: 'admin/doctors-hub/profile/:id',
   component: DoctorProfileComponent,
   canActivate: [authGuard, adminGuard], 
-  data: { pageTitle: 'Doctor Profile' }
+  data: { pageTitle: ['User List','Doctor Profile'] }
 },
  { 
     path: 'admin/case-audit',

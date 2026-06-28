@@ -201,7 +201,6 @@ export class PublicationsComponent implements OnInit {
       created_at: new Date().toISOString()
     };
 
-    // تهيئة المصفوفة لو كانت undefined
     if (!this.comments[articleId]) {
       this.comments[articleId] = [];
     }

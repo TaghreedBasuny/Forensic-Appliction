@@ -41,13 +41,9 @@ export class FaceRecognitionService {
       timeout(30000),
       map(res => {
         if (res.status === 'success') {
-          if (!res.data?.phenotypes?.name || res.data.phenotypes.name === '') {
-            res.data.phenotypes.name = 'Unknown Person';
-          }
           return res as IFaceRecognitionResponse;
-        } else {
-          throw new Error(res.message || 'Analysis failed');
         }
+        throw new Error(res.message || 'Analysis failed');
       }),
       catchError(err => this.handleError(err))
     );

@@ -31,15 +31,19 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
   evidenceName = '';
   selectedCaseId = '';
   availableCases: CaseItem[] = [];
-  
+
   showToast = false;
   toastMessage = '';
   toastType: 'success' | 'error' = 'success';
 
+  imageNaturalWidth: number = 0;
+  imageNaturalHeight: number = 0;
+
   @ViewChild('videoElement') videoElement!: ElementRef;
   @ViewChild('canvasElement') canvasElement!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('resultImage') resultImage!: ElementRef;
+  @ViewChild('resultImage') resultImage!: ElementRef<HTMLImageElement>;
+  @ViewChild('detectionCanvas') detectionCanvas!: ElementRef<HTMLCanvasElement>;
 
   constructor(
     private faceService: FaceRecognitionService,
@@ -49,6 +53,16 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.loadCases();
+  }
+
+  get matchedPersonName(): string {
+    const matches = this.analysisResult?.data?.phenotypes?.['fake recognation analysis']?.matches;
+    if (!matches || matches.length === 0) return 'Unknown Person';
+
+    const names = Array.from(
+      new Set(matches.map(m => m.person_name).filter(n => !!n))
+    );
+    return names.length ? names.join(', ') : 'Unknown Person';
   }
 
   loadCases(): void {
@@ -76,6 +90,7 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
       this.errorMessage = 'Please select a file first';
       return;
     }
+
     this.resetState();
     this.isAnalyzing = true;
     this.cdr.detectChanges();
@@ -84,14 +99,18 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
       next: (result) => {
         this.analysisResult = result;
         this.isAnalyzing = false;
-        const bbox = result.data?.phenotypes?.bbox;
-        this.showFaceBox = !!bbox;
 
-        if (result.data.phenotypes.name === 'Unknown Person') {
+        const analysisData = result.data.phenotypes['fake recognation analysis'];
+        const hasMatches = analysisData?.matches && analysisData.matches.length > 0;
+
+        if (!hasMatches) {
           this.errorMessage = 'Person not recognized in the forensic database.';
           this.showRetryButton = true;
         }
+
         this.cdr.detectChanges();
+
+        setTimeout(() => this.drawFaceBoxes(), 50);
       },
       error: (err: Error) => {
         this.errorMessage = err.message;
@@ -102,28 +121,19 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
     });
   }
 
-  onImageLoad(event: Event): void {
-    if (!this.showFaceBox) return;
+  onImageLoad(event: Event) {
     const img = event.target as HTMLImageElement;
-    const bbox = this.analysisResult?.data?.phenotypes?.bbox;
-    if (!bbox) return;
-    const scaleX = img.clientWidth / img.naturalWidth;
-    const scaleY = img.clientHeight / img.naturalHeight;
-    this.faceBoxStyle = {
-      left: `${bbox.x * scaleX}px`, top: `${bbox.y * scaleY}px`,
-      width: `${bbox.width * scaleX}px`, height: `${bbox.height * scaleY}px`
-    };
+    this.imageNaturalWidth = img.naturalWidth;
+    this.imageNaturalHeight = img.naturalHeight;
+
+    setTimeout(() => this.drawFaceBoxes(), 100);
   }
 
   saveToCaseFiles(): void {
     if (!this.analysisResult) return;
-    
-    this.evidenceName = this.analysisResult.data.phenotypes.name ?? ''; 
-    
-    if (this.analysisResult.data.phenotypes.name === 'Unknown Person') {
-      this.evidenceName = '';
-    }
-    
+
+    this.evidenceName = this.matchedPersonName !== 'Unknown Person' ? this.matchedPersonName : '';
+
     this.selectedCaseId = '';
     this.showSaveModal = true;
   }
@@ -132,11 +142,13 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
     this.showSaveModal = false;
     this.evidenceName = '';
     this.selectedCaseId = '';
-    this.cdr.detectChanges(); 
+    this.cdr.detectChanges();
   }
 
   confirmSaveToCase(): void {
     if (!this.analysisResult || !this.selectedCaseId) return;
+
+    const matchedName = this.matchedPersonName;
 
     const payload: SaveEvidencePayload = {
       name: this.evidenceName || 'Face Recognition Evidence',
@@ -144,10 +156,10 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
       case_id: Number(this.selectedCaseId),
       data: {
         phenotypes: {
-          name: this.analysisResult.data.phenotypes.name ?? 'Unknown', 
+          name: matchedName,
           image: this.analysisResult.data.phenotypes.image,
           message: 'Identity matched successfully',
-          status: this.analysisResult.data.phenotypes.name === 'Unknown Person' ? 'unknown' : 'matched'
+          status: matchedName === 'Unknown Person' ? 'unknown' : 'matched'
         }
       }
     };
@@ -155,7 +167,7 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
     this.faceService.saveAsEvidence(payload).subscribe({
       next: () => {
         this.closeSaveModal();
-        
+
         setTimeout(() => {
           this.showNotification('Evidence saved successfully!', 'success');
         }, 300);
@@ -182,18 +194,68 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
     }, 3000);
   }
 
-  downloadReport(): void {
-    if (!this.analysisResult) return;
-    const doc = new jsPDF();
-    doc.setFontSize(22);
-    doc.setTextColor(30, 42, 94);
-    doc.text('Face Recognition Report', 105, 20, { align: 'center' });
-    doc.line(20, 25, 190, 25);
-    doc.setFontSize(12);
-    doc.text(`Date: ${new Date().toLocaleString()}`, 20, 35);
-    doc.text(`Person: ${this.analysisResult.data.phenotypes.name}`, 20, 50);
-    doc.save(`face-report-${Date.now()}.pdf`);
+  async downloadReport(): Promise<void> {
+  if (!this.analysisResult) return;
+
+  const matchedName = this.matchedPersonName;
+  const isMatched = matchedName !== 'Unknown Person';
+  const imageUrl = this.analysisResult.data.phenotypes.image;
+
+  const doc = new jsPDF();
+
+  doc.setFontSize(22);
+  doc.setTextColor(30, 42, 94);
+  doc.text('Face Recognition Report', 105, 20, { align: 'center' });
+
+  doc.setDrawColor(30, 42, 94);
+  doc.line(20, 25, 190, 25);
+
+  doc.setFontSize(11);
+  doc.setTextColor(114, 114, 114);
+  doc.text(`Date: ${new Date().toLocaleString()}`, 20, 35);
+
+  doc.setFontSize(16);
+  doc.setTextColor(
+    isMatched ? 16 : 239,
+    isMatched ? 185 : 68,
+    isMatched ? 129 : 68
+  );
+  doc.text(`Result: ${isMatched ? matchedName.toUpperCase() : 'UNKNOWN PERSON'}`, 20, 50);
+
+  doc.setFontSize(12);
+  doc.setTextColor(30, 42, 94);
+  doc.text(`File Name: ${imageUrl || 'N/A'}`, 20, 65);
+
+  if (imageUrl) {
+    try {
+      const base64Image = await this.urlToBase64(imageUrl);
+      doc.text('Analyzed Image:', 20, 90);
+      doc.addImage(base64Image, 'JPEG', 20, 95, 80, 80);
+    } catch (e) {
+      console.warn('Could not embed image in report:', e);
+      doc.setTextColor(150, 150, 150);
+      doc.text('(Image could not be loaded for the report)', 20, 90);
+    }
   }
+
+  doc.save(`face-report-${Date.now()}.pdf`);
+}
+
+private urlToBase64(url: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(res => res.blob())
+      .then(blob => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      })
+      .catch(reject);
+  });
+}
+
+  
 
   private cleanupPreview(): void {
     if (this.previewUrl) { URL.revokeObjectURL(this.previewUrl); this.previewUrl = null; }
@@ -211,12 +273,12 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
   }
 
   async openCamera(): Promise<void> {
-    try { 
+    try {
       this.cleanupPreview(); this.resetState(); this.showCamera = true; this.cdr.detectChanges();
       const stream = await this.cameraService.startCamera();
       if (this.videoElement?.nativeElement) this.videoElement.nativeElement.srcObject = stream;
-    } catch { 
-      this.showCamera = false; this.errorMessage = 'Could not access camera.'; this.cdr.detectChanges(); 
+    } catch {
+      this.showCamera = false; this.errorMessage = 'Could not access camera.'; this.cdr.detectChanges();
     }
   }
 
@@ -227,16 +289,59 @@ export class FaceRecognitionComponent implements OnDestroy, OnInit {
     this.canvasElement.nativeElement.height = this.videoElement.nativeElement.videoHeight;
     ctx.drawImage(this.videoElement.nativeElement, 0, 0);
     this.canvasElement.nativeElement.toBlob((blob: Blob | null) => {
-      if (blob) { 
-        this.processFile(new File([blob], `capture_${Date.now()}.jpg`, { type: 'image/jpeg' })); 
-        this.closeCamera(); 
+      if (blob) {
+        this.processFile(new File([blob], `capture_${Date.now()}.jpg`, { type: 'image/jpeg' }));
+        this.closeCamera();
       }
     }, 'image/jpeg', 0.9);
   }
 
   closeCamera(): void { this.showCamera = false; this.cameraService.stopCamera(); this.cdr.detectChanges(); }
-  onDrop(event: DragEvent): void { event.preventDefault(); const f = event.dataTransfer?.files[0]; if(f) this.processFile(f); }
+  onDrop(event: DragEvent): void { event.preventDefault(); const f = event.dataTransfer?.files[0]; if (f) this.processFile(f); }
   onDragOver(e: DragEvent): void { e.preventDefault(); }
   onDragLeave(e: DragEvent): void { e.preventDefault(); }
   ngOnDestroy(): void { this.cleanupPreview(); this.cameraService.stopCamera(); }
+
+  drawFaceBoxes() {
+    if (!this.analysisResult || !this.detectionCanvas || !this.resultImage) return;
+
+    const canvas = this.detectionCanvas.nativeElement;
+    const img = this.resultImage.nativeElement;
+    const ctx = canvas.getContext('2d');
+    const matches = this.analysisResult.data.phenotypes['fake recognation analysis']?.matches;
+
+    if (!ctx || !matches || matches.length === 0) return;
+
+    canvas.width = img.clientWidth;
+    canvas.height = img.clientHeight;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const scaleX = canvas.width / this.imageNaturalWidth;
+    const scaleY = canvas.height / this.imageNaturalHeight;
+
+    matches.forEach(match => {
+      const x = match.box.x * scaleX;
+      const y = match.box.y * scaleY;
+      const w = match.box.w * scaleX;
+      const h = match.box.h * scaleY;
+
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.1)';
+      ctx.fillRect(x, y, w, h);
+
+      const name = match.person_name || 'Unknown';
+      ctx.font = 'bold 14px Arial';
+      const textWidth = ctx.measureText(name).width;
+
+      ctx.fillStyle = '#10b981';
+      ctx.fillRect(x, y - 22, textWidth + 12, 22);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(name, x + 6, y - 6);
+    });
+  }
+
 }

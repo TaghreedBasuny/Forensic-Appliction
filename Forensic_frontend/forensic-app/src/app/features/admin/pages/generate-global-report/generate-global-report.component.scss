@@ -1,0 +1,131 @@
+.generate-report-container {
+  padding: 40px;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.report-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.page-title {
+  font-size: 40px;
+  color: #1E2A5E;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.page-subtitle {
+ font-size: 20px;
+  color: #727272;
+}
+
+.export-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.btn-export {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.btn-pdf {
+  background-color: #1E2A5E;
+  color: white;
+}
+
+.btn-excel {
+  background-color: #16A34A;
+  color: white;
+}
+
+.report-contents {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #D1D5E0;  
+  border: 2px solid #9CA3B8;  
+  border-radius: 12px;
+  padding: 28px 36px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.contents-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1E2A5E;
+  margin: 0 0 4px 0;
+  padding: 0;
+  border: none;
+}
+
+.contents-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  li {
+    padding: 10px 0;
+    padding-left: 28px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1E2A5E;
+    position: relative;
+    line-height: .2;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: 8px;
+      color: #1E2A5E;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .generate-report-container {
+    padding: 24px;
+  }
+
+  .page-title {
+    font-size: 28px;
+  }
+
+  .export-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-export {
+    justify-content: center;
+  }
+
+  .btn-back {
+    position: static;
+    margin-bottom: 20px;
+  }
+}

@@ -27,17 +27,21 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   
-  register(data: RegisterRequest) {
-    return this.http.post<RegisterResponse>(
-      `${this.apiUrl}/register`,
-      data
-    );
-  }
+  register(data: RegisterRequest): Observable<RegisterResponse> {
+  return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, data).pipe(
+    tap(() => {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('profilePicture');
+      this.userSubject.next(null);
+    })
+  );
+}
 
  login(data: LoginRequest): Observable<LoginResponse> {
   return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data).pipe(
     tap((res: any) => {
-      localStorage.removeItem('profilePicture'); // ✅ مسح أي بقايا قديمة
+      localStorage.removeItem('profilePicture'); 
       localStorage.setItem('authToken', res.token);
       localStorage.setItem('currentUser', JSON.stringify(res.user));
       this.userSubject.next(res.user);

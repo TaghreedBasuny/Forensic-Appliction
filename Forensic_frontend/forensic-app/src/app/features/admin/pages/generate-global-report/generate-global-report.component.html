@@ -1,0 +1,37 @@
+<div class="generate-report-container">
+    <!-- Header -->
+    <div class="report-header">
+        <h1 class="page-title">Generate Global Report</h1>
+        <p class="page-subtitle">Extract all system activity for the current month.</p>
+    </div>
+
+    <!-- Export Buttons -->
+    <div class="export-buttons">
+        <button type="button" class="btn-export btn-excel" (click)="exportToExcel()">
+            <svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.0632 1.34188L16.8779 0H7.54339C6.86993 0 6.60964 0.509125 6.60964 0.906755V4.48839H7.91882V1.63097C7.91882 1.47903 8.04461 1.35076 8.18975 1.35076H14.8692C15.0162 1.35076 15.0898 1.3774 15.0898 1.50073V6.25651H19.8436C20.0304 6.25651 20.103 6.35518 20.103 6.49923V18.1124C20.103 18.3551 20.0062 18.3916 19.8611 18.3916H8.18975C8.11778 18.3898 8.0493 18.3596 7.99875 18.3074C7.94821 18.2551 7.91955 18.1848 7.91882 18.1114V17.0498H6.61835V18.7222C6.60093 19.3142 6.91057 19.7335 7.54339 19.7335H20.5074C21.1847 19.7335 21.416 19.2333 21.416 18.7774V5.11789L21.0773 4.74295L18.0632 1.34188ZM16.4202 1.49975L16.7947 1.92796L19.3066 4.74295L19.445 4.91364H16.8779C16.6844 4.91364 16.5618 4.88076 16.5102 4.81498C16.4586 4.75051 16.4286 4.64757 16.4202 4.50615V1.49975ZM15.3655 10.5249H19.7943V11.8411H15.3646L15.3655 10.5249ZM15.3655 7.89439H19.7943V9.20963H15.3646L15.3655 7.89439ZM15.3655 13.1563H19.7943V14.4726H15.3646L15.3655 13.1563ZM4 5.55104V16.0759H14.126V5.55104H4ZM9.0635 11.6724L8.44423 12.6373H9.0635V13.8135H5.9507L8.2091 10.3502L6.20808 7.23628H7.88011L9.06447 9.04782L10.2479 7.23628H11.9189L9.91403 10.3502L12.1753 13.8135H10.4404L9.0635 11.6724Z" fill="white" />
+            </svg>
+            Export to Excel (.xlsx)
+        </button>
+
+         <button type="button" class="btn-export btn-pdf" (click)="exportToPDF()">
+            <svg width="26" height="21" viewBox="0 0 26 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.5 19.5H16.916C17.8443 19.5 18.7345 19.1313 19.3909 18.4749C20.0473 17.8185 20.416 16.9283 20.416 16V10.47C20.4163 9.54186 20.048 8.65159 19.392 7.995L13.423 2.025C13.098 1.7 12.7121 1.44221 12.2874 1.26634C11.8628 1.09047 11.4076 0.999967 10.948 1H8.5C7.57174 1 6.6815 1.36875 6.02513 2.02513C5.36875 2.6815 5 3.57174 5 4.5V16C5 16.9283 5.36875 17.8185 6.02513 18.4749C6.6815 19.1313 7.57174 19.5 8.5 19.5Z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12.3965 1.36V7.02C12.3965 7.55043 12.6072 8.05914 12.9823 8.43421C13.3573 8.80929 13.8661 9.02 14.3965 9.02H20.0585" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M7.95801 14.75V13.75M7.95801 13.75V11.75H8.95801C9.22322 11.75 9.47758 11.8554 9.66511 12.0429C9.85265 12.2304 9.95801 12.4848 9.95801 12.75C9.95801 13.0152 9.85265 13.2696 9.66511 13.4571C9.47758 13.6446 9.22322 13.75 8.95801 13.75H7.95801ZM15.958 14.75V13.5M15.958 13.5V11.75H17.458M15.958 13.5H17.458M11.958 14.75V11.75H12.458C12.8558 11.75 13.2374 11.908 13.5187 12.1893C13.8 12.4706 13.958 12.8522 13.958 13.25C13.958 13.6478 13.8 14.0294 13.5187 14.3107C13.2374 14.592 12.8558 14.75 12.458 14.75H11.958Z" stroke="white" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Export to PDF (.pdf)
+        </button>
+    </div>
+    <!-- Report Contents -->
+    <div class="report-contents">
+        <h2 class="contents-title">Report Contents:</h2>
+        <ul class="contents-list">
+            <li>All user activity and login history</li>
+            <li>Complete case statistics and metadata</li>
+            <li>AI model usage and performance metrics</li>
+            <li>Security logs and admin actions</li>
+            <li>Community engagement statistics</li>
+        </ul>
+    </div>
+</div>

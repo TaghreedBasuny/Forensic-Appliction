@@ -33,10 +33,16 @@ export class DeepFakeDetectionComponent implements OnDestroy, OnInit {
   toastMessage = '';
   toastType: 'success' | 'error' = 'success';
 
+  imageNaturalWidth: number = 0;
+  imageNaturalHeight: number = 0;
+  displayedImageWidth: number = 0;
+  displayedImageHeight: number = 0;
+
   @ViewChild('videoElement') videoElement!: ElementRef;
   @ViewChild('canvasElement') canvasElement!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-
+  @ViewChild('detectionCanvas') detectionCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('resultImage') resultImage!: ElementRef<HTMLImageElement>;
   constructor(
     private analysisService: DeepFakeApiService,
     private cameraService: CameraService,
@@ -141,14 +147,15 @@ export class DeepFakeDetectionComponent implements OnDestroy, OnInit {
     });
   }
 
-  private handleAnalysisSuccess(result: IAnalysisResponse): void {
-    this.analysisResult = result;
-    this.isAnalyzing = false;
-    this.analysisComplete = true;
-    this.errorMessage = null;
-    this.cdr.detectChanges();
-  }
-
+ private handleAnalysisSuccess(result: IAnalysisResponse): void {
+  this.analysisResult = result;
+  this.isAnalyzing = false;
+  this.analysisComplete = true;
+  this.errorMessage = null;
+  this.cdr.detectChanges();
+  
+  setTimeout(() => this.drawBoxesOnCanvas(), 50);
+}
   private handleAnalysisError(err: IApiErrorResponse | Error): void {
     this.isAnalyzing = false;
     if ('isValidationError' in err && err.isValidationError) {
@@ -317,4 +324,68 @@ export class DeepFakeDetectionComponent implements OnDestroy, OnInit {
     this.cleanupPreview();
     this.cameraService.stopCamera();
   }
+
+
+    onImageLoad(event: Event) {
+  const img = event.target as HTMLImageElement;
+  this.imageNaturalWidth = img.naturalWidth;
+  this.imageNaturalHeight = img.naturalHeight;
+  
+  setTimeout(() => {
+    this.drawBoxesOnCanvas();
+  }, 100);
+}
+  getBoxStyle(face: any): any {
+    return {
+      left: `${(face.facial_area.x / this.imageNaturalWidth) * 100}%`,
+      top: `${(face.facial_area.y / this.imageNaturalHeight) *  100}%`,
+      width: `${(face.facial_area.w / this.imageNaturalWidth) * 100}%`,
+      height: `${(face.facial_area.h / this.imageNaturalHeight) * 100}%`
+    };
+  }
+
+  drawBoxesOnCanvas() {
+  if (!this.analysisResult?.faces || !this.detectionCanvas || !this.resultImage) return;
+
+  const canvas = this.detectionCanvas.nativeElement;
+  const img = this.resultImage.nativeElement;
+  const ctx = canvas.getContext('2d');
+
+  if (!ctx) return;
+
+  canvas.width = img.clientWidth;
+  canvas.height = img.clientHeight;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const scaleX = canvas.width / this.imageNaturalWidth;
+  const scaleY = canvas.height / this.imageNaturalHeight;
+
+  this.analysisResult.faces.forEach(face => {
+    const x = face.facial_area.x * scaleX;
+    const y = face.facial_area.y * scaleY;
+    const w = face.facial_area.w * scaleX;
+    const h = face.facial_area.h * scaleY;
+
+    ctx.strokeStyle = face.is_real ? '#10b981' : '#ef4444'; 
+    ctx.lineWidth = 3;
+    
+    ctx.strokeRect(x, y, w, h);
+
+    ctx.fillStyle = face.is_real ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+    ctx.fillRect(x, y, w, h);
+
+    ctx.font = 'bold 14px Arial';
+    ctx.fillStyle = face.is_real ? '#10b981' : '#ef4444';
+    
+    const text = face.is_real ? 'Real' : 'Fake';
+    const textWidth = ctx.measureText(text).width;
+    ctx.fillStyle = face.is_real ? '#10b981' : '#ef4444';
+    ctx.fillRect(x, y - 20, textWidth + 10, 20);
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(text, x + 5, y - 5);
+  });
+}
+
 }

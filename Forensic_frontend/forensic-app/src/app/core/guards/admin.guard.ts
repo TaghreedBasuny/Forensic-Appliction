@@ -6,12 +6,17 @@ export const adminGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const role = authService.currentUserValue?.role;
+  const user = authService.currentUserValue;
 
-  if (role === 'admin') {
-    return true;
+  if (!user) {
+    router.navigate(['/auth/login']);
+    return false;
   }
 
-  router.navigate(['/dashboard']);
-  return false;
+  if (user.role !== 'admin') {
+    router.navigate(['/dashboard']);
+    return false;
+  }
+
+  return true;
 };

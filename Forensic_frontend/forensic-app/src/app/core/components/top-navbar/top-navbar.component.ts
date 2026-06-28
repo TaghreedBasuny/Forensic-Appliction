@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service'; 
+import { SettingsService } from '../../../features/settings/settings.service';
 
 @Component({
   selector: 'app-top-navbar',
@@ -22,12 +23,13 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
   private authSub!: Subscription;
   private routerSub!: Subscription;  
 
-  constructor(
-    private router: Router, 
-    private titleService: Title,
-    private authService: AuthService,
-    private cd: ChangeDetectorRef
-  ) {}  
+ constructor(
+  private router: Router, 
+  private titleService: Title,
+  private authService: AuthService,
+  private settingsService: SettingsService,
+  private cd: ChangeDetectorRef
+) {}
 
  ngOnInit() {
   this.authSub = this.authService.user$.subscribe(user => {
@@ -41,6 +43,15 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
       }
 
       this.cd.detectChanges();
+
+      if (user && !user.avatar) {
+        this.settingsService.getUserProfile().subscribe(res => {
+          if (res.status && res.data?.image) {
+            this.currentUser = { ...this.currentUser, avatar: res.data.image };
+            this.cd.detectChanges();
+          }
+        });
+      }
     });
   });
 
@@ -51,9 +62,9 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
     )
     .subscribe((title: string) => {
       this.pageTitle = title;
-      this.titleService.setTitle(title); 
+      this.titleService.setTitle(title);
     });
-    
+
   this.pageTitle = this.getPageTitleFromRoute();
 }
   ngOnDestroy(): void {
@@ -62,18 +73,26 @@ export class TopNavbarComponent implements OnInit, OnDestroy {
   }
 
 
-  getRouteForBreadcrumb(part: string): string {
-    switch(part.trim()) {
-      case 'Explore': return '/explore';
-      case 'Analysis Models': return '/explore/analysis-models';
-      case 'Investigative Cases': return '/explore/investigative-cases';
-      case 'Deep Fake Detection': return '/explore/analysis-models/deep-fake-detection';
-      case 'Face Recognition': return '/explore/analysis-models/face-recognition';
-      case 'DNA Analysis': return '/explore/analysis-models/dna-analysis';
-      case 'Reconstruct Image': return '/explore/analysis-models/reconstruct-image';
-      default: return '/dashboard';
-    }
-  }
+ getRouteForBreadcrumb(part: string): string {
+  const routes: { [key: string]: string } = {
+    'Explore': '/explore',
+    'Analysis Models': '/explore/analysis-models',
+    'Investigative Cases': '/explore/investigative-cases',
+    'Deep Fake Detection': '/explore/analysis-models/deep-fake-detection',
+    'Face Recognition': '/explore/analysis-models/face-recognition',
+    'DNA Analysis': '/explore/analysis-models/dna-analysis',
+    'Reconstruct Image': '/explore/analysis-models/reconstruct-image',
+    'Admin Dashboard': '/admin/dashboard',
+    'System Exports': '/admin/generate-global-report',
+    'User List': '/admin/doctors-hub',
+    'Case Audit': '/admin/case-audit',
+    'System Logs': '/admin/system-logs',
+    'Community Moderation': '/admin/community-moderation',
+    'Chatbot Management': '/admin/chatbot-management'
+  };
+
+  return routes[part.trim()] || '/admin/dashboard';
+}
 
 
   private getPageTitleFromRoute(): string {

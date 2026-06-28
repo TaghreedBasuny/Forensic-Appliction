@@ -14,7 +14,7 @@ export class SidebarComponent implements OnInit {
   sidebarOpen = true;
   localStorage = localStorage;
   showLogoutModal = false;
-  isAdmin = false;   // ← جديد
+  isAdmin = false;   
 
   constructor(
     private router: Router,
@@ -34,7 +34,7 @@ export class SidebarComponent implements OnInit {
   logout() {
   this.authService.logout().subscribe({
     next: () => this.router.navigate(['/auth/login']),
-    error: () => this.router.navigate(['/auth/login']) // برضه نخرجها حتى لو فشل السيرفر
+    error: () => this.router.navigate(['/auth/login']) 
   });
 }
   openLogoutModal() {
