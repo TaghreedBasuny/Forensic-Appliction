@@ -35,7 +35,6 @@ export interface IReconstructImageResult {
   ageInfo: IAgeInfo;
   genderInfo: IGenderInfo;
   region: IFaceRegion;
-  /** قيمة عمر واحدة بسيطة جاهزة للعرض مباشرة (بدون original/enhanced) */
   displayAge: number;
   timestamp: string;
   status: 'success' | 'failed';

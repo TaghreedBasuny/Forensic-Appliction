@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, #f2f3f7 0%, #2e374e 100%); /* نفس خلفية الـ Login */
+  background: linear-gradient(180deg, #f2f3f7 0%, #2e374e 100%); 
   position: relative;
   width: 100%;
 }
@@ -97,7 +97,7 @@ h2 { color: #1e2a5a; font-size: 32px; margin-bottom: 10px; }
 
 .otp-inputs {
   display: flex;
-  justify-content: center; /* توسيط المربعات */
+  justify-content: center; 
   gap: 12px;
   margin-bottom: 30px;
 }
@@ -118,11 +118,10 @@ h2 { color: #1e2a5a; font-size: 32px; margin-bottom: 10px; }
   &:focus {
     border-color: #1e2a5a;
     background: #fff;
-    transform: scale(1.05); /* تكبير بسيط عند التركيز */
+    transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(30, 42, 90, 0.1);
   }
 
-  /* إذا كان الحقل به قيمة */
   &:not(:placeholder-shown) {
     border-color: #1e2a5a;
     background: #fff;
@@ -130,17 +129,16 @@ h2 { color: #1e2a5a; font-size: 32px; margin-bottom: 10px; }
 }
 
 
-/* ... باقي التنسيقات كما هي ... */
 
 .simple-toast {
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #1e2a5a; /* لون داكن مثل الزر */
+  background-color: #1e2a5a; 
   color: white;
   padding: 12px 24px;
-  border-radius: 50px; /* شكل كبسولة */
+  border-radius: 50px; 
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   display: flex;
   align-items: center;

@@ -20,14 +20,16 @@
             <!-- Left Column: Image & Basic Info -->
             <div class="left-col">
                 <div class="avatar-wrapper">
-                    <img [src]="doctor.avatarUrl || 'assets/default-avatar.png'"
-                        alt="Doctor Avatar" class="doctor-avatar">
+                    <img src="assets/images/images.jfif" alt="Doctor Avatar" class="doctor-avatar">
                 </div>
                 <h3 class="doctor-name">{{ doctor.name }}</h3>
                 <span class="join-date">Joined : {{ doctor.joinDate }}</span>
 
-                <button class="btn-assign-admin">Assign Admin</button>
-            </div>
+                <button class="btn-assign-admin" (click)="assignAdmin()"
+                    [disabled]="isAssigning || isAssigned">
+                    {{ isAssigned ? 'Assigned ✓' : (isAssigning ? 'Assigning...'
+                    : 'Assign Admin') }}
+                </button> </div>
 
             <!-- Right Column: Stats & Details -->
             <div class="right-col">
@@ -75,7 +77,7 @@
                                 d="M24.3472 5.63281L26.8905 13.5335C27.1888 14.4609 27.8077 15.2751 28.6547 15.8544C29.5017 16.4337 30.5311 16.7469 31.589 16.7471H37.2281C37.7478 16.7471 38.2462 16.5584 38.6136 16.2227C38.9811 15.887 39.1875 15.4316 39.1875 14.9568C39.1875 14.4819 38.9811 14.0266 38.6136 13.6908C38.2462 13.3551 37.7478 13.1664 37.2281 13.1664H31.589C31.3773 13.1666 31.1713 13.104 31.0017 12.9881C30.8322 12.8723 30.7083 12.7093 30.6485 12.5237L27.2392 1.92866C26.432 -0.58315 22.572 -0.661924 21.6393 1.81229L13.5785 23.2459L10.3984 15.9808C10.0347 15.1496 9.40664 14.4371 8.59525 13.9354C7.78387 13.4337 6.82648 13.1659 5.84678 13.1664H1.95938C1.43972 13.1664 0.941342 13.3551 0.573888 13.6908C0.206433 14.0266 0 14.4819 0 14.9568C0 15.4316 0.206433 15.887 0.573888 16.2227C0.941342 16.5584 1.43972 16.7471 1.95938 16.7471H5.84678C6.04276 16.7468 6.23434 16.8002 6.39676 16.9004C6.55919 17.0006 6.68498 17.143 6.75788 17.3092L10.9176 26.8122C11.9287 29.1235 15.5418 29.0411 16.4254 26.6869L24.3472 5.63281Z"
                                 fill="#16A34A" />
                         </svg>
-                         <span class="stat-num">{{ doctor.activityLevel
+                        <span class="stat-num">{{ doctor.activityLevel
                             }}</span>
                         <span class="stat-label">Activity</span>
                     </div>

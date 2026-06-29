@@ -16,7 +16,7 @@ export class ResetPasswordComponent implements OnInit {
   showPassword = false;
   showConfirmPassword = false;
   isLoading = false;
-  errorMessage = ''; // يمكن استخدامه لرسائل السيرفر العامة إذا أردتِ
+  errorMessage = ''; 
   successMessage = '';
 
   constructor(

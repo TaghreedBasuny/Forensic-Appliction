@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export interface ContactRequest {
   name: string;
   email: string;
-  phone_number: string;
+  phone_number?: string;
   message: string;
 }
 
@@ -35,7 +35,7 @@ export class ContactService {
     });
 
     return this.http.post<ContactResponse>(
-      `${this.baseUrl}/contacts`,
+      `${this.baseUrl}/store/contact`,
       data,
       { headers }
     );

@@ -1,7 +1,6 @@
 // app.routes.ts
 import { Routes } from '@angular/router';
 import { LandingComponent } from './pages/landing/landing.component';
-import { ContactPageComponent } from './pages/contact-page/contact-page.component';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { ForgotPasswordComponent } from './features/auth/pages/forgot-password/forgot-password.component';
 import { CheckEmailComponent } from './features/auth/pages/check-email/check-email.component';
@@ -29,13 +28,13 @@ import { CaseAuditComponent } from './features/admin/pages/case-audit/case-audit
 import { SystemLogsComponent } from './features/admin/pages/system-logs/system-logs.component';
 import { CommunityModerationComponent } from './features/admin/pages/community-moderation/community-moderation.component';
 import { ChatbotManagementComponent } from './features/admin/pages/chatbot-management/chatbot-management.component';
+import { ContactManagerComponent } from './features/admin/pages/contact-manager/contact-manager.component'; 
 import { GenerateGlobalReportComponent } from './features/admin/pages/generate-global-report/generate-global-report.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
 
   { path: 'landing', component: LandingComponent },
-  { path: 'contact', component: ContactPageComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/signup', component: SignupComponent },
   { path: 'auth/forgot-password', component: ForgotPasswordComponent },
@@ -158,6 +157,12 @@ export const routes: Routes = [
   canActivate: [authGuard, adminGuard],
   data: { pageTitle: 'Community Moderation' }
 },
+{ 
+    path: 'admin/contact-manager',
+    component: ContactManagerComponent,
+    canActivate: [authGuard, adminGuard],
+    data: { pageTitle: 'Contact Management' }
+  },
 { 
   path: 'admin/chatbot-management',
   component: ChatbotManagementComponent,

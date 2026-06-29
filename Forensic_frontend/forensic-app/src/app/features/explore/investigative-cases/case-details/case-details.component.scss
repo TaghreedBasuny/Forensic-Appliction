@@ -1,5 +1,5 @@
 // ==========================================
-// 📁 case-details.component.scss - Full File
+// case-details.component.scss - Full File
 // ==========================================
 
 // ========== PAGE CONTAINER ==========
@@ -345,6 +345,45 @@
   }
 }
 
+
+// ========== FACE RECOGNITION STYLES ==========
+.recognition-result {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  
+  .person-name-badge {
+    background-color: #E0F2FE; 
+    color: #075985;            
+    border: 1px solid #7DD3FC;
+    
+    font-size: 11px;         
+    font-weight: 700;          
+    text-transform: uppercase; 
+    letter-spacing: 0.3px;   
+    
+    padding: 4px 10px;     
+    border-radius: 6px;
+    
+    white-space: nowrap;       
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;   
+  }
+
+  .unknown-badge {
+    background-color: #FEF2F2; 
+    color: #991B1B;            
+    border: 1px solid #FCA5A5;
+    
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+}
 // ========== DNA DETAILS GRID ==========
 .dna-details-grid {
   display: grid;

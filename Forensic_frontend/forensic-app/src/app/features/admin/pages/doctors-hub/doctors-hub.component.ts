@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DoctorsHubService } from '../../services/doctors-hub.service';
 import { UserViewModel, DoctorApi, AdminApi } from '../../models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctors-hub',
@@ -22,11 +23,23 @@ export class DoctorsHubComponent implements OnInit {
   allDoctors: UserViewModel[] = [];
   allAdmins: UserViewModel[] = [];
 
-  constructor(private doctorsHubService: DoctorsHubService) {}
+  constructor(
+    private doctorsHubService: DoctorsHubService,
+    private cdr: ChangeDetectorRef,     
+    private router: Router
+) {}
 
   ngOnInit(): void {
     this.loadData();
   }
+
+ onRowClick(user: UserViewModel): void {
+  if (this.activeTab === 'doctors') {
+    this.router.navigate(['/admin/doctors-hub/profile', user.id], {
+      state: { registerDate: user.registerDate }
+    });
+  }
+}
 
   loadData(): void {
     this.isLoading = true;
@@ -37,11 +50,13 @@ export class DoctorsHubComponent implements OnInit {
         this.allDoctors = res.doctors.data.map((d: DoctorApi) => this.mapDoctor(d));
         this.allAdmins = res.admins.data.map((a: AdminApi) => this.mapAdmin(a));
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
         this.errorMsg = 'An error occurred while loading the data.';
         this.isLoading = false;
+        this.cdr.detectChanges();
       }
     });
   }

@@ -90,13 +90,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of currentUsers; let i = index"
-    [routerLink]="activeTab === 'doctors'
-      ? ['/admin/doctors-hub/profile', user.id]
-      : ['/admin/doctors-hub/admin-profile', user.id]"
-    class="clickable-row">
+     <tr *ngFor="let user of currentUsers; let i = index"
+    [class.clickable-row]="activeTab === 'doctors'"
+    (click)="onRowClick(user)">
 
-            <td class="name-cell">{{ user.name }}</td>
+  <td class="name-cell">{{ user.name }}</td>
 
             <td class="id-cell" *ngIf="activeTab === 'doctors'">#{{
               $any(user).nationalId }}</td>

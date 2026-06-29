@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DoctorsHubService } from '../../services/doctors-hub.service';
@@ -27,44 +27,52 @@ export class DoctorProfileComponent implements OnInit {
   doctor: DoctorProfileView | null = null;
   isLoading = false;
   errorMsg = '';
-
+  isAssigning = false;
+  isAssigned = false;
+ assignMessage = '';
+  assignSuccess = false;
   constructor(
     private route: ActivatedRoute,
-    private doctorsHubService: DoctorsHubService
+    private doctorsHubService: DoctorsHubService,
+    private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    const id = idParam ? +idParam : 0;
-    this.loadProfile(id);
-  }
+ ngOnInit(): void {
+  const idParam = this.route.snapshot.paramMap.get('id');
+  const id = idParam ? +idParam : 0;
 
-  private loadProfile(id: number): void {
-    this.isLoading = true;
-    this.doctorsHubService.getDoctorProfile(id).subscribe({
-      next: (res) => {
-        const info = res.data.doctor_info;
-        this.doctor = {
-          id: info.id,
-          name: info.name,
-          email: info.email,
-          nationalId: info.national_id ?? '—',
-          status: info.status === 'active' ? 'Active' : 'Blocked',
-          totalCases: info.total_cases,
-          articles: info.total_articles,
-          avatarUrl: info.image ?? 'assets/default-avatar.png',
-          joinDate: info.created_at ? this.formatDate(info.created_at) : 'N/A',
-          activityLevel: this.calculateActivityLevel(info.total_cases, info.total_articles)
-        };
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMsg = 'An error occurred while loading the profile.';
-        this.isLoading = false;
-      }
-    });
-  }
+  const passedDate = (history.state && history.state.registerDate) || null;
+
+  this.loadProfile(id, passedDate);
+}
+
+private loadProfile(id: number, passedDate: string | null): void {
+  this.isLoading = true;
+  this.doctorsHubService.getDoctorProfile(id).subscribe({
+    next: (res) => {
+      const info = res.data.doctor_info;
+      this.doctor = {
+        id: info.id,
+        name: info.name,
+        email: info.email,
+        nationalId: info.national_id ?? '—',
+        status: info.status === 'active' ? 'Active' : 'Blocked',
+        totalCases: info.total_cases,
+        articles: info.total_articles,
+        avatarUrl: info.image ?? 'assets/default-avatar.png',
+        joinDate: passedDate ?? 'N/A',
+        activityLevel: this.calculateActivityLevel(info.total_cases, info.total_articles)
+      };
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error(err);
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   private formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -98,4 +106,23 @@ export class DoctorProfileComponent implements OnInit {
       }
     });
   }
+
+  assignAdmin(): void {
+  if (!this.doctor || this.isAssigning) return;
+  this.isAssigning = true;
+
+  this.doctorsHubService.assignAdmin(this.doctor.id).subscribe({
+    next: (res) => {
+      this.isAssigned = true;
+      this.isAssigning = false;
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error(err);
+      this.isAssigning = false;
+      this.cdr.detectChanges();
+    }
+  });
+}
+
 }

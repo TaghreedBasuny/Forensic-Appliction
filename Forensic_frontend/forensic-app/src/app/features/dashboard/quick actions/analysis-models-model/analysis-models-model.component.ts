@@ -66,10 +66,8 @@ export class AnalysisModelsModalComponent {
     console.log('Launching model:', model.name);
     this.closeModal();
     
-    // توجيه للصفحة الخاصة بالموديل
     this.router.navigate([model.route]);
     
-    // أو لو عايزة تفتحي مودال تاني للموديل ده
     // this.openModelDetail(model);
   }
 

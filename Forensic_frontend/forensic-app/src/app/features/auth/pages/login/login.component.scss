@@ -30,7 +30,7 @@
   width: 460px;
   background: #fff;
   border-radius: 16px;
-  padding: 40px; /* زيادة الحشوة قليلاً */
+  padding: 40px; 
   text-align: center;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
@@ -47,7 +47,6 @@ h2 {
   margin-bottom: 30px;
 }
 
-/* رسائل الخطأ والنجاح العامة */
 .error-msg, .success-msg {
   padding: 12px;
   border-radius: 8px;
@@ -122,7 +121,6 @@ h2 {
   }
 }
 
-/* أخطاء الحقول الصغيرة */
 .field-error {
   color: #e74c3c;
   font-size: 12px;
@@ -287,10 +285,9 @@ h2 {
   }
 }
 
-/* ... باقي التنسيقات كما هي ... */
 
 .auto-hide-message {
-  animation: fadeInOut 3s forwards; /* يظهر ثم يختفي خلال 3 ثوانٍ */
+  animation: fadeInOut 3s forwards; 
 }
 
 @keyframes fadeInOut {
@@ -300,7 +297,6 @@ h2 {
   100% { opacity: 0; transform: translateY(-10px); display: none; }
 }
 
-/* تنسيقات الرسائل */
 .error-msg, .success-msg {
   padding: 12px;
   border-radius: 8px;

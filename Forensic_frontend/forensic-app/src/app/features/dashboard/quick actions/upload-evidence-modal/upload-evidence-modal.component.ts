@@ -137,7 +137,7 @@ export class UploadEvidenceModalComponent {
     this.isLoading = true;
 
     setTimeout(() => {
-      console.log('✅ Evidence uploaded successfully (Mock):', {
+      console.log('Evidence uploaded successfully', {
         file: this.selectedFile?.name,
         ...this.formData
       });

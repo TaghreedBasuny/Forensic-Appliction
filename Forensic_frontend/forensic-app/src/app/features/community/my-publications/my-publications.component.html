@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <!-- ✅ Comments Section - Updated Design -->
+    <!-- Comments Section - Updated Design -->
     <div class="comments-section" *ngIf="showCommentSection[item.id]">
       <div class="comment-list">
         <div class="comment-item" *ngFor="let comment of comments[item.id]">
@@ -139,7 +139,7 @@
   </div>
 </div>
 
-<!-- ✅ Comment Edit Modal -->
+<!--  Comment Edit Modal -->
 <div class="modal-overlay" *ngIf="showEditCommentModal" (click)="closeEditCommentModal()">
   <div class="modal-container" (click)="$event.stopPropagation()">
     <div class="modal-header">
@@ -161,7 +161,7 @@
   </div>
 </div>
 
-<!-- ✅ Comment Delete Confirmation Modal -->
+<!--  Comment Delete Confirmation Modal -->
 <div class="modal-overlay" *ngIf="showDeleteCommentModal" (click)="closeDeleteCommentModal()">
   <div class="modal-container-small" (click)="$event.stopPropagation()">
     <div class="confirm-icon danger">

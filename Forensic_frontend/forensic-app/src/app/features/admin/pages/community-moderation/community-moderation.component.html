@@ -1,137 +1,147 @@
 <div class="community-moderation">
 
-    <!-- Header -->
-    <div class="page-header">
-        <h1 class="page-title">Community Moderation</h1>
-        <p class="page-subtitle">A control center to manage posts and comments,
-            allowing admins to delete any content that breaks rules.</p>
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title">Community Moderation</h1>
+    <p class="page-subtitle">A control center to manage posts and comments,
+      allowing admins to delete any content that breaks rules.</p>
+  </div>
+
+  <!-- Main Card -->
+  <div class="moderation-card">
+
+    <!-- Dark Blue Header with Icon -->
+    <div class="card-top-bar">
+      <div class="title-section">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M13 25C15.3734 25 17.6934 24.2962 19.6668 22.9776C21.6402 21.6591 23.1783 19.7849 24.0865 17.5922C24.9948 15.3995 25.2324 12.9867 24.7694 10.6589C24.3064 8.33115 23.1635 6.19295 21.4853 4.51472C19.807 2.83649 17.6689 1.6936 15.3411 1.23058C13.0133 0.767559 10.6005 1.0052 8.4078 1.91345C6.21508 2.8217 4.34094 4.35977 3.02236 6.33316C1.70379 8.30655 1 10.6266 1 13C1 14.984 1.48 16.8547 2.33333 18.5027L1 25L7.49733 23.6667C9.14533 24.52 11.0173 25 13 25Z"
+            stroke="white" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+
+        <span class="bar-title">Community Control Center</span>
+      </div>
     </div>
 
-    <!-- Main Card -->
-    <div class="moderation-card">
+    <!-- Tabs Navigation -->
+    <div class="tabs-nav">
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'articles'"
+        (click)="switchTab('articles')">
+        Articles
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'posts'"
+        (click)="switchTab('posts')">
+        Posts
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'comments'"
+        (click)="switchTab('comments')">
+        Comments
+      </button>
+    </div>
 
-        <!-- Dark Blue Header with Icon -->
-        <div class="card-top-bar">
-            <div class="title-section">
-                <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M13 25C15.3734 25 17.6934 24.2962 19.6668 22.9776C21.6402 21.6591 23.1783 19.7849 24.0865 17.5922C24.9948 15.3995 25.2324 12.9867 24.7694 10.6589C24.3064 8.33115 23.1635 6.19295 21.4853 4.51472C19.807 2.83649 17.6689 1.6936 15.3411 1.23058C13.0133 0.767559 10.6005 1.0052 8.4078 1.91345C6.21508 2.8217 4.34094 4.35977 3.02236 6.33316C1.70379 8.30655 1 10.6266 1 13C1 14.984 1.48 16.8547 2.33333 18.5027L1 25L7.49733 23.6667C9.14533 24.52 11.0173 25 13 25Z"
-                        stroke="white" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
+    <!-- Table Area -->
+    <div class="table-wrapper">
+      <table class="mod-table">
+        <thead>
+          <tr>
+            <th>Snippet</th>
+            <th>Author</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of currentData">
+            <td class="snippet-cell">{{ item.snippet }}</td>
+            <td class="author-cell">
+
+              {{ item.author }}
+            </td>
+            <td class="action-cell">
+              <button class="btn-delete" (click)="openDeleteModal(item.id)">
+                <svg width="17" height="18" viewBox="0 0 17 18" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.41667 5.55V13.55C2.41667 15.3173 3.90905 16.75 5.75 16.75H10.75C12.5909 16.75 14.0833 15.3173 14.0833 13.55V5.55M9.91667 7.95V12.75M6.58333 7.95L6.58333 12.75M11.5833 3.15L10.4114 1.46248C10.1023 1.01736 9.58195 0.75 9.02469 0.75H7.47531C6.91805 0.75 6.39767 1.01736 6.08856 1.46248L4.91667 3.15M11.5833 3.15H4.91667M11.5833 3.15H15.75M4.91667 3.15H0.75"
+                    stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
                 </svg>
-
-                <span class="bar-title">Community Control Center</span>
-            </div>
-        </div>
-
-        <!-- Tabs Navigation -->
-        <div class="tabs-nav">
-            <button
-                class="tab-btn"
-                [class.active]="activeTab === 'articles'"
-                (click)="switchTab('articles')">
-                Articles
-            </button>
-            <button
-                class="tab-btn"
-                [class.active]="activeTab === 'posts'"
-                (click)="switchTab('posts')">
-                Posts
-            </button>
-            <button
-                class="tab-btn"
-                [class.active]="activeTab === 'comments'"
-                (click)="switchTab('comments')">
-                Comments
-            </button>
-        </div>
-
-        <!-- Table Area -->
-        <div class="table-wrapper">
-            <table class="mod-table">
-                <thead>
-                    <tr>
-                        <th>Snippet</th>
-                        <th>Author</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of currentData; let i = index">
-                        <td class="snippet-cell">{{ item.snippet }}</td>
-                        <td class="author-cell">
-                            <svg width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="#888" stroke-width="2"
-                                style="vertical-align: middle; margin-right: 6px;">
-                                <path
-                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            {{ item.author }}
-                        </td>
-                        <td class="action-cell">
-
-                            <button class="btn-delete"
-                                (click)="openDeleteModal(item.id)">
-                                <svg width="17" height="18" viewBox="0 0 17 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2.41667 5.55V13.55C2.41667 15.3173 3.90905 16.75 5.75 16.75H10.75C12.5909 16.75 14.0833 15.3173 14.0833 13.55V5.55M9.91667 7.95V12.75M6.58333 7.95L6.58333 12.75M11.5833 3.15L10.4114 1.46248C10.1023 1.01736 9.58195 0.75 9.02469 0.75H7.47531C6.91805 0.75 6.39767 1.01736 6.08856 1.46248L4.91667 3.15M11.5833 3.15H4.91667M11.5833 3.15H15.75M4.91667 3.15H0.75"
-                                        stroke="#DC2626" stroke-width="1.5"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-
-                    <tr *ngIf="currentData.length === 0">
-                        <td colspan="3" class="empty-state">No items found in
-                            this category.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pagination (Simple Version) -->
-        <div class="pagination-bar">
-            <div class="pagination-controls">
-                <button class="page-btn" disabled>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2"><polyline
-                            points="15 18 9 12 15 6"></polyline></svg>
-                </button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2"><polyline
-                            points="9 18 15 12 9 6"></polyline></svg>
-                </button>
-            </div>
-        </div>
-
+                Delete
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="isLoading">
+            <td colspan="3"
+              style="text-align:center; padding: 20px;">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+    <!-- Pagination (Simple Version) -->
+    <div class="pagination-bar">
+      <div class="pagination-controls">
+        <button class="page-btn"
+          [disabled]="pagesInfo[activeTab].currentPage === 1"
+          (click)="changePage(pagesInfo[activeTab].currentPage - 1)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2"><polyline
+              points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+
+        <button
+          class="page-btn"
+          *ngFor="let page of totalPagesArray"
+          [class.active]="page === pagesInfo[activeTab].currentPage"
+          (click)="changePage(page)">
+          {{ page }}
+        </button>
+
+        <button class="page-btn"
+          [disabled]="pagesInfo[activeTab].currentPage === pagesInfo[activeTab].totalPages"
+          (click)="changePage(pagesInfo[activeTab].currentPage + 1)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2"><polyline
+              points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<div class="modal-overlay" *ngIf="isDeleteModalOpen" (click)="closeDeleteModal()">
+<div class="modal-overlay" *ngIf="isDeleteModalOpen"
+  (click)="closeDeleteModal()">
   <div class="modal-box" (click)="$event.stopPropagation()">
     <div class="modal-icon-wrapper">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+        stroke="#DC2626" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="15" y1="9" x2="9" y2="15"></line>
         <line x1="9" y1="9" x2="15" y2="15"></line>
       </svg>
     </div>
-    
+
     <h3 class="modal-title">Are you sure?</h3>
-    <p class="modal-desc">Do you really want to delete this content? This process cannot be undone.</p>
-    
+    <p class="modal-desc">Do you really want to delete this content? This
+      process cannot be undone.</p>
+
     <div class="modal-actions">
-      <button class="btn-modal-cancel" (click)="closeDeleteModal()">Cancel</button>
-      <button class="btn-modal-delete" (click)="confirmDelete()">Yes, Delete</button>
-    </div>
+      <button class="btn-modal-cancel"
+        (click)="closeDeleteModal()">Cancel</button>
+      <button
+        class="btn-modal-delete"
+        (click)="confirmDelete()"
+        [disabled]="isDeleting">
+        {{ isDeleting ? 'Deleting...' : 'Yes, Delete' }}
+      </button> </div>
   </div>
 </div>

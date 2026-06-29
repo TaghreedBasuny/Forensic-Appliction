@@ -16,12 +16,12 @@
     <!-- NAVIGATION Column -->
     <div class="footer-column">
       <h4>NAVIGATION</h4>
-      <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/features">Features</a></li>
-        <li><a routerLink="/use-cases">Use Cases</a></li>
-        <li><a routerLink="/contact">Contact</a></li>
-      </ul>
+      <ul class="nav-links">
+  <li><a href="#hero" (click)="scrollToSection($event, 'hero')">Home</a></li>
+  <li><a href="#feature" (click)="scrollToSection($event, 'feature')">Features</a></li>
+  <li><a href="#use-case" (click)="scrollToSection($event, 'use-case')">Use Case</a></li>
+  <li><a href="#contact-section" (click)="scrollToContact($event)">Contact</a></li>
+</ul>
     </div>
 
     <!-- ANALYSIS MODELS Column -->

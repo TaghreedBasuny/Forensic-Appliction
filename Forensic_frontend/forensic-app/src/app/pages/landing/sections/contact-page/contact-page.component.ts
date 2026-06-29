@@ -2,19 +2,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavbarComponent } from '../../layout/navbar/navbar.component';
-import { FooterComponent } from '../../layout/footer/footer.component';
-import { ContactService } from '../../core/services/contact.service';
+import { ContactService } from '../../../../core/services/contact.service';
 
 @Component({
   selector: 'app-contact-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    NavbarComponent,
-    FooterComponent
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contact-page.component.html',
   styleUrls: ['./contact-page.component.scss']
 })
@@ -25,6 +18,8 @@ export class ContactPageComponent {
   isError = false;
   errorMessage = '';
 
+  private egyptianPhoneRegex = /^(010|011|012|015)[0-9]{8}$/;
+
   constructor(
     private fb: FormBuilder,
     private contactService: ContactService
@@ -32,7 +27,10 @@ export class ContactPageComponent {
     this.contactForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
+      phone: ['', [
+        Validators.required, 
+        Validators.pattern(this.egyptianPhoneRegex) 
+      ]],
       message: ['', [Validators.required, Validators.minLength(10)]]
     });
   }
@@ -52,25 +50,21 @@ export class ContactPageComponent {
       };
 
       this.contactService.submitContact(contactData).subscribe({
-        next: (response) => {
+        next: (response: any) => {
           console.log('Success:', response);
           this.isLoading = false;
           this.isSuccess = true;
           this.contactForm.reset();
           
-          setTimeout(() => {
-            this.isSuccess = false;
-          }, 5000);
+          setTimeout(() => { this.isSuccess = false; }, 5000);
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error:', error);
           this.isLoading = false;
           this.isError = true;
           this.errorMessage = error.error?.msg || 'Failed to send message. Please try again.';
           
-          setTimeout(() => {
-            this.isError = false;
-          }, 5000);
+          setTimeout(() => { this.isError = false; }, 5000);
         }
       });
     } else {
@@ -78,7 +72,5 @@ export class ContactPageComponent {
     }
   }
 
-  get f() {
-    return this.contactForm.controls;
-  }
+  get f() { return this.contactForm.controls; }
 }

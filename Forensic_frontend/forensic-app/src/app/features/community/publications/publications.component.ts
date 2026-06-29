@@ -223,7 +223,6 @@ export class PublicationsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error adding comment', err);
-        // تراجع عن الإضافة الوهمية لو فشل الطلب
         this.comments[articleId] = this.comments[articleId].filter(c => c.id !== newComment.id);
         if (article) article.comments--;
         this.cdr.detectChanges();

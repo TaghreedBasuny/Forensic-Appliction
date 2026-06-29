@@ -611,7 +611,6 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  // ✅ بعد رفع الصورة، بنحفظها فعليًا مع بيانات اليوزر في السيرفر
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.[0]) {
@@ -624,7 +623,6 @@ export class SettingsComponent implements OnInit {
             localStorage.setItem('profilePicture', response.image);
             this.checkUnsavedChanges();
 
-            // ✅ نحفظ رابط الصورة مع باقي بيانات اليوزر عشان يفضل موجود بعد الـ Refresh
             const payload = {
               name: `${this.personalForm.value.firstName} ${this.personalForm.value.lastName}`.trim(),
               email: this.personalForm.value.email,

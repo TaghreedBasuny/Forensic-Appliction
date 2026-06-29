@@ -131,12 +131,11 @@ $text-light: #9ca3af;
     width: 100%;
   }
 
-  // تم تعديل الكارد_body عشان ميبقاش طويل فاضي
   .card-body {
     padding: 16px;
     display: flex;
     flex-direction: column;
-    // min-height: 280px; <-- تم حذف الارتفاع الثابت
+    // min-height: 280px; 
   }
 }
 
@@ -147,8 +146,8 @@ $text-light: #9ca3af;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 0; // مسافة بسيطة بس عشان الشكل يبقى حلو فاضي
-  // min-height: 400px; <-- تم الحذف
+  padding: 40px 0; 
+  // min-height: 400px; 
 
   .placeholder-content {
     display: flex;
@@ -193,7 +192,7 @@ $text-light: #9ca3af;
 .camera-container {
   position: relative;
   width: 100%;
-  height: 400px; // الكاميرا ليها ارتفاع ثابت عشان ميتهزش
+  height: 400px; 
   min-height: 250px;
 
   video {
@@ -249,15 +248,14 @@ $text-light: #9ca3af;
   }
 }
 
-// Left Column: Image Container (Fixed Height Only for Image)
 .media-wrapper {
   position: relative;
   width: 100%;
-  height: 420px; // ارتفاع ثابت كما طلبت
+  height: 420px; 
   background: #f8f9fa;
   border-radius: 6px;
   margin-bottom: 16px;
-  overflow: hidden; // لمنع خروج أي جزء من الصورة أو زر الحذف
+  overflow: hidden;
 
   .media-preview {
     width: 100%;
@@ -267,7 +265,7 @@ $text-light: #9ca3af;
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover; // <-- السر هنا: يملأ العرض والارتفاع ويقص الزوائد
+      object-fit: cover; 
       display: block;
     }
   }
@@ -304,11 +302,10 @@ $text-light: #9ca3af;
 // RIGHT COLUMN: RESULT & ACTIONS
 // ==========================================
 
-// Right Column: Result Container (Fixed Height Only for Image)
 .result-image-wrapper {
   position: relative;
   width: 100%;
-  height: 420px; // نفس الارتفاع الثابت
+  height: 420px; 
   margin: 0 auto 16px auto;   
   border-radius: 12px;
   overflow: hidden;
@@ -322,7 +319,7 @@ $text-light: #9ca3af;
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: cover; // <-- يملأ المساحة بالكامل بدون فراغات
+    object-fit: cover; 
   }
 }
 .success-message {
@@ -504,7 +501,7 @@ $text-light: #9ca3af;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 0; // مساحة كافية للسبينر من غير ما يطول الكارد فاضي
+  padding: 60px 0; 
   gap: 12px;
 
   .spinner {
@@ -536,7 +533,7 @@ $text-light: #9ca3af;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  padding: 40px 0; // مساحة للدوائر الفاضية
+  padding: 40px 0; 
 }
 
 .double-circle {

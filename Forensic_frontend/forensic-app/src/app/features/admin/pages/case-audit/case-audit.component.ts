@@ -1,57 +1,64 @@
-import { Component } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // مهم للـ Search
-
-interface CaseRecord {
-  id: number;
-  caseId: string;
-  leadDoctor: string;
-  evidenceCount: number;
-  status: 'Active' | 'Complete';
-}
+import { FormsModule } from '@angular/forms';
+import { CaseAuditService } from '../../services/case-audit.service';
+import { CaseRecord } from '../../models/case-audit.model';
 
 @Component({
   selector: 'app-case-audit',
   standalone: true,
-  imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, FormsModule],
   templateUrl: './case-audit.component.html',
   styleUrls: ['./case-audit.component.scss']
 })
-export class CaseAuditComponent {
-  
+export class CaseAuditComponent implements OnInit {
+
   searchTerm: string = '';
-  allCases: CaseRecord[] = [
-    { id: 1, caseId: 'CS-2024-0891', leadDoctor: 'Dr. Mohammed Sakr', evidenceCount: 8, status: 'Active' },
-    { id: 2, caseId: 'CS-2024-0893', leadDoctor: 'Dr. Julianne Davis', evidenceCount: 8, status: 'Complete' },
-    { id: 3, caseId: 'CS-2024-0852', leadDoctor: 'Dr. Elena Lopez', evidenceCount: 8, status: 'Active' },
-    { id: 4, caseId: 'CS-2024-0878', leadDoctor: 'Dr. Sara Ali', evidenceCount: 8, status: 'Active' },
-    { id: 5, caseId: 'CS-2024-0866', leadDoctor: 'Dr. Taghreed Mohammed', evidenceCount: 8, status: 'Complete' },
-    { id: 6, caseId: 'CS-2024-0833', leadDoctor: 'Dr. Basmala Mohammed', evidenceCount: 8, status: 'Active' },
-    { id: 7, caseId: 'CS-2024-0901', leadDoctor: 'Dr. Ahmed Hassan', evidenceCount: 12, status: 'Active' },
-    { id: 8, caseId: 'CS-2024-0915', leadDoctor: 'Dr. Fatima Al-Rashid', evidenceCount: 5, status: 'Complete' },
-    { id: 9, caseId: 'CS-2024-0922', leadDoctor: 'Dr. Omar Khalil', evidenceCount: 20, status: 'Active' },
-    { id: 10, caseId: 'CS-2024-0940', leadDoctor: 'Dr. Layla Mansour', evidenceCount: 3, status: 'Complete' },
-    { id: 11, caseId: 'CS-2024-0955', leadDoctor: 'Dr. Karim Nabil', evidenceCount: 15, status: 'Active' },
-    { id: 12, caseId: 'CS-2024-0968', leadDoctor: 'Dr. Hana Youssef', evidenceCount: 7, status: 'Active' },
-  ];
+  allCases: CaseRecord[] = [];      
+  filteredCases: CaseRecord[] = [];
 
-  filteredCases: CaseRecord[] = [...this.allCases];
-
-  // Pagination
   currentPage = 1;
-  itemsPerPage = 6;
+  itemsPerPage = 10; 
+  totalCases = 0;
+  totalPages = 1;
 
-  get totalCases(): number {
-    return this.filteredCases.length;
+  loading = false;
+  errorMsg = '';
+
+  constructor(private caseService: CaseAuditService,
+    private cdr: ChangeDetectorRef, 
+  ) {}
+
+  ngOnInit(): void {
+    this.fetchCases(this.currentPage);
+  }
+
+  fetchCases(page: number): void {
+    this.loading = true;
+    this.errorMsg = '';
+
+    this.caseService.getCases(page).subscribe({
+      next: (res) => {
+        this.allCases = res.cases;
+        this.filteredCases = [...res.cases];
+        this.totalCases = res.total;
+        this.totalPages = res.lastPage;
+        this.currentPage = page;
+        this.loading = false;
+              this.cdr.detectChanges();
+
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+                this.cdr.detectChanges();
+
+      }
+    });
   }
 
   get paginatedCases(): CaseRecord[] {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.filteredCases.slice(start, start + this.itemsPerPage);
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.totalCases / this.itemsPerPage);
+    return this.filteredCases;
   }
 
   get totalPagesArray(): number[] {
@@ -69,16 +76,16 @@ export class CaseAuditComponent {
 
   filterCases(): void {
     const term = this.searchTerm.toLowerCase();
-    this.filteredCases = this.allCases.filter(c => 
-      c.caseId.toLowerCase().includes(term) || 
+    this.filteredCases = this.allCases.filter(c =>
+      c.caseId.toLowerCase().includes(term) ||
+      c.title.toLowerCase().includes(term) ||
       c.leadDoctor.toLowerCase().includes(term)
     );
-    this.currentPage = 1; 
   }
 
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
+      this.fetchCases(page);
     }
   }
 }

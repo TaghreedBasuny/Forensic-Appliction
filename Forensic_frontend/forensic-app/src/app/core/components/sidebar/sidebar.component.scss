@@ -60,7 +60,20 @@ $sidebar-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
 }
 
 // Menu Items
-.nav-menu { flex: 1; }
+.nav-menu { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding-right: 5px;
+  
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+  scrollbar-width: none;     
+  -ms-overflow-style: none;     
+  
+  &::-webkit-scrollbar { 
+    display: none;         
+  }
+}
 
 .nav-item {
   display: flex;
@@ -73,7 +86,8 @@ $sidebar-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
   transition: 0.3s;
   cursor: pointer;
   white-space: nowrap;
-
+  padding: 12px 22px; 
+  margin-bottom: 8px;
   .nav-icon {
     width: 22px;
     height: 22px;

@@ -39,35 +39,38 @@
             <th style="width: 15%;">Type</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let log of paginatedLogs; let i = index">
-            <td class="desc-cell">{{ log.description }}</td>
+       <tbody>
+  <tr *ngFor="let log of logsData">
+    <!-- Description -->
+    <td class="desc-cell">{{ log.massage }}</td>
 
-           <td class="admin-cell">
-  <span class="cell-content">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-      <circle cx="12" cy="7" r="4"></circle>
-    </svg>
-    {{ log.adminName }}
-  </span>
-</td>
+    <!-- Admin Name -->
+    <td class="admin-cell">
+      <span class="cell-content">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        {{ log.name }}
+      </span>
+    </td>
 
-           <td class="time-cell">
-  <span class="cell-content">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
-      <circle cx="12" cy="12" r="10"></circle>
-      <polyline points="12 6 12 12 16 14"></polyline>
-    </svg>
-    {{ log.timestamp }}
-  </span>
-</td>
+    <!-- Timestamp -->
+    <td class="time-cell">
+      <span class="cell-content">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        {{ formatDate(log.created_at) }}
+      </span>
+    </td>
 
-            <td class="type-cell">
-              <span class="type-badge">{{ log.type }}</span>
-            </td>
-          </tr>
-        </tbody>
+    <td class="type-cell">
+      <span class="type-badge">{{ getActionType(log.massage) }}</span>
+    </td>
+  </tr>
+</tbody>
       </table>
     </div>
 

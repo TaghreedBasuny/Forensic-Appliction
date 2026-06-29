@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <!-- ✅ Image & Title Side-by-Side Layout -->
+    <!-- Image & Title Side-by-Side Layout -->
     <div class="article-main-content">
       <img *ngIf="article.imageUrl" [src]="article.imageUrl" class="article-thumbnail" alt="Article Cover">
       <h3 class="article-title">{{article.title}}</h3>
@@ -245,7 +245,6 @@
   </div>
 </div> 
 
-<!-- ================= GLOBAL EDIT COMMENT MODAL (SMALL) ================= -->
 <!-- ================= GLOBAL EDIT COMMENT MODAL ================= -->
 <div class="modal-overlay" *ngIf="showEditCommentModal" (click)="closeEditModal()">
   <div class="modal-container" (click)="$event.stopPropagation()">

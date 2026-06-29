@@ -1,13 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface SystemLog {
-  id: number;
-  description: string;
-  adminName: string;
-  timestamp: string;
-  type: 'Export' | 'Delete' | 'Modify' | 'Suspend';
-}
+import { SystemLogService, LogItem } from '../../services/system-log.service';
 
 @Component({
   selector: 'app-system-logs',
@@ -16,38 +9,70 @@ interface SystemLog {
   templateUrl: './system-logs.component.html',
   styleUrls: ['./system-logs.component.scss']
 })
-export class SystemLogsComponent {
+export class SystemLogsComponent implements OnInit {
   
-  allLogs: SystemLog[] = [
-    { id: 1, description: 'Exported Doctors List (Excel)', adminName: 'Admin_Taghreed', timestamp: '2026-04-23 10:15', type: 'Export' },
-    { id: 2, description: 'Deleted Case #1847', adminName: 'Admin_Nada', timestamp: '2026-04-22 16:45', type: 'Delete' },
-    { id: 3, description: 'Modified System Settings', adminName: 'Admin_Anas', timestamp: '2026-04-22 09:30', type: 'Modify' },
-    { id: 4, description: 'Blocked User #445', adminName: 'Admin_Abdulrahman', timestamp: '2026-04-21 13:20', type: 'Suspend' },
-    { id: 5, description: 'Suspended Doctor #201', adminName: 'Admin_Yaseen', timestamp: '2026-04-23 14:20', type: 'Suspend' },
-    { id: 6, description: 'Updated Security Policy', adminName: 'Admin_Sakr', timestamp: '2026-04-20 11:00', type: 'Modify' },
-    { id: 7, description: 'Exported Audit Report', adminName: 'Admin_Taghreed', timestamp: '2026-04-19 15:30', type: 'Export' },
-    { id: 8, description: 'Deleted Old Logs', adminName: 'Admin_Nada', timestamp: '2026-04-18 09:15', type: 'Delete' },
-  ];
-
-  // Pagination
+  logsData: LogItem[] = [];
   currentPage = 1;
-  itemsPerPage = 5;
+  totalPages = 1;
+  totalLogs = 0;
+  itemsPerPage = 6; 
+  isLoading = false;
 
-  get totalLogs(): number {
-    return this.allLogs.length;
+  constructor(private systemLogService: SystemLogService, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    this.fetchLogs();
   }
 
-  get paginatedLogs(): SystemLog[] {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.allLogs.slice(start, start + this.itemsPerPage);
+  fetchLogs(page: number = 1): void {
+    this.isLoading = true;
+    
+    this.systemLogService.getLogs(page, this.itemsPerPage).subscribe({
+      next: (response) => {
+        this.logsData = response.data.data;
+        
+        this.totalPages = response.data.last_page;
+        this.totalLogs = response.data.total;
+        this.currentPage = response.data.current_page;
+        
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching logs:', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.totalLogs / this.itemsPerPage);
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.fetchLogs(page);
+    }
   }
 
-  get totalPagesArray(): number[] {
-    return Array.from({ length: this.totalPages || 1 }, (_, i) => i + 1);
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric', 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  }
+
+  getActionType(message: string): string {
+    if (message.includes('block')) return 'Suspend';
+    if (message.includes('active')) return 'Active';
+    if (message.includes('delete')) return 'Delete';
+    if (message.includes('assign')) return 'Modify';
+    return 'Other';
+  }
+
+  exportPDF(): void {
+    console.log('Exporting logs to PDF...');
   }
 
   get startIndex(): number {
@@ -58,14 +83,8 @@ export class SystemLogsComponent {
     const end = this.currentPage * this.itemsPerPage;
     return end > this.totalLogs ? this.totalLogs : end;
   }
-
-  changePage(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-    }
-  }
-
-  exportPDF(): void {
-    console.log('Exporting logs to PDF...');
+  
+  get totalPagesArray(): number[] {
+    return Array.from({ length: this.totalPages || 1 }, (_, i) => i + 1);
   }
 }

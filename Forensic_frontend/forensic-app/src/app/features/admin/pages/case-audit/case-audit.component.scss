@@ -131,6 +131,16 @@
   font-family: monospace;
   font-size: 13px;
 }
+.title-cell {
+  font-weight: 600;
+  color: #1E2A5E;
+  max-width: 250px;           
+  white-space: nowrap;      
+  overflow: hidden;           
+  text-overflow: ellipsis; 
+  
+
+}
 
 .doctor-cell {
   font-weight: 600;

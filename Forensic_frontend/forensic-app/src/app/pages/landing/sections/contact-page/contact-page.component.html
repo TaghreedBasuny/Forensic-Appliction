@@ -1,0 +1,77 @@
+<!-- src/app/pages/contact-page/contact-page.component.html -->
+<main class="contact-page">
+  <div class="contact-container">
+    
+    <!-- Success Alert (Full Width) -->
+    <div class="alert alert-success" *ngIf="isSuccess">
+      <span>✓</span> Message Sent Successfully! We'll get back to you soon.
+      <button class="alert-close" (click)="isSuccess = false">×</button>
+    </div>
+
+    <div class="contact-header">
+      <!-- ✅ SVG Headset Icon -->
+      <div class="header-icon">
+        <svg width="60" height="60" viewBox="0 0 107 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M75.1324 3.74922C49.651 -6.7246 20.3518 5.5048 9.87797 30.9862L0.373592 54.1091C-0.671889 56.6526 0.553775 59.589 3.09729 60.6345L16.971 66.3371C19.5145 67.3826 22.451 66.157 23.4965 63.6134L33.0008 40.4906C34.0463 37.9471 32.8206 35.0106 30.2771 33.9651L21.3517 30.2964C31.1072 13.007 52.5087 5.26181 71.3307 12.9984C90.1527 20.7349 99.9208 41.2921 94.6974 60.4443L85.772 56.7756C83.2285 55.7301 80.292 56.9558 79.2466 59.4993L69.7422 82.6222C68.6967 85.1657 69.9224 88.1022 72.4659 89.1476L81.715 92.9494L79.8142 97.574C78.7687 100.117 75.8322 101.343 73.2887 100.298L54.7904 92.6942C55.8359 90.1506 54.6102 87.2142 52.0667 86.1687L33.5684 78.5652C31.0249 77.5197 28.0885 78.7454 27.043 81.2889L25.1421 85.9135C24.0966 88.457 25.3223 91.3934 27.8658 92.4389L69.487 109.547C77.1175 112.683 85.9269 109.006 89.0633 101.376L102.369 69.0037C112.843 43.5223 100.614 14.223 75.1324 3.74922Z" fill="#1e2a5e"/>
+        </svg>
+      </div>
+      
+      <h1>Contact Us</h1>
+      <p>Any Question or Remarks? Just write us a message!</p>
+    </div>
+
+    <!-- Error Alert (Full Width) -->
+    <div class="alert alert-error" *ngIf="isError">
+      <span>!</span> {{ errorMessage }}
+      <button class="alert-close" (click)="isError = false">×</button>
+    </div>
+
+    <div class="contact-form-wrapper">
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Row for 3 inputs -->
+        <div class="form-row">
+          <div class="form-group">
+            <input type="text" formControlName="fullName" placeholder="Full Name">
+            <div class="invalid-feedback" *ngIf="f['fullName'].invalid && f['fullName'].touched">
+              <span *ngIf="f['fullName'].errors?.['required']">Full name is required</span>
+              <span *ngIf="f['fullName'].errors?.['minlength']">Min 3 characters</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="email" formControlName="email" placeholder="Email">
+            <div class="invalid-feedback" *ngIf="f['email'].invalid && f['email'].touched">
+              <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+              <span *ngIf="f['email'].errors?.['email']">Invalid email format</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="tel" formControlName="phone" placeholder="Phone Number">
+            <div class="invalid-feedback" *ngIf="f['phone'].invalid && f['phone'].touched">
+              <span *ngIf="f['phone'].errors?.['required']">Phone is required</span>
+              <span *ngIf="f['phone'].errors?.['pattern']">Invalid Egyptian number (e.g., 010xxxxxxx)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message Area -->
+        <div class="form-group full-width">
+          <textarea formControlName="message" placeholder="Enter Message....." rows="5"></textarea>
+          <div class="invalid-feedback" *ngIf="f['message'].invalid && f['message'].touched">
+            <span *ngIf="f['message'].errors?.['required']">Message is required</span>
+            <span *ngIf="f['message'].errors?.['minlength']">Min 10 characters</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="isLoading || contactForm.invalid">
+          <span *ngIf="!isLoading">Send Message</span>
+          <span *ngIf="isLoading" class="loading-spinner">
+            <span class="spinner"></span> Sending...
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+</main>

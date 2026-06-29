@@ -3,20 +3,16 @@
     <img src="/assets/images/logo.png" alt="Forensic Science Logo" />
   </div>
 
- 
-  <ul class="nav-links">
-    <li><a href="#hero">Home</a></li>
-    <li><a href="#feature">Features</a></li>
-    <li><a href="#use-case">Use Case</a></li>
-<li>
-  <a routerLink="/contact" routerLinkActive="active">Contact</a>
-</li>
-  </ul>
+<ul class="nav-links">
+  <li><a href="#hero" (click)="scrollToSection($event, 'hero')">Home</a></li>
+  <li><a href="#feature" (click)="scrollToSection($event, 'feature')">Features</a></li>
+  <li><a href="#use-case" (click)="scrollToSection($event, 'use-case')">Use Case</a></li>
+  <li><a href="#contact-section" (click)="scrollToContact($event)">Contact</a></li>
+</ul>
 
-  <div class="auth-buttons"> 
+  <div class="auth-buttons">
     <button class="btn-signup" routerLink="/auth/signup">Sign up</button>
     <button class="btn-login" routerLink="/auth/login">Login</button>
-    
-   
+
   </div>
 </nav>

@@ -7,9 +7,7 @@
 // ... (Top Section Styles Same as before) ...
 .top-section { text-align: center; margin-bottom: 32px; .page-title { font-size: 40px; font-weight: 700; color: #1E2A5E; margin-bottom: .3rem; } .page-subtitle { font-size: 20px; color: #727272; max-width: 700px; margin: 0 auto; line-height: 1.6; margin-bottom: 50px; } .actions-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; .tabs { display: flex; gap: 12px; background: #F1F5F9; padding: 6px; border-radius: 12px; .tab { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: transparent; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; color: #64748B; cursor: pointer; transition: all 0.2s; svg { width: 18px; height: 18px; } &:hover { color: #1E2A5E; background: rgba(255,255,255,0.5); } &.active { background: #FFFFFF; color: #1E2A5E; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.05); } } } .btn-new-post, .btn-new-article { display: flex; align-items: center; gap: 8px; padding: 10px 20px; background: #1E2A5E; color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; white-space: nowrap; &:hover { background: #2d4a7c; transform: translateY(-2px); } } } }
 
-// =========================================
 // Modal Styles (Fixed Layout)
-// =========================================
 .modal-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
@@ -46,9 +44,7 @@
 
 @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-// =========================================
 // My Content Styles (Cards)
-// =========================================
 .my-content-container { display: flex; flex-direction: column; gap: 20px; padding-top: 20px; }
 
 .content-card {
@@ -87,7 +83,7 @@
           .comment-author { font-weight: 700; font-size: 13px; color: #1E293B; } 
           .comment-time { font-size: 11px; color: #94A3B8; margin-top: 2px; }
           
-          // ✅ Actions: Absolute Positioning for Guaranteed Visibility
+          // Actions: Absolute Positioning for Guaranteed Visibility
           .comment-actions {
             position: absolute;
             top: 12px;
@@ -115,7 +111,7 @@
 
 .empty-state { text-align: center; padding: 40px; color: #64748B; background: #F8FAFC; border-radius: 12px; border: 2px dashed #E2E8F0; }
 
-// ✅ Icon Buttons for Comments (High Contrast)
+// Icon Buttons for Comments (High Contrast)
 .icon-btn-xs {
   width: 28px; height: 28px; padding: 0;
   border-radius: 6px;

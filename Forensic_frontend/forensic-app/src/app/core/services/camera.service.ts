@@ -1,4 +1,3 @@
-// src/app/core/services/camera.service.ts
 import { Injectable } from '@angular/core';
 
 @Injectable({

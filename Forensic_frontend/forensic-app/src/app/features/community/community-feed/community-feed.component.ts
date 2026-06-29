@@ -54,7 +54,7 @@ editingCommentText: string = '';
   //  Comment Edit/Delete Modals Variables
   showEditCommentModal: boolean = false;
   editingCommentId: number | null = null;
-  editingCommentParentId: number | null = null; // ID of the post/article
+  editingCommentParentId: number | null = null; 
 
   showDeleteCommentModal: boolean = false;
   commentToDeleteId: number | null = null;

@@ -36,4 +36,10 @@ export class DoctorsHubService {
   toggleActive(id: number): Observable<ToggleResponse> {
     return this.http.get<ToggleResponse>(`${this.baseUrl}/toggle/active/${id}`);
   }
+
+  assignAdmin(doctorId: number): Observable<{ status: boolean; message: string }> {
+  return this.http.get<{ status: boolean; message: string }>(
+    `${this.baseUrl}/doctors/assign/admin/${doctorId}`
+  );
+}
 }
