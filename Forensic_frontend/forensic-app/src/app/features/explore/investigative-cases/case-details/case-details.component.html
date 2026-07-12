@@ -172,9 +172,9 @@
             </div>
           </div>
 
-          <div class="evidence-thumb" *ngIf="ev.data?.phenotypes?.image">
-            <img [src]="ev.data.phenotypes.image" alt="Recognized Face">
-          </div>
+          <div class="evidence-thumb" *ngIf="ev.data?.phenotypes?.image || ev.data?.phenotypes?.image_url || ev.data?.phenotypes?.matched_image">
+  <img [src]="ev.data.phenotypes.image || ev.data.phenotypes.image_url || ev.data.phenotypes.matched_image" alt="Recognized Face" (error)="$event.target.style.display='none'">
+</div>
 
           <div class="evidence-thumb no-img" *ngIf="!ev.data?.phenotypes?.image">
              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.5">
@@ -224,9 +224,9 @@
             </div>
           </div>
 
-          <div class="evidence-thumb" *ngIf="ev.data?.phenotypes?.image_url">
-            <img [src]="ev.data.phenotypes.image_url" alt="Reconstructed Face">
-          </div>
+        <div class="evidence-thumb" *ngIf="ev.data?.phenotypes?.image_url || ev.data?.phenotypes?.image">
+  <img [src]="ev.data.phenotypes.image_url || ev.data.phenotypes.image" alt="Reconstructed Face" (error)="$event.target.style.display='none'">
+</div>
 
           <div class="evidence-thumb no-img"
             *ngIf="!ev.data?.phenotypes?.image_url">
