@@ -3,16 +3,40 @@
     <img src="/assets/images/logo.png" alt="Forensic Science Logo" />
   </div>
 
-<ul class="nav-links">
-  <li><a href="#hero" (click)="scrollToSection($event, 'hero')">Home</a></li>
-  <li><a href="#feature" (click)="scrollToSection($event, 'feature')">Features</a></li>
-  <li><a href="#use-case" (click)="scrollToSection($event, 'use-case')">Use Case</a></li>
-  <li><a href="#contact-section" (click)="scrollToContact($event)">Contact</a></li>
-</ul>
+  <!-- Desktop Links -->
+  <ul class="nav-links">
+    <li><a href="#hero" (click)="scrollToSection($event, 'hero')">Home</a></li>
+    <li><a href="#feature" (click)="scrollToSection($event, 'feature')">Features</a></li>
+    <li><a href="#use-case" (click)="scrollToSection($event, 'use-case')">Use Case</a></li>
+    <li><a href="#contact-section" (click)="scrollToContact($event)">Contact</a></li>
+  </ul>
 
+  <!-- Desktop Auth Buttons -->
   <div class="auth-buttons">
     <button class="btn-signup" routerLink="/auth/signup">Sign up</button>
     <button class="btn-login" routerLink="/auth/login">Login</button>
-
   </div>
+
+  <!-- Mobile Menu Toggle Button -->
+  <button class="mobile-menu-btn" (click)="toggleMenu()" aria-label="Toggle Menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
 </nav>
+
+<!-- Mobile Dropdown Menu -->
+<div class="mobile-nav" [class.active]="isMenuOpen">
+  <ul>
+    <li><a href="#hero" (click)="closeMenu(); scrollToSection($event, 'hero')">Home</a></li>
+    <li><a href="#feature" (click)="closeMenu(); scrollToSection($event, 'feature')">Features</a></li>
+    <li><a href="#use-case" (click)="closeMenu(); scrollToSection($event, 'use-case')">Use Case</a></li>
+    <li><a href="#contact-section" (click)="closeMenu(); scrollToContact($event)">Contact</a></li>
+  </ul>
+
+  <!-- Mobile Auth Buttons -->
+  <div class="mobile-auth-buttons">
+    <button class="btn-signup-mobile" routerLink="/auth/signup">Sign up</button>
+    <button class="btn-login-mobile" routerLink="/auth/login">Login</button>
+  </div>
+</div>

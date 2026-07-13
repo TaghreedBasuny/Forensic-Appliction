@@ -166,11 +166,9 @@ $hover-color: rgb(59, 59, 218);
     text-align: center;
     margin-top: 30px;
     padding-top: 20px;
-    // border-top: 10px solid $border-color;
     color: $text-color-gray;
     font-size: 12px;
 
-    // Line above copyright
     .copyright-line {
       position: absolute;
       top: -10px;
@@ -178,15 +176,13 @@ $hover-color: rgb(59, 59, 218);
       width: 50%;
       height: 3px;
       background: linear-gradient(
-   90deg,
+        90deg,
         #4a5ca8,
-    #2bc4f4,
-     #4a5ca8,
-    
+        #2bc4f4,
+        #4a5ca8,
       );
     }
 
-    // Fingerprint background (semi-transparent)
     .fingerprint-bg {
       position: absolute;
       bottom: -30px;
@@ -209,31 +205,127 @@ $hover-color: rgb(59, 59, 218);
   }
 }
 
-// Responsive
-@media (max-width: 768px) {
+// Responsive Design
+@media (max-width: 992px) {
   .footer {
     .footer-container {
+      gap: 30px;
+      
+      .footer-column {
+        flex: 1 1 45%; 
+        
+        .search-bar {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 30px 15px 15px;
+    
+    .footer-container {
       flex-direction: column;
+      gap: 25px;
 
       .footer-column {
         min-width: 100%;
-        margin-bottom: 20px;
-      }
-    }
+        margin-bottom: 0;
+        text-align: center; 
 
-    .search-bar {
-      input { border-radius: 20px; }
-      button { border-radius: 0 20px 20px 0; }
+        h4 {
+          font-size: 18px;
+        }
+
+        ul li a {
+          font-size: 16px;
+        }
+
+        .brand-logo {
+          display: flex;
+          justify-content: center;
+          
+          img {
+            width: 100px;
+          }
+        }
+
+        .social-icons {
+          justify-content: center;
+        }
+
+        .search-bar {
+          width: 100%;
+          max-width: 350px;
+          margin: 15px auto 0;
+          
+          input { 
+            border-radius: 20px 0 0 20px; 
+            padding: 8px 12px;
+          }
+          
+          button { 
+            border-radius: 0 20px 20px 0; 
+          }
+        }
+        
+        .contact-info {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
     }
 
     .footer-bottom {
+      margin-top: 20px;
+      padding-top: 15px;
+      
       .copyright-line {
         top: -8px;
+        left: 15%;
+        width: 70%;
       }
 
       .fingerprint-bg {
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
+        bottom: -20px;
+      }
+      
+      p {
+        font-size: 11px;
+        padding: 5px 20px; 
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    .footer-container {
+      .footer-column {
+        h4 {
+          font-size: 16px;
+        }
+        
+        ul li a {
+          font-size: 15px;
+        }
+        
+        .brand-name {
+          font-size: 13px;
+        }
+      }
+    }
+    
+    .footer-bottom {
+      .fingerprint-bg {
+        width: 60px;
+        height: 60px;
+        bottom: -15px;
       }
     }
   }

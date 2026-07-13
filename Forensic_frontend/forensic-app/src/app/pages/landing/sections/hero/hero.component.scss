@@ -8,7 +8,6 @@
   position: relative;
   overflow: hidden;
 
-  /* Fingerprint – partially under content */
   &::before {
     content: '';
     position: absolute;
@@ -22,7 +21,6 @@
     z-index: 1;
     pointer-events: none;
   }
-
   
   &::after {
     content: '';
@@ -119,59 +117,58 @@
           }
         }
       }
+      
       .email-input-container {
-  display: flex;
-  gap: 12px;
-  margin: 1.5rem 0;
-  width: 100%;
-  max-width: 500px;
-  margin: 1.8rem auto;
+        display: flex;
+        gap: 12px;
+        margin: 1.8rem auto;
+        width: 100%;
+        max-width: 500px;
+        
+        .email-input {
+          flex: 1;
+          padding: 0.8rem 1.2rem;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          font-size: 1rem;
+          outline: none;
+          transition: border-color 0.3s;
+          
+          &:focus {
+            border-color: #1E2A5E;
+          }
+        }
+        
+        .btn-login {
+          padding: 0.8rem 1.8rem;
+          border-radius: 8px;
+          background: #1E2A5E;
+          color: white;
+          border: none;
+          cursor: pointer;
+          font-weight: 600;
+          transition: all 0.3s;
+          
+          &:hover {
+            background: #161f47;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 42, 94, 0.25);
+          }
+        }
+      }
+    }
+  }
   
-  .email-input {
-    flex: 1;
-    padding: 0.8rem 1.2rem;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s;
+  .btn-content {
+    color: #727272;
     
-    &:focus {
-      border-color: #1E2A5E;
+    h5 {
+      font-size: .8rem;
     }
-  }
-  
-  .btn-login {
-    padding: 0.8rem 1.8rem;
-    border-radius: 8px;
-    background: #1E2A5E;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-    
-    &:hover {
-      background: #161f47;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(30, 42, 94, 0.25);
-    }
-  }
-}
-
-     
-    }
-  }
-  .btn-content{
-  color: #727272;
-  
-}
-h5{
-    font-size: .8rem;
   }
 
   .cards-slider-section {
-    width:110%;
+    width: 110%;
     position: relative;
     overflow: hidden;
     margin: .5rem 0;
@@ -254,7 +251,6 @@ h5{
   }
 
   .percentage {
-    // background: #eef7ff;
     color: #16A34A;
     font-weight: 700;
     padding: 4px 10px;
@@ -273,11 +269,33 @@ h5{
   }
 }
 
-
-
 /* Responsive Design */
 @media (max-width: 1200px) {
   .hero {
+    padding: 3.5rem 2rem;
+    
+    &::before {
+      width: 250px;
+      height: 200px;
+      left: 20%;
+    }
+    
+    &::after {
+      width: 320px;
+      height: 280px;
+      right: -80px;
+    }
+    
+    .hero-content {
+      h1 {
+        font-size: 3.5rem;
+      }
+      
+      h2 {
+        font-size: 1.8rem;
+      }
+    }
+    
     .slider-card {
       flex: 0 0 230px;
       min-width: 230px;
@@ -288,6 +306,38 @@ h5{
 
 @media (max-width: 992px) {
   .hero {
+    padding: 3rem 1.5rem;
+    
+    &::before {
+      width: 200px;
+      height: 170px;
+      opacity: 0.7;
+    }
+    
+    &::after {
+      width: 280px;
+      height: 240px;
+      opacity: 0.6;
+    }
+    
+    .hero-content {
+      h1 {
+        font-size: 3rem;
+      }
+      
+      h2 {
+        font-size: 1.6rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+    
+    .email-input-container {
+      max-width: 450px;
+    }
+    
     .slider-card {
       flex: 0 0 210px;
       min-width: 210px;
@@ -298,28 +348,59 @@ h5{
 
 @media (max-width: 768px) {
   .hero {
-    padding: 2rem 1.5rem;
-    background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
-
+    padding: 2.5rem 1.5rem;
+    
     &::before {
       width: 180px;
-      height: 180px;
+      height: 150px;
       top: 0%;
-      opacity: 0.1;
+      left: 15%;
+      opacity: 0.5;
     }
-
+    
+    &::after {
+      width: 220px;
+      height: 190px;
+      right: -60px;
+      bottom: 35%;
+      opacity: 0.5;
+    }
+    
     .hero-content {
       max-width: 100%;
-      text-align: center;
       margin-bottom: 2rem;
+      
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      h2 {
+        font-size: 1.4rem;
+      }
+      
+      p {
+        font-size: 0.95rem;
+      }
     }
-
+    
     .hero-buttons {
-      flex-direction: column;
-      gap: 0.75rem;
+      .email-input-container {
+        flex-direction: column;
+        gap: 10px;
+        max-width: 100%;
+        
+        .email-input {
+          width: 100%;
+        }
+        
+        .btn-login {
+          width: 100%;
+        }
+      }
     }
     
     .cards-slider-section {
+      width: 100%;
       margin: 1rem 0;
     }
     
@@ -327,12 +408,12 @@ h5{
       flex: 0 0 190px;
       min-width: 190px;
       height: 150px;
-      padding: 15px;
+      padding: 12px;
     }
     
     .card-icon {
-      width: 35px;
-      height: 35px;
+      width: 32px;
+      height: 32px;
       
       i {
         font-size: 16px;
@@ -340,7 +421,7 @@ h5{
     }
     
     .card-icon-wrapper h3 {
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
     
     .percentage {
@@ -356,10 +437,56 @@ h5{
 
 @media (max-width: 480px) {
   .hero {
+    padding: 2rem 1rem;
+    
+    &::before,
+    &::after {
+      display: none;
+    }
+    
+    .hero-content {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.2rem;
+      }
+      
+      p {
+        font-size: 0.9rem;
+      }
+    }
+    
+    .hero-buttons {
+      .email-input-container {
+        margin: 1.2rem auto;
+        
+        .email-input {
+          padding: 0.7rem 1rem;
+          font-size: 0.9rem;
+        }
+        
+        .btn-login {
+          padding: 0.7rem 1.5rem;
+          font-size: 0.9rem;
+        }
+      }
+    }
+    
+    .btn-content h5 {
+      font-size: 0.75rem;
+    }
+    
+    .cards-slider-section {
+      margin: 0.8rem 0;
+    }
+    
     .slider-card {
       flex: 0 0 170px;
       min-width: 170px;
       height: 140px;
+      padding: 10px;
     }
     
     .card-icon {
@@ -372,7 +499,15 @@ h5{
     }
     
     .card-icon-wrapper h3 {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+    }
+    
+    .card-description {
+      font-size: 11px;
+    }
+    
+    .slider-track {
+      gap: 10px;
     }
   }
 }

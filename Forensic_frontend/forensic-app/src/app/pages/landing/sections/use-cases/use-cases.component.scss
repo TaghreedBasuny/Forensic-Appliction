@@ -4,7 +4,7 @@
 }
 
 .title {
-   font-size: 45px;
+  font-size: 45px;
   font-weight: bold;
   color: #1e2a5e;
   margin-bottom: 12px;
@@ -57,8 +57,7 @@
   line-height: 1.5;
 }
 
-// ^  =======Start Card 1========
-/* ========== Visual Files Container ========== */
+// ^ =======Start Card 1========
 .files-visual {
   position: relative;
   height: 160px;
@@ -70,14 +69,12 @@
   left: 35px;
 }
 
-/* ========== File Wrapper ========== */
 .file-wrapper {
   position: absolute;
   width: 170px;
   height: 140px;
 }
 
-/* ========== Colorful Files========== */
 .file-body {
   position: absolute;
   bottom: 0;
@@ -88,7 +85,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* ========== White Card ========== */
 .file-card {
   position: absolute;
   top: -20px;
@@ -116,13 +112,7 @@
   color: #374151;
 }
 
-.verified-inline {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.verified-block {
+.verified-inline, .verified-block {
   display: flex;
   align-items: center;
   gap: 3px;
@@ -148,48 +138,17 @@
   color: #1f2937;
 }
 
-/* ========== File 1: Back (Analysis) ========== */
-.file-wrapper-back {
-  left: 0;
-  bottom: 36px;
-  z-index: 1;
-}
+.file-wrapper-back { left: 0; bottom: 36px; z-index: 1; }
+.file-wrapper-back .file-body { background: #3C4F92; }
 
-.file-wrapper-back .file-body {
-  background: #3C4F92;
-}
+.file-wrapper-middle { left: 35px; bottom: 18px; z-index: 2; }
+.file-wrapper-middle .file-body { background: #5167C7; }
 
-/* ========== File 2: Middle (Evidence) ========== */
-.file-wrapper-middle {
-  left: 35px;
-  bottom: 18px;
-  z-index: 2;
-}
+.file-wrapper-front { left: 70px; bottom: 0; z-index: 3; }
+.file-wrapper-front .file-body { background: #1E2A5E; }
+// ^ =======End Card 1========
 
-.file-wrapper-middle .file-body {
-  background: #5167C7;
-}
-
-/* ========== File 3: Front (Case #2847) ========== */
-.file-wrapper-front {
-  left: 70px;
-  bottom: 0;
-  z-index: 3;
-}
-
-.file-wrapper-front .file-body {
-  background: #1E2A5E;
-}
-
-// ^  =======End Card 1========
-
-
-
-
-
-// ^  =======Start Card 2========
-
-/* ========== Header ========== */
+// ^ =======Start Card 2========
 .custody-header {
   font-size: 18px;
   font-weight: 600;
@@ -200,7 +159,6 @@
   margin-bottom: 20px;
   padding-bottom: 12px;
   line-height: 1;
-
 }
 
 .status-dot {
@@ -210,23 +168,20 @@
   background: #16a34a;
   flex-shrink: 0;
   display: inline-block;
-   margin-left: 8px;
+  margin-left: 8px;
 }
 
-/* ========== Timeline Container ========== */
 .timeline {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* ========== Timeline Step ========== */
 .timeline-step {
   display: flex;
-  align-items: stretch ;
+  align-items: stretch;
 }
 
-/* ========== Step Box ========== */
 .step-box {
   flex: 1;
   background: #F8F9FA; 
@@ -266,28 +221,20 @@
   font-size: 12px;
   color: #727272; 
 }
-// ^  =======End Card 2========
+// ^ =======End Card 2========
 
-
-
-
-// ^  =======Start Card 3========
-
-/* ========== AI Visual Box ========== */
+// ^ =======Start Card 3========
 .ai-visual-box {
   background: linear-gradient(135deg, #1E2A5E 0%, #3D4D8F 100%);
   border-radius: 16px;
   padding: 20px 24px;
   margin-bottom: 24px;
   color: white;
-   box-shadow:
-    0 8px 20px rgba(30, 42, 94, 0.25),
-    inset 0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: 0 8px 20px rgba(30, 42, 94, 0.25), inset 0 1px 0 rgba(255,255,255,0.1);
   position: relative; 
   overflow: hidden;
 }
 
-/* Shine Animation Effect */
 .ai-visual-box::after {
   content: "";
   position: absolute;
@@ -295,22 +242,15 @@
   left: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.15), transparent);
   animation: shine 3s infinite;
-  pointer-events: none; /* عشان م يؤثرش على الـ hover/click */
+  pointer-events: none;
 }
 
 @keyframes shine {
-  100% {
-    left: 120%;
-  }
+  100% { left: 120%; }
 }
-/* AI Header */
+
 .ai-header {
   display: flex;
   justify-content: space-between;
@@ -318,20 +258,9 @@
   margin-bottom: 16px;
 }
 
-.ai-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: white;
-}
+.ai-title { font-size: 16px; font-weight: 600; color: white; }
+.ai-number { font-size: 28px; font-weight: 700; color: white; opacity: 1; }
 
-.ai-number {
-  font-size: 28px;
-  font-weight: 700;
-  color: white;
-  opacity: 1;
-}
-
-/* Status List */
 .ai-status-list {
   display: flex;
   flex-direction: column;
@@ -346,28 +275,11 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Status Dots */
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+.status-dot.green { background: #16a34a; }
+.status-dot.yellow { background: #f59e0b; }
+// ^ =======End Card 3========
 
-.status-dot.green {
-  background: #16a34a; 
-}
-
-.status-dot.yellow {
-  background: #f59e0b; 
-}
-// ^  =======End Card 3========
-
-
-
-
-// ^  =======Start Card 4========
-/* ========== Team Visual Box ========== */
+// ^ =======Start Card 4========
 .team-visual-box {
   display: flex;
   flex-direction: column;
@@ -377,7 +289,6 @@
   padding: 10px 0;
 }
 
-/* Avatars Stack */
 .avatars-stack {
   display: flex;
   align-items: center;
@@ -399,38 +310,15 @@
   transition: transform 0.3s ease;
 }
 
-.avatar:first-child {
-  margin-left: 0;
-}
+.avatar:first-child { margin-left: 0; }
+.avatar:hover { transform: translateY(-5px); z-index: 10; }
 
-.avatar:hover {
-  transform: translateY(-5px);
-  z-index: 10;
-}
+.avatar-1 { background: #1E2A5E; }
+.avatar-2 { background: #3B82F6; }
+.avatar-3 { background: #8B5CF6; }
+.avatar-4 { background: #EC4899; }
+.avatar-more { background: #C5C5C5; color: #000000; }
 
-/* Avatar Colors */
-.avatar-1 {
-  background: #1E2A5E;
-}
-
-.avatar-2 {
-  background: #3B82F6;
-}
-
-.avatar-3 {
-  background: #8B5CF6;
-}
-
-.avatar-4 {
-  background: #EC4899; 
-}
-
-.avatar-more {
-  background: #C5C5C5;
-  color: #000000;
-}
-
-/* Online Badge */
 .online-badge {
   display: inline-flex;
   align-items: center;
@@ -451,22 +339,13 @@
   animation: pulse 3s infinite;
 }
 
-/* Pulse Animation for Online Dot */
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
+// ^ =======End Card 4========
 
-// ^  =======End Card 4========
-
-
-
-// ^  =======Start Card 5========
-/* ========== Learning Visual Box ========== */
+// ^ =======Start Card 5========
 .learning-visual-box {
   background: #F8F9FA;
   border-radius: 16px;
@@ -474,7 +353,6 @@
   margin-bottom: 24px;
 }
 
-/* Lesson Header */
 .lesson-header {
   display: flex;
   align-items: center;
@@ -502,7 +380,6 @@
   color: #1A1A1A;
 }
 
-/* Lesson Features List */
 .lesson-features {
   list-style: none;
   padding: 0;
@@ -528,7 +405,6 @@
   flex-shrink: 0;
 }
 
-/* Progress Bar */
 .progress-lines {
   display: flex;
   gap: 8px;
@@ -548,11 +424,8 @@
   background: #1E2A5E; 
   min-width: 60px;
 }
-// ^  =======End Card 5========
+// ^ =======End Card 5========
 
-
-
-/* ========== Crime Visual Box ========== */
 .crime-visual-box {
   display: flex;
   flex-direction: column;
@@ -560,7 +433,6 @@
   margin-bottom: 24px;
 }
 
-/* Crime Item */
 .crime-item {
   background: #F7F8FD;
   border-radius: 12px;
@@ -572,17 +444,13 @@
   transition: all 0.2s ease;
 }
 
-.crime-item:hover {
-  transform: translateX(6px);
-}
+.crime-item:hover { transform: translateX(6px); }
 
-/* Crime Item Active (Assault) */
 .crime-item-active {
   background: #1E2A5E;
   color: white;
 }
 
-/* Crime Icon */
 .crime-icon {
   width: 44px;
   height: 44px;
@@ -594,11 +462,8 @@
   flex-shrink: 0;
 }
 
-.crime-item-active .crime-icon {
-  color: white;
-}
+.crime-item-active .crime-icon { color: white; }
 
-/* Crime Info */
 .crime-info {
   display: flex;
   flex-direction: column;
@@ -618,11 +483,8 @@
 }
 
 .crime-item-active .crime-name,
-.crime-item-active .crime-count {
-  color: white;
-}
+.crime-item-active .crime-count { color: white; }
 
-/* Crime Arrow */
 .crime-arrow {
   color: white;
   display: flex;
@@ -631,5 +493,192 @@
   margin-left: auto;
 }
 
+// Responsive Design
+@media (max-width: 1200px) {
+  .cases-container {
+    max-width: 950px;
+  }
+  
+  .case-card {
+    padding: 25px;
+  }
+  
+  .files-visual {
+    left: 20px;
+  }
+}
 
+@media (max-width: 992px) {
+  .use-cases {
+    padding: 60px 20px;
+  }
+  
+  .title {
+    font-size: 36px;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+  }
+  
+  .cases-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .case-card:nth-child(3n) {
+    border-right: 1px solid #e5e7eb;
+  }
+  
+  .case-card:nth-child(2n) {
+    border-right: none;
+  }
+  
+  .case-card:nth-last-child(-n+3) {
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .case-card:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+}
 
+@media (max-width: 768px) {
+  .use-cases {
+    padding: 40px 15px;
+  }
+  
+  .title {
+    font-size: 30px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+  
+  .cases-container {
+    grid-template-columns: 1fr;
+    border: none;
+  }
+  
+  .case-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border-right: none !important;
+    border-bottom: none !important;
+  }
+  
+  .case-card:last-child {
+    margin-bottom: 0;
+  }
+  
+  .case-card h3 {
+    font-size: 22px;
+  }
+  
+  .case-card p {
+    font-size: 16px;
+  }
+  
+  /* Adjust Card 1 Visuals */
+  .files-visual {
+    height: 140px;
+    left: 10px;
+  }
+  
+  .file-wrapper {
+    width: 150px;
+    height: 120px;
+  }
+  
+  .file-body {
+    height: 100px;
+  }
+  
+  .file-card {
+    height: 65px;
+    top: -15px;
+  }
+  
+  /* Adjust Card 4 Avatars */
+  .avatar {
+    width: 45px;
+    height: 45px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .use-cases {
+    padding: 30px 12px;
+  }
+  
+  .title {
+    font-size: 26px;
+  }
+  
+  .case-card {
+    padding: 20px;
+  }
+  
+  .files-visual {
+    height: 120px;
+    left: 0;
+    padding: 0 10px;
+  }
+  
+  .file-wrapper {
+    width: 130px;
+    height: 100px;
+  }
+  
+  .file-body {
+    height: 85px;
+  }
+  
+  .file-card {
+    height: 55px;
+    padding: 8px;
+    left: 20px;
+    right: 20px;
+  }
+  
+  .file-label, .verified-text, .case-number {
+    font-size: 11px;
+  }
+  
+  .custody-header {
+    font-size: 16px;
+  }
+  
+  .step-box {
+    padding: 8px 12px;
+  }
+  
+  .step-box strong {
+    font-size: 13px;
+  }
+  
+  .ai-visual-box {
+    padding: 15px;
+  }
+  
+  .ai-number {
+    font-size: 24px;
+  }
+  
+  .crime-item {
+    padding: 12px 15px;
+  }
+  
+  .crime-icon {
+    width: 36px;
+    height: 36px;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

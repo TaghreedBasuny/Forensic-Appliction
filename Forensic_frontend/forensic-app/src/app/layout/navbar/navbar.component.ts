@@ -9,21 +9,31 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  
-  scrollToSection(event: Event, sectionId: string): void {
-    event.preventDefault(); 
-    
+  isMenuOpen = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
+  scrollToSection(event: any, sectionId: string) {
+    event.preventDefault();
     const element = document.getElementById(sectionId);
-    
     if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+      element.scrollIntoView({ behavior: 'smooth' });
+      this.closeMenu(); 
     }
   }
 
-  scrollToContact(event: Event): void {
-    this.scrollToSection(event, 'contact-section');
+  scrollToContact(event: any) {
+    event.preventDefault();
+    const element = document.getElementById('contact-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      this.closeMenu(); 
+    }
   }
 }

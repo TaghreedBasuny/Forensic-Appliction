@@ -6,18 +6,18 @@
   margin: 0 auto;           
 
   .title {
-   font-size: 45px;
-  font-weight: bold;
-  color: #1e2a5e;
-  margin-bottom: 12px;
+    font-size: 45px;
+    font-weight: bold;
+    color: #1e2a5e;
+    margin-bottom: 12px;
   }
 
   .subtitle {
     font-size: 20px;
-  color: #676e6e;
-  font-weight: 500;
-  margin: 0 auto 40px;
-  line-height: 1.6;
+    color: #676e6e;
+    font-weight: 500;
+    margin: 0 auto 40px;
+    line-height: 1.6;
   }
 
   .features-container {
@@ -26,7 +26,7 @@
     gap: 20px; 
     padding: 30px;
     border-radius: 14px;
-      border: 1px solid #ccc;
+    border: 1px solid #ccc;
     position: relative;
   }
 
@@ -38,20 +38,21 @@
     left: 49%;
     width: 1px; 
     background-color: rgba(0,0,0,0.1); 
-}
+  }
+
   .left {
     text-align: left;
-     max-width: 500px; 
+    max-width: 500px; 
   }
-  .right{
-     text-align: left;
-     max-width: 500px; 
-     margin-left: 20px;
-     
+  
+  .right {
+    text-align: left;
+    max-width: 500px; 
+    margin-left: 20px;
   }
   
 
-.features-container::after {
+  .features-container::after {
     content: "";
     position: absolute;
     left: 0;
@@ -59,34 +60,28 @@
     bottom: 350px; 
     height: 1px;
     background-color: rgba(0,0,0,0.1);
-}
+  }
 
-  /*  Evidence List  */
   .evidence-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  
-
-.progress-card {
-  padding: 14px;
-  border-radius: 10px;
-}
+  .progress-card {
+    padding: 14px;
+    border-radius: 10px;
+  }
 
   .evidence-list .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     background: #F8F9FA;
     padding: 10px 12px;
     border-radius: 10px;
-
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     transition: 0.3s;
-    
   }
 
   .evidence-list .item:hover {
@@ -95,23 +90,23 @@
   }
 
   .section-title {
-  margin-top: 18px;
-  margin-bottom: 6px;
-  font-size: 28px;   
-  font-weight: bolder;
-  color: #1A1A1A;   
-}
+    margin-top: 18px;
+    margin-bottom: 6px;
+    font-size: 28px;   
+    font-weight: bolder;
+    color: #1A1A1A;   
+  }
 
-.desc {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.5;
-}
-.sec-margin{
-  padding-top: 15px;
-}
+  .desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  .sec-margin {
+    padding-top: 15px;
+  }
 
-  /* left side */
   .item-left {
     display: flex;
     align-items: center;
@@ -139,7 +134,6 @@
     color: #777;
   }
 
-  /* badge */
   .badge {
     font-size: 11px;
     padding: 5px 8px;
@@ -160,13 +154,7 @@
     background: #fde2e2;
     color: #d64545;
   }
-  .desc {
-    font-size: 13px;
-    color: #666;
-  }
 }
-
-
 
 /* Progress Card */
 .progress-card {
@@ -181,18 +169,15 @@
   box-shadow:
     0 8px 20px rgba(30, 42, 94, 0.25),
     inset 0 1px 0 rgba(255,255,255,0.1);
-
   color: #fff;
 }
 
-/* left content */
 .progress-left {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-/* title row */
 .title-row {
   display: flex;
   align-items: center;
@@ -205,7 +190,6 @@
   height: 8px;
   background: #00e676;
   border-radius: 50%;
-  // box-shadow: 0 0 6px #00e676;
 }
 
 .main-text {
@@ -213,7 +197,6 @@
   font-weight: 500;
 }
 
-/* sub rows */
 .sub-row {
   display: flex;
   align-items: center;
@@ -224,23 +207,15 @@
 
 .check {
   font-size: 12px;
-  // color: #00e676;
 }
 
-/* percentage */
 .progress-value {
   font-size: 26px;
   font-weight: 700;
 }
 
-
-
 /* RIGHT SIDE */
-
-
-/* Timeline */
 .timeline-wrapper {
- 
   margin-bottom: 80px;
 }
 
@@ -279,7 +254,6 @@
   background: #1e2a5e;
 }
 
-/* labels */
 .timeline-labels {
   display: flex;
   justify-content: space-between;
@@ -288,14 +262,14 @@
   font-weight: 700;
   color: #1A1A1A;
 }
-.hour{
+
+.hour {
   font-size: 11px;
   text-align: center;
   color: #727272;
   margin-top: 5px;
 }
 
-/* Activity */
 .activity {
   margin-top: 85px;
 }
@@ -322,9 +296,6 @@
   color: #777;
 }
 
-
-
-/* timeline animation */
 .timeline {
   position: relative;
 }
@@ -350,7 +321,6 @@
   }
 }
 
-/* step animation */
 .step.done {
   animation: popIn 0.3s ease;
 }
@@ -366,7 +336,6 @@
   }
 }
 
-
 .activity-item {
   transition: 0.25s ease;
 }
@@ -375,7 +344,6 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.08);
 }
-
 
 .avatar {
   width: 24px;
@@ -391,16 +359,16 @@
   font-weight: 600;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-.orange{
-    background-color: #F59E0B;
-  }
+
+.orange {
+  background-color: #F59E0B;
+}
 
 .progress-card {
   position: relative;
   overflow: hidden;
 }
 
-/* light sweep effect */
 .progress-card::after {
   content: "";
   position: absolute;
@@ -408,14 +376,12 @@
   left: -100%;
   width: 60%;
   height: 100%;
-
   background: linear-gradient(
     120deg,
     transparent,
     rgba(255,255,255,0.15),
     transparent
   );
-
   animation: shine 3s infinite;
 }
 
@@ -425,7 +391,7 @@
   }
 }
 
-.evidence-list .item , .activity-item {
+.evidence-list .item, .activity-item {
   cursor: pointer;
 }
 
@@ -437,8 +403,181 @@
   transition: 0.2s;
 }
 
+// Responsive Design
+@media (max-width: 1024px) {
+  .features {
+    padding: 20px;
+    
+    .title {
+      font-size: 38px;
+    }
+    
+    .subtitle {
+      font-size: 18px;
+    }
+  }
+  
+  .features-container {
+    padding: 25px;
+  }
+  
+  .section-title {
+    font-size: 24px;
+  }
+}
 
+@media (max-width: 768px) {
+  .features {
+    padding: 15px;
+    padding-left: 15px;
+    
+    .title {
+      font-size: 32px;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+  }
+  
+  .features-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 20px;
+    
+    &::before {
+      display: none;
+    }
+    
+    &::after {
+      display: none;
+    }
+  }
+  
+  .left, .right {
+    max-width: 100%;
+    margin-left: 0;
+  }
+  
+  .timeline-wrapper {
+    margin-bottom: 50px;
+  }
+  
+  .timeline {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  
+  .step {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
+  .timeline-labels {
+    font-size: 12px;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .hour {
+    font-size: 10px;
+  }
+  
+  .activity {
+    margin-top: 50px;
+  }
+  
+  .progress-card {
+    height: auto;
+    min-height: 130px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .progress-value {
+    font-size: 22px;
+  }
+  
+  .section-title {
+    font-size: 22px;
+  }
+  
+  .desc {
+    font-size: 13px;
+  }
+}
 
-
-
-
+@media (max-width: 480px) {
+  .features {
+    padding: 12px;
+    padding-left: 12px;
+    
+    .title {
+      font-size: 28px;
+    }
+    
+    .subtitle {
+      font-size: 14px;
+    }
+  }
+  
+  .features-container {
+    padding: 15px;
+    gap: 25px;
+  }
+  
+  .evidence-list .item {
+    padding: 8px 10px;
+  }
+  
+  .text strong {
+    font-size: 12px;
+  }
+  
+  .text .sub {
+    font-size: 10px;
+  }
+  
+  .badge {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+  
+  .activity-item {
+    padding: 6px;
+  }
+  
+  .avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  
+  .activity-item strong {
+    font-size: 12px;
+  }
+  
+  .activity-item p {
+    font-size: 11px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+  }
+  
+  .progress-card {
+    padding: 12px;
+  }
+  
+  .main-text {
+    font-size: 14px;
+  }
+  
+  .sub-row {
+    font-size: 12px;
+  }
+}
