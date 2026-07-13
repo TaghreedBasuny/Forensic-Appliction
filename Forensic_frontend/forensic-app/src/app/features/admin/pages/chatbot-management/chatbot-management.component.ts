@@ -9,6 +9,8 @@ import { ChatManagementService, ChatItem } from '../../services/chat-management.
   templateUrl: './chatbot-management.component.html',
   styleUrls: ['./chatbot-management.component.scss']
 })
+// chatbot-management.component.ts
+
 export class ChatbotManagementComponent implements OnInit {
   
   chatsData: ChatItem[] = [];
@@ -16,6 +18,10 @@ export class ChatbotManagementComponent implements OnInit {
   totalPages = 1;
   totalChats = 0;
   isLoading = false;
+
+  apiStatus = 'Offline'; 
+  avgResponseTime = '0s';
+  totalQueries = '0';
 
   constructor(
     private chatService: ChatManagementService,
@@ -31,19 +37,32 @@ export class ChatbotManagementComponent implements OnInit {
     this.chatService.getChats(page).subscribe({
       next: (response) => {
         const conversationData = response.data.Conversation;
+        
         this.chatsData = conversationData.data;
         this.totalPages = conversationData.last_page;
         this.totalChats = conversationData.total;
         this.currentPage = conversationData.current_page;
         
+        this.apiStatus = response.status ? 'Online' : 'Offline';
+        this.avgResponseTime = `${response.avg_response_time}s`;
+        this.totalQueries = this.formatNumber(response['total query']); 
+
         this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching chats:', err);
+        this.apiStatus = 'Offline'; 
         this.isLoading = false;
       }
     });
+  }
+
+  formatNumber(num: number): string {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
   }
 
   changePage(page: number): void {

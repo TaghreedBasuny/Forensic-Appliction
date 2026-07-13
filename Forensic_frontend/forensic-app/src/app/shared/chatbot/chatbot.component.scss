@@ -108,14 +108,13 @@ $text-light: #6b7280;
         border-bottom-left-radius: 2px;
       }
 
-      // ✅ رسالة الترحيب: Bold + White Background
       &.welcome-msg {
-        background-color: $white; // خلفية بيضاء
-        font-weight: 700;         // خط عريض (Bold)
+        background-color: $white;
+        font-weight: 700;    
         color: $primary-blue;
         border: 1px solid $border-color;
         text-align: left;
-        align-self: flex-start;   // محاذاة زي رسايل البوت العادية
+        align-self: flex-start;   
       }
     }
   }
@@ -171,12 +170,11 @@ $text-light: #6b7280;
     overflow: hidden;
   }
 
-  // ✅ Header: اللوجو بس (مكبر شوية)
   .full-header {
     height: 70px;
     padding: 0 30px;
     display: flex;
-    justify-content: space-between; // عشان اللوجو يفضل شمال والزرار يمين
+    justify-content: space-between; 
     align-items: center;
     border-bottom: 1px solid $border-color;
     background: $white;
@@ -188,7 +186,7 @@ $text-light: #6b7280;
       gap: 12px;
       
       .header-logo-img {
-        height: 50px; // تكبير اللوجو شوية (كان 40px)
+        height: 50px; 
         width: auto;
         object-fit: contain;
       }
@@ -330,7 +328,6 @@ $text-light: #6b7280;
   &.bot-bubble { background-color: $white; color: $text-dark; border: 1px solid $border-color; border-bottom-left-radius: 4px; }
 }
 
-// ✅ Welcome Screen (أحجام أصغر ومتوازنة)
 .welcome-screen {
   flex: 1;
   display: flex;
@@ -342,7 +339,7 @@ $text-light: #6b7280;
   animation: fadeIn 0.5s ease-out;
 
   .brain-graphic-container {
-    width: 210px; // تصغير الحجم (كان 280px)
+    width: 210px; 
     height: 210px;
     margin-bottom: 0px;
     display: flex;
@@ -357,7 +354,7 @@ $text-light: #6b7280;
   }
 
   h1 { 
-    background: linear-gradient(90deg, #36648b 0%, #1E2A5E 100%); // درجات الأزرق بتاعتك
+    background: linear-gradient(90deg, #36648b 0%, #1E2A5E 100%); 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -486,7 +483,6 @@ $text-light: #6b7280;
 @keyframes slideUpFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
-// Typing Dots (بدون خلفية طويلة)
 .typing-dots-container {
   display: flex;
   align-items: center;

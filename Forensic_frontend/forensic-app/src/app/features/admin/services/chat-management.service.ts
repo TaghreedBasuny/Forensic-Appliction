@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
 export interface ChatResponse {
   status: boolean;
   msg: string;
+  avg_response_time: number; 
+  'total query': number;  
   data: {
     Conversation: {
       current_page: number;

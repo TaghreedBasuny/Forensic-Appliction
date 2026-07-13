@@ -434,7 +434,6 @@
     margin-left: 0;
   }
   
-  // تحويل الـ Timeline لرأسي في الموبايل فقط
   .timeline-wrapper {
     margin-bottom: 40px;
   }
@@ -459,15 +458,14 @@
     width: 2px;
     height: 30px;
     margin: 0;
-    margin-left: 14px; // محاذاة مع منتصف الكرة
+    margin-left: 14px; 
     flex: none;
   }
   
   .timeline-labels {
-    display: none; // إخفاء الليبلز الأفقية
+    display: none; 
   }
   
-  // إضافة ليبلز رأسية بجانب كل خطوة
   .step {
     position: relative;
     

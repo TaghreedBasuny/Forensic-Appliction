@@ -14,7 +14,7 @@
             <h2 class="section-title white-text">AI Assistant Performance</h2>
         </div>
 
-        <!-- <div class="stats-grid">
+        <div class="stats-grid">
             <div class="stat-card gray-card">
                 <svg width="44" height="32" viewBox="0 0 44 32" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,7 @@
                         fill="#1E2A5E" />
                 </svg>
                 <span class="stat-label">API Status</span>
-                <span class="stat-value">Online</span>
+                <span class="stat-value">{{ apiStatus }}</span>
             </div>
 
             <div class="stat-card purple-card">
@@ -37,7 +37,7 @@
                         fill="#8E36D9" />
                 </svg>
                 <span class="stat-label">Avg. Response</span>
-                <span class="stat-value">1.2s</span>
+                <span class="stat-value">{{ avgResponseTime }}</span>
             </div>
 
             <div class="stat-card green-card">
@@ -53,11 +53,11 @@
                         stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <span class="stat-label">Total Queries</span>
-                <span class="stat-value">14.5K</span>
+                <span class="stat-value">{{ totalQueries }}</span>
             </div>
         </div>
 
-        <div class="white-spacer"></div> -->
+        <div class="white-spacer"></div>
 
         <!-- Section 2: Model Configuration -->
         <!-- <div class="section-block config-section">
@@ -96,53 +96,69 @@
                             <th>Date</th>
                         </tr>
                     </thead>
-                 <tbody>
-  <tr *ngFor="let chat of chatsData">
-    <td class="title-cell">{{ chat.title }}</td>
-    
-    <td class="status-cell">
-      <span class="status-badge success">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-        {{ chat.messages_count }} Messages
-      </span>
-    </td>
-    
-   
-    <td class="date-cell">{{ formatDate(chat.created_at) }}</td>
-  </tr>
+                    <tbody>
+                        <tr *ngFor="let chat of chatsData">
+                            <td class="title-cell">{{ chat.title }}</td>
 
-  <tr *ngIf="isLoading">
-    <td colspan="3" style="text-align: center; padding: 20px;">Loading...</td>
-  </tr>
-  <tr *ngIf="!isLoading && chatsData.length === 0">
-    <td colspan="3" style="text-align: center; padding: 20px;">No conversations found.</td>
-  </tr>
-</tbody>
+                            <td class="status-cell">
+                                <span class="status-badge success">
+                                    <svg width="14" height="14"
+                                        viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path
+                                            d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    {{ chat.messages_count }} Messages
+                                </span>
+                            </td>
+
+                            <td class="date-cell">{{ formatDate(chat.created_at)
+                                }}</td>
+                        </tr>
+
+                        <tr *ngIf="isLoading">
+                            <td colspan="3"
+                                style="text-align: center; padding: 20px;">Loading...</td>
+                        </tr>
+                        <tr *ngIf="!isLoading && chatsData.length === 0">
+                            <td colspan="3"
+                                style="text-align: center; padding: 20px;">No
+                                conversations found.</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
 
             <!-- Pagination -->
-           <div class="pagination-bar">
-  <div class="pagination-controls">
-    <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-    </button>
-    
-    <button 
-      class="page-btn" 
-      *ngFor="let page of totalPagesArray" 
-      [class.active]="page === currentPage"
-      (click)="changePage(page)">
-      {{ page }}
-    </button>
-    
-    <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-    </button>
-  </div>
-</div>
+            <div class="pagination-bar">
+                <div class="pagination-controls">
+                    <button class="page-btn" [disabled]="currentPage === 1"
+                        (click)="changePage(currentPage - 1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor"
+                            stroke-width="2"><polyline
+                                points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+
+                    <button
+                        class="page-btn"
+                        *ngFor="let page of totalPagesArray"
+                        [class.active]="page === currentPage"
+                        (click)="changePage(page)">
+                        {{ page }}
+                    </button>
+
+                    <button class="page-btn"
+                        [disabled]="currentPage === totalPages"
+                        (click)="changePage(currentPage + 1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor"
+                            stroke-width="2"><polyline
+                                points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
         </div>
 
     </div>
