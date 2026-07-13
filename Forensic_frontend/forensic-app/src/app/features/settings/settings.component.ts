@@ -77,9 +77,11 @@ constructor(
   private cd: ChangeDetectorRef 
 ) {}
 
-  ngOnInit(): void {
+ngOnInit(): void {
   this.initForms();
   this.loadUserProfile();
+  const saved = (localStorage.getItem('app-theme') as 'light'|'dark'|'auto') || 'auto';
+  this.setTheme(saved);
 }
   showToast(message: string, type: 'success' | 'error' = 'success') {
     this.toast = { text: message, type };
@@ -321,7 +323,12 @@ const imageUrl = data.image ? data.image : null;
     if (type === 'confirm') this.showConfirmPass = !this.showConfirmPass;
   }
 
-  setTheme(theme: 'light' | 'dark' | 'auto'): void { this.selectedTheme = theme; }
+setTheme(theme: 'light' | 'dark' | 'auto'): void {
+  this.selectedTheme = theme;
+  const isDark = theme === 'dark';
+  document.documentElement.classList.toggle('dark-theme', isDark);
+  localStorage.setItem('app-theme', theme);
+}
   setFontSize(size: 'small' | 'medium' | 'large'): void { this.selectedFontSize = size; }
   
   async openCamera(): Promise<void> { alert('Camera not implemented in this demo.'); }

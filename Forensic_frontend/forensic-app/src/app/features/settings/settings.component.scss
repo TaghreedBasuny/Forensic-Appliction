@@ -1594,3 +1594,31 @@
   to { transform: rotate(360deg); }
 }
 
+
+.settings-wrapper {
+  background: var(--bg);   
+}
+
+.settings-section {
+  background: var(--card-bg);   
+  border-color: var(--border);  
+}
+
+.field-input {
+  background: var(--card-bg);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+.option-card {
+  background: var(--input-bg);   
+  border-color: var(--border);
+}
+
+.section-title-main {
+  color: var(--text-primary);   
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+}
